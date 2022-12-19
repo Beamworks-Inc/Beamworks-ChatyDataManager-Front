@@ -43,6 +43,7 @@ SPA 어플리케이션에서 클라이언트 관점에서 라우팅을 수행하
 ## Deployment Strategy
 - 배포 리전
  1. Dev : https://dbs4gu2mftt7h.cloudfront.net
+
 배포 전략은 위 3개의 브랜치를 기준으로 구성된 [개발 환경 구성](https://beamworks.atlassian.net/wiki/spaces/BP/pages/88638431) 문서에서 참고하실 수 있습니다. 
 ## Reference
 1. 리액트 테스팅 개요, https://ko.reactjs.org/docs/testing.html
