@@ -1,6 +1,7 @@
 # Beamworks-Platform-Frontend
-![Main Deployment](https://github.com/Beamworks-Inc/Beamworks-Platform-Front/actions/workflows/Main-Deploy.yml/badge.svg?branch=main)
-[![Dev Deployment](https://github.com/Beamworks-Inc/Beamworks-Platform-Front/actions/workflows/Deploy.yml/badge.svg?branch=dev)](https://dbs4gu2mftt7h.cloudfront.net)
+![Main Deployment](https://github.com/Beamworks-Inc/Beamworks-Platform-Front/actions/workflows/Main-Deploy.yml/badge.svg)
+[![Dev Deployment](https://github.com/Beamworks-Inc/Beamworks-Platform-Front/actions/workflows/Deploy.yml/badge.svg)](https://dbs4gu2mftt7h.cloudfront.net)
+![Dev Test](https://github.com/Beamworks-Inc/Beamworks-Platform-Front/actions/workflows/Test.yml/badge.svg)
 ## Usage
 ### 1. Clone Repository
 ```shell 
