@@ -41,6 +41,8 @@ SPA 어플리케이션에서 클라이언트 관점에서 라우팅을 수행하
 - Dev 에서 충분한 엔드투 엔드 테스트와 QA 과정을 거친후 PR에 모두 승인을 받으면 사용자 서버에 배포가 수행됩니다.
 
 ## Deployment Strategy
+- 배포 리전
+ 1. Dev : https://dbs4gu2mftt7h.cloudfront.net
 배포 전략은 위 3개의 브랜치를 기준으로 구성된 [개발 환경 구성](https://beamworks.atlassian.net/wiki/spaces/BP/pages/88638431) 문서에서 참고하실 수 있습니다. 
 ## Reference
 1. 리액트 테스팅 개요, https://ko.reactjs.org/docs/testing.html
