@@ -12,7 +12,7 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@master
 
-      - name: Cache node modules  # node modules 캐싱
+      - name: Cache node modules  
         uses: actions/cache@v1
         with:
           path: node_modules
@@ -20,10 +20,10 @@ jobs:
           restore-keys: |
             ${{ runner.OS }}-build-
             ${{ runner.OS }}-
-      - name: Install Dependencies # node module install
+      - name: Install Dependencies 
         run: yarn
 
-      - name: Build # project build
+      - name: Build 
         run: yarn build
 
       - name: Deploy to S3
