@@ -17,3 +17,7 @@ rebel.xml
  
 # Package files
 /node_modules
+
+# etc
+.env
+.env.local

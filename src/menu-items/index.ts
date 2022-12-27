@@ -1,9 +1,9 @@
 // project import
-import pages from './pages';
 import dashboard from './dashboard';
+import content from './content';
+import pages from './pages';
 import utilities from './utilities';
 import support from './support';
-import content from './content';
 
 // ==============================|| MENU ITEMS ||============================== //
 
