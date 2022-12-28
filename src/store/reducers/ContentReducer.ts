@@ -1,40 +1,5 @@
 // type & interfaces
-interface IReference {
-  title: string;
-  description: string;
-  link: URL;
-}
-interface IFolder {
-  name: string;
-  children: IFolder[];
-}
-interface IRationaleDescription {
-  description: string;
-  link: URL;
-}
-interface IRationale {
-  file: URL[];
-  description: IRationaleDescription[];
-}
-interface IUser {
-  name: string;
-}
-interface IContent {
-  id: string;
-  folder: IFolder;
-  question: string;
-  answer: string;
-  reference: IReference[];
-  rationale: IRationale;
-  writeDate: Date;
-  writer: IUser;
-  reviewer: IUser;
-  reviewDate: Date;
-  reviewComment: String;
-}
-interface IContentState {
-  contentListState: IContent[];
-}
+import { IContentState, IContent } from "interfaces/Content.interface";
 
 // state
 const INIT_CONTENT_STATE: IContentState = {
