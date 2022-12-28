@@ -6,9 +6,14 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { IReference } from "interfaces/Content.interface";
+import {
+  IRationaleDescription,
+  IReference,
+} from "interfaces/Content.interface";
 
-export default function BasicTable(props: { rows: IReference[] }) {
+export default function BasicTable(props: {
+  rows: IReference[] | IRationaleDescription[];
+}) {
   const { rows } = props;
 
   return (
@@ -16,20 +21,22 @@ export default function BasicTable(props: { rows: IReference[] }) {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead sx={{ backgroundColor: "#efefef" }}>
           <TableRow>
-            <TableCell>Title</TableCell>
-            <TableCell>Description</TableCell>
-            <TableCell>Link</TableCell>
+            {rows.length > 0 &&
+              rows[0] &&
+              Object.keys(rows[0]).map((key) => <TableCell>{key}</TableCell>)}
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row: IReference) => (
+          {rows.map((row: IReference | IRationaleDescription, idx: number) => (
             <TableRow
-              key={row.title}
+              key={idx}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell>{row.title}</TableCell>
-              <TableCell>{row.description}</TableCell>
-              <TableCell>{row.link.toString()}</TableCell>
+              {Object.values(row).map((value) => (
+                <TableCell>
+                  {value instanceof URL ? value.toString() : value}
+                </TableCell>
+              ))}
             </TableRow>
           ))}
         </TableBody>

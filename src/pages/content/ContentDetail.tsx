@@ -1,5 +1,13 @@
 // material-ui
-import { Box, Chip, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Chip,
+  Grid,
+  ImageList,
+  ImageListItem,
+  Typography,
+} from "@mui/material";
+import Img from "components/Img";
 
 // project import
 import MainCard from "components/MainCard";
@@ -38,6 +46,12 @@ const ContentList = () => {
         new URL(
           "https://blog.kakaocdn.net/dn/b0bEe7/btrFVv1atKF/K3TEq3U4gL7TbfppkWFJu0/img.png"
         ),
+        new URL(
+          "https://www.k-health.com/news/photo/202105/53654_52347_211.png"
+        ),
+        new URL(
+          "https://t2.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/2fG8/image/zH0wg75_SQHSt9bibZF3b3UOsN4.jpg"
+        ),
       ],
       description: [
         {
@@ -58,15 +72,14 @@ const ContentList = () => {
   return (
     <Grid container rowSpacing={4.5} columnSpacing={2.75}>
       <Grid item xs={12} sm={9}>
-        <MainCard title="Content Detail" content={false}>
+        <MainCard title="" content={false}>
           <Box
             sx={{
-              height: 550,
+              // height: 550,
               display: "flex",
               flexDirection: "column",
               flexGrow: 1,
               gap: 3,
-              // maxWidth: 400,
               overflowY: "auto",
               padding: 3,
             }}
@@ -112,6 +125,21 @@ const ContentList = () => {
               <Typography variant="h4" sx={{}}>
                 Rationale
               </Typography>
+              <ImageList sx={{ width: "100%" }} cols={3} rowHeight={300}>
+                {content.rationale.file.map((file: URL) => (
+                  <ImageListItem
+                    sx={{
+                      border: "3px solid #efefef",
+                      borderRadius: "10px",
+                      padding: "1rem",
+                    }}
+                    key={file.toString()}
+                  >
+                    <Img src={file.toString()} alt={"image"} />
+                  </ImageListItem>
+                ))}
+              </ImageList>
+              <SimpleTable rows={content.rationale.description} />
             </Box>
           </Box>
         </MainCard>
