@@ -5,7 +5,7 @@ export interface IReference {
 }
 export interface IFolder {
   name: string;
-  children: IFolder[];
+  children?: IFolder[];
 }
 export interface IRationaleDescription {
   description: string;
@@ -29,7 +29,8 @@ export interface IContent {
   writer: IUser;
   reviewer: IUser;
   reviewDate: Date;
-  reviewComment: String;
+  reviewComment: string;
+  keywords: string[];
 }
 export interface IContentState {
   contentListState: IContent[];
