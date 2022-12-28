@@ -253,12 +253,6 @@ const ContentList = () => {
                                         <TreeItem nodeId="7" label="예방수칙" />
                                     </TreeItem>
                                 </TreeItem>
-                                {/* <TreeItem nodeId="5" label="Documents">
-                                    <TreeItem nodeId="6" label="MUI">
-                                        <TreeItem nodeId="7" label="src">
-                                        </TreeItem>
-                                    </TreeItem>
-                                </TreeItem> */}
                             </TreeView>
                         </Box>
                     </Typography>
@@ -303,7 +297,6 @@ const ContentList = () => {
                                 columns={columns}
                                 pageSize={5}
                                 rowsPerPageOptions={[5]}
-                                // checkboxSelection
                                 disableSelectionOnClick
                                 experimentalFeatures={{ newEditingApi: true }}
                             />

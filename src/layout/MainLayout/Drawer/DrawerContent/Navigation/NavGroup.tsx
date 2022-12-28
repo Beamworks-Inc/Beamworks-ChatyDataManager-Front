@@ -6,12 +6,12 @@ import { Box, List, Typography } from '@mui/material';
 
 // project import
 import NavItem from './NavItem';
+import { RootState } from "store";
 
 // ==============================|| NAVIGATION - LIST GROUP ||============================== //
 
 const NavGroup = ({ item }) => {
-    const menu = useSelector((state) => state.menu);
-    const { drawerOpen } = menu;
+    const { drawerOpen } = useSelector((state: RootState) => state.MenuReducer);
 
     const navCollapse = item.children?.map((menuItem) => {
         switch (menuItem.type) {

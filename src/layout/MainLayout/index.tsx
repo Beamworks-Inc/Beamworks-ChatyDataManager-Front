@@ -13,7 +13,9 @@ import navigation from 'menu-items';
 import Breadcrumbs from 'components/@extended/Breadcrumbs';
 
 // types
-import { openDrawer } from 'store/reducers/menu';
+import { RootState } from "store"
+import { MenuAction } from "store/reducers/MenuReducer";
+
 
 // ==============================|| MAIN LAYOUT ||============================== //
 
@@ -22,19 +24,19 @@ const MainLayout = () => {
     const matchDownLG = useMediaQuery(theme.breakpoints.down('xl'));
     const dispatch = useDispatch();
 
-    const { drawerOpen } = useSelector((state) => state.menu);
+    const { drawerOpen } = useSelector((state: RootState) => state.MenuReducer);
 
     // drawer toggler
     const [open, setOpen] = useState(drawerOpen);
     const handleDrawerToggle = () => {
         setOpen(!open);
-        dispatch(openDrawer({ drawerOpen: !open }));
+        dispatch(MenuAction.openDrawer(!open));
     };
 
     // set media wise responsive drawer
     useEffect(() => {
         setOpen(!matchDownLG);
-        dispatch(openDrawer({ drawerOpen: !matchDownLG }));
+        dispatch(MenuAction.openDrawer(!matchDownLG));
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [matchDownLG]);

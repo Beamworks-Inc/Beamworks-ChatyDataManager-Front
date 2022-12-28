@@ -8,15 +8,15 @@ import { useTheme } from '@mui/material/styles';
 import { Avatar, Chip, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
 
 // project import
-import { activeItem } from 'store/reducers/menu';
+import { MenuAction } from 'store/reducers/MenuReducer';
+import {RootState} from "../../../../../store";
 
 // ==============================|| NAVIGATION - LIST ITEM ||============================== //
 
 const NavItem = ({ item, level }) => {
     const theme = useTheme();
     const dispatch = useDispatch();
-    const menu = useSelector((state) => state.menu);
-    const { drawerOpen, openItem } = menu;
+    const { drawerOpen, openItem } = useSelector((state: RootState) => state.MenuReducer);
 
     let itemTarget = '_self';
     if (item.target) {
@@ -29,7 +29,8 @@ const NavItem = ({ item, level }) => {
     }
 
     const itemHandler = (id) => {
-        dispatch(activeItem({ openItem: [id] }));
+        // dispatch(MenuAction.activeItem({ openItem: [id] }));
+        dispatch(MenuAction.activeItem([id]));
     };
 
     const Icon = item.icon;
@@ -44,7 +45,8 @@ const NavItem = ({ item, level }) => {
             .split('/')
             .findIndex((id) => id === item.id);
         if (currentIndex > -1) {
-            dispatch(activeItem({ openItem: [item.id] }));
+            // dispatch(MenuAction.activeItem({ openItem: [item.id] }));
+            dispatch(MenuAction.activeItem([item.id]));
         }
         // eslint-disable-next-line
     }, []);

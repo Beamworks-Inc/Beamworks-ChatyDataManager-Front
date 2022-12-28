@@ -1,15 +1,11 @@
-// third-party
-import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers } from "redux";
+import MenuReducer from "store/reducers/MenuReducer"
+import ContentReducer from "store/reducers/ContentReducer"
 
-// project import
-import reducers from './reducers';
+const rootReducer = combineReducers({
+    MenuReducer,
+    ContentReducer
+})
 
-// ==============================|| REDUX TOOLKIT - MAIN STORE ||============================== //
-
-const store = configureStore({
-    reducer: reducers
-});
-
-const { dispatch } = store;
-
-export { store, dispatch };
+export default rootReducer;
+export type RootState = ReturnType<typeof rootReducer>;
