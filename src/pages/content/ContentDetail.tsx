@@ -3,6 +3,7 @@ import { Box, Chip, Grid, Typography } from "@mui/material";
 
 // project import
 import MainCard from "components/MainCard";
+import SimpleTable from "components/SimpleTable";
 import { IContent } from "interfaces/Content.interface";
 import { useState } from "react";
 
@@ -22,9 +23,14 @@ const ContentList = () => {
       "코피가 나고 있는 상태에서 코를 풀어도 괜찮습니다. 왜냐하면 코피가 나고 있는 상태에서 코를 풀면 코피가 더 잘 나오기 때문입니다.",
     reference: [
       {
-        title: "삐뽀삐뽀소아과",
-        description: "논문",
-        link: new URL("https://www.dbpia.co.kr"),
+        title: "코피응급처치",
+        description: "의료 유튜버임",
+        link: new URL("https://www.youtube.com"),
+      },
+      {
+        title: "코피에 대한 논문",
+        description: "2008년에 발표된 논문이며, IF 40 이상",
+        link: new URL("https://www.dbpia.com"),
       },
     ],
     rationale: {
@@ -99,6 +105,7 @@ const ContentList = () => {
               <Typography variant="h4" sx={{}}>
                 Reference
               </Typography>
+              <SimpleTable rows={content.reference} />
             </Box>
 
             <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
