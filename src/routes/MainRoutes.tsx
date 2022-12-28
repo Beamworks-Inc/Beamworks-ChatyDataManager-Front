@@ -32,7 +32,7 @@ const AntIcons = Loadable(
 const ContentList = Loadable(
   lazy(() => import("../pages/content/ContentList"))
 );
-const ContentCreate = Loadable(
+const ContentDetail = Loadable(
   lazy(() => import("../pages/content/ContentDetail"))
 );
 
@@ -80,12 +80,12 @@ const MainRoutes = {
       element: <ContentList />,
     },
     {
-      path: "content/:id",
+      path: "content/:ffolderName",
       element: <ContentList />,
     },
     {
-      path: "create",
-      element: <ContentCreate />,
+      path: "content/:folderName/:contentId",
+      element: <ContentDetail />,
     },
   ],
 };

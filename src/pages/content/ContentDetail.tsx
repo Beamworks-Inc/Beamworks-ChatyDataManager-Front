@@ -25,7 +25,6 @@ import { IContent } from "interfaces/Content.interface";
 
 const ContentList = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
 
   const [content, setContent] = useState<IContent>({
     id: "1",
