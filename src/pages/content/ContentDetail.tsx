@@ -1,21 +1,25 @@
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
 // material-ui
 import {
   Box,
+  Button,
   Chip,
+  Divider,
   Grid,
   ImageList,
   ImageListItem,
+  TextField,
   Typography,
 } from "@mui/material";
 import Img from "components/Img";
 
 // project import
 import MainCard from "components/MainCard";
+import TransitionsModal from "components/Modal";
 import SimpleTable from "components/SimpleTable";
 import { IContent } from "interfaces/Content.interface";
-import { useState } from "react";
-
-import { useNavigate, useParams } from "react-router-dom";
 
 // ==============================|| Content List Page ||============================== //
 
@@ -69,10 +73,113 @@ const ContentList = () => {
     keywords: ["코피", "응급"],
   });
 
+  const handleDoubleClick = (e) => {
+    e.target.contentEditable = true;
+    e.target.focus();
+  };
+
+  const handleBlur = (e) => {
+    e.target.contentEditable = false;
+  };
+
+  const handleClickPlusButton = () => {
+    const newKeyword = prompt("키워드를 입력해주세요.");
+    if (newKeyword) {
+      setContent({
+        ...content,
+        keywords: [...content.keywords, newKeyword],
+      });
+    }
+  };
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <Grid container rowSpacing={4.5} columnSpacing={2.75}>
       <Grid item xs={12} sm={9}>
-        <MainCard title="" content={false}>
+        <MainCard
+          sx={{ position: "relative" }}
+          title="Content Detail"
+          content={false}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              position: "absolute",
+              top: 12,
+              right: 12,
+              gap: 1,
+            }}
+          >
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => alert("업데이트 되었습니다.")}
+            >
+              apply
+            </Button>
+            <Button variant="contained" color="secondary" onClick={handleOpen}>
+              review
+            </Button>
+          </Box>
+
+          {/* Modal For Review Content */}
+          <TransitionsModal
+            open={open}
+            handleOpen={handleOpen}
+            handleClose={handleClose}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 1,
+              }}
+            >
+              <Typography variant="h4" sx={{}}>
+                Review
+              </Typography>
+              {/* text input */}
+              <TextField
+                fullWidth
+                id="standard-multiline-static"
+                label="review comment"
+                multiline
+                rows={4}
+                variant="standard"
+                placeholder="comments here..."
+              />
+              {/* buttons */}
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  gap: 1,
+                  mt: 2,
+                }}
+              >
+                <Box sx={{ display: "flex", gap: 1 }}>
+                  <Button color="primary" variant="contained">
+                    Approve
+                  </Button>
+                  <Button color="error" variant="contained">
+                    Reject
+                  </Button>
+                </Box>
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  onClick={handleClose}
+                >
+                  Close
+                </Button>
+              </Box>
+            </Box>
+          </TransitionsModal>
+
           <Box
             sx={{
               // height: 550,
@@ -90,7 +197,9 @@ const ContentList = () => {
                 Question
               </Typography>
               <Typography variant="body1" sx={{}}>
-                {content.question}
+                <p onBlur={handleBlur} onDoubleClick={handleDoubleClick}>
+                  {content.question}
+                </p>
               </Typography>
             </Box>
 
@@ -98,7 +207,12 @@ const ContentList = () => {
               <Typography variant="h4" sx={{}}>
                 Answer
               </Typography>
-              <Typography variant="body1" sx={{}}>
+              <Typography
+                onBlur={handleBlur}
+                onDoubleClick={handleDoubleClick}
+                variant="body1"
+                sx={{}}
+              >
                 {content.answer}
               </Typography>
             </Box>
@@ -108,9 +222,20 @@ const ContentList = () => {
                 Keywords
               </Typography>
               <Box sx={{ display: "flex", gap: 1 }}>
-                {content.keywords?.map((keyword) => (
-                  <Chip label={keyword} />
-                ))}
+                {content.keywords?.map((keyword, idx: number) => {
+                  return (
+                    <>
+                      <Chip
+                        onBlur={handleBlur}
+                        onDoubleClick={handleDoubleClick}
+                        label={keyword}
+                      />
+                      {idx === content.keywords.length - 1 && (
+                        <Chip label="+" onClick={handleClickPlusButton} />
+                      )}
+                    </>
+                  );
+                })}
               </Box>
             </Box>
 
@@ -150,11 +275,71 @@ const ContentList = () => {
           title={"Reviewer Section"}
           content={false}
         >
-          <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            <Box sx={{ height: 550, width: "100%" }}>
-              {/* Reviewer Section */}
-            </Box>
-          </Typography>
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              flexGrow: 1,
+              gap: 3,
+              overflowY: "auto",
+              padding: 3,
+            }}
+          >
+            {/* Reviewer Section */}
+            {content.writer && (
+              <>
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                  <Typography variant="h4" sx={{}}>
+                    Writer
+                  </Typography>
+                  <Typography variant="body1" sx={{}}>
+                    {content.writer.name}
+                  </Typography>
+                </Box>
+
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                  <Typography variant="h4" sx={{}}>
+                    Write Date
+                  </Typography>
+                  <Typography variant="body1" sx={{}}>
+                    {content.writeDate.toLocaleDateString()}
+                  </Typography>
+                </Box>
+              </>
+            )}
+            <Divider />
+            {content.reviewer && (
+              <>
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                  <Typography variant="h4" sx={{}}>
+                    Reviewer
+                  </Typography>
+                  <Typography variant="body1" sx={{}}>
+                    {content.reviewer.name}
+                  </Typography>
+                </Box>
+
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                  <Typography variant="h4" sx={{}}>
+                    Review Date
+                  </Typography>
+                  <Typography variant="body1" sx={{}}>
+                    {content.reviewDate.toLocaleDateString()}
+                  </Typography>
+                </Box>
+
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                  <Typography variant="h4" sx={{}}>
+                    Review Comment
+                  </Typography>
+                  <Typography variant="body1" sx={{}}>
+                    {content.reviewComment}
+                  </Typography>
+                </Box>
+              </>
+            )}
+          </Box>
         </MainCard>
       </Grid>
     </Grid>
