@@ -1,0 +1,23 @@
+### macOS template
+*.DS_Store
+.AppleDouble
+.LSOverride
+ 
+# Webstorm project files
+.idea
+.idea/*.xml
+*.iml
+out
+gen
+build
+rebel.xml
+ 
+# Compliled files
+/dist
+ 
+# Package files
+/node_modules
+
+# etc
+.env
+.env.local
