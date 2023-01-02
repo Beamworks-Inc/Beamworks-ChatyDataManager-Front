@@ -23,6 +23,7 @@ export interface Review {
   reviewDate: Date;
   reviewComment: string;
 }
+type ContentState = "draft" | "review" | "approved" | "rejected";
 export interface Content {
   id: string;
   folder: Folder;
@@ -34,7 +35,8 @@ export interface Content {
   writer: User;
   keywords: string[];
   review: Review;
+  state : ContentState;
 }
-export interface ContentState {
+export interface IContentState {
   contentListState: Content[];
 }
