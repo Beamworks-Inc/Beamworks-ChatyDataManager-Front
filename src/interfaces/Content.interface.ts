@@ -33,6 +33,7 @@ export interface Content {
   writeDate: Date;
   writer: User;
   keywords: string[];
+  review: Review;
 }
 export interface ContentState {
   contentListState: Content[];
