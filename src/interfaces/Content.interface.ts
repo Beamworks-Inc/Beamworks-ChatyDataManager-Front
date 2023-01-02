@@ -5,7 +5,7 @@ export interface Reference {
 }
 export interface Folder {
   name: string;
-  children?: Folder[];
+  children: Folder[];
 }
 export interface RationaleDescription {
   description: string;
@@ -35,7 +35,7 @@ export interface Content {
   writer: User;
   keywords: string[];
   review: Review;
-  state : ContentState;
+  state: ContentState;
 }
 export interface IContentState {
   contentListState: Content[];

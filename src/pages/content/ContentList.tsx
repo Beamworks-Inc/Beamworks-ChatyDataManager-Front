@@ -2,7 +2,6 @@ import React from "react";
 
 // material-ui
 import { Box, Button, Grid, Typography } from "@mui/material";
-import { TreeItem, TreeView } from "@mui/lab";
 import {
   DataGrid,
   GridToolbarQuickFilter,
@@ -12,11 +11,11 @@ import {
 // project import
 import MainCard from "components/MainCard";
 
-// icons
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+// interfaces
+import { Folder } from "interfaces/Content.interface";
 
 import { useNavigate, useParams } from "react-router-dom";
+import CustomTreeView from "components/CustomTreeview";
 
 // ==============================|| Content List Page ||============================== //
 
@@ -43,55 +42,14 @@ function QuickSearchToolbar() {
 }
 
 const ContentList = () => {
-  const categoryNodes = ["1", "2", "5"];
-  const allNodes = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
-
-  const [expanded, setExpanded] = React.useState(categoryNodes);
-  const [selected, setSelected] = React.useState([]);
-
   const navigate = useNavigate();
-
-  const handleToggle = (event, nodeIds) => {
-    setExpanded(nodeIds);
-  };
-
-  const handleSelect = (event, nodeIds) => {
-    setSelected(nodeIds);
-    // if nodeIds not in categoryNodes, then navigate
-    if (nodeIds.length === 1 && !categoryNodes.includes(nodeIds[0]))
-      navigate("/content/" + nodeIds[0]);
-    // if (nodeIds.length === 1 && !categoryNodes.includes(nodeIds[0])) navigate('/content/' + nodeIds);
-  };
-
-  const handleExpandClick = () => {
-    setExpanded((oldExpanded) =>
-      oldExpanded.length === 0 ? categoryNodes : []
-    );
-  };
-
-  const handleSelectClick = () => {
-    setSelected((oldSelected) => (oldSelected.length === 0 ? allNodes : []));
-  };
 
   const columns = [
     // 1. 특정 칼럼의 값을 다른 칼럼을 통해 계산할 수 있습니다.
     // valueGetter: (params) => `${params.row.firstName || ''} ${params.row.lastName || ''}`
     // 2. 마우스 오버시 툴팁을 표시할 수 있습니다.
     // description: 'This column has a value getter and is not sortable.',
-    {
-      field: "id",
-      headerName: "ID",
-      width: 90,
-      sortable: false,
-      renderCell: (params) => (
-        <span
-          style={{ width: "100%" }}
-          onClick={() => navigate(`${params.row.id}`)}
-        >
-          {params.row.id}
-        </span>
-      ),
-    },
+    { field: "id", headerName: "ID", width: 90, sortable: false },
     {
       field: "question",
       headerName: "Question",
@@ -237,7 +195,58 @@ const ContentList = () => {
   ];
 
   // get route params
-  const { folderName } = useParams();
+  const { id } = useParams();
+
+  const getBreadcrumbsById = (id) => {
+    if (id === "3") return ["준응급", "코피", "응급처치"].join(" - ");
+    else if (id === "4") return ["준응급", "코피", "예방수칙"].join(" - ");
+    else if (id === "6") return ["준응급", "찰과상", "응급처치"].join(" - ");
+    else if (id === "7") return ["준응급", "찰과상", "예방수칙"].join(" - ");
+    // const breadcrumbs = [];
+    // const category = categories.find((category) => category.id === id);
+    // breadcrumbs.push(category);
+    // if (category.parentId) {
+    //     breadcrumbs.push(...getBreadcrumbsById(category.parentId));
+    // }
+    // return breadcrumbs;
+  };
+
+  const dummyItems: Folder = {
+    name: "root",
+    children: [
+      {
+        name: "준응급",
+        children: [
+          {
+            name: "코피",
+            children: [
+              {
+                name: "응급처치",
+                children: [],
+              },
+              {
+                name: "예방수칙",
+                children: [],
+              },
+            ],
+          },
+          {
+            name: "찰과상",
+            children: [
+              {
+                name: "응급처치",
+                children: [],
+              },
+              {
+                name: "예방수칙",
+                children: [],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  };
 
   return (
     <Grid container rowSpacing={4.5} columnSpacing={2.75}>
@@ -252,37 +261,8 @@ const ContentList = () => {
                 overflowY: "auto",
               }}
             >
-              {/* make it center */}
-              <Box sx={{ display: "flex", justifyContent: "center" }}>
-                <Button onClick={handleExpandClick}>
-                  {expanded.length === 0 ? "Expand all" : "Collapse all"}
-                </Button>
-                <Button onClick={handleSelectClick}>
-                  {selected.length === 0 ? "Select all" : "Unselect all"}
-                </Button>
-              </Box>
-              <TreeView
-                width="100%"
-                aria-label="controlled"
-                defaultCollapseIcon={<ExpandMoreIcon />}
-                defaultExpandIcon={<ChevronRightIcon />}
-                expanded={expanded}
-                selected={selected}
-                onNodeToggle={handleToggle}
-                onNodeSelect={handleSelect}
-                multiSelect
-              >
-                <TreeItem nodeId="1" label="준응급">
-                  <TreeItem nodeId="2" label="코피">
-                    <TreeItem nodeId="3" label="응급처치" />
-                    <TreeItem nodeId="4" label="예방수칙" />
-                  </TreeItem>
-                  <TreeItem nodeId="5" label="찰과상">
-                    <TreeItem nodeId="6" label="응급처치" />
-                    <TreeItem nodeId="7" label="예방수칙" />
-                  </TreeItem>
-                </TreeItem>
-              </TreeView>
+              {/* tree view component here */}
+              <CustomTreeView items={dummyItems} />
             </Box>
           </Typography>
         </MainCard>
@@ -290,7 +270,7 @@ const ContentList = () => {
       <Grid item xs={12} sm={10}>
         <MainCard
           sx={{ position: "relative" }}
-          title={"Content List"}
+          title={id ? getBreadcrumbsById(id) : "Content List"}
           content={false}
         >
           {/* position it at the top right */}
@@ -306,7 +286,7 @@ const ContentList = () => {
             <Button
               variant="contained"
               color="secondary"
-              onClick={() => navigate("1")}
+              onClick={() => navigate("/create")}
             >
               create
             </Button>
