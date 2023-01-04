@@ -39,8 +39,23 @@ export interface Content {
 }
 export interface ContentReducerState {
 	contentListState: Content[];
-	menuItems: Folder;
+	menuItems: Treeitem;
 }
-export interface Treeitem extends Folder {
+export interface Treeitem {
+	name: string;
 	isEditMode: boolean;
+	children: Treeitem[];
+}
+export interface ContentForGrid {
+	id: string;
+	question: string;
+	answer: string;
+	reference: string;
+	referenceLink: string;
+	rationale: string;
+	rationaleLink: string;
+	writer: string;
+	writeDate: string;
+	reviewer: string;
+	reviewDate: string;
 }

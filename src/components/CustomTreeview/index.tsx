@@ -119,7 +119,6 @@ const RecursiveTreeViewWrapper = (item: Treeitem) => {
 		<div style={divStyle}>
 			{item.isEditMode ? editMode(item) : null}
 			<TreeItem
-				onClick={() => alert("click")}
 				style={{ position: "relative" }}
 				nodeId={nodeId.toString()}
 				label={item.name}
@@ -141,6 +140,7 @@ export default function CustomTreeview() {
 	const items = useSelector(
 		(state: RootState) => state.ContentReducer.menuItems
 	);
+
 	const navigate = useNavigate();
 
 	// TODO: categoryNodes를 동적으로 만들도록 수정해야함.
@@ -152,11 +152,12 @@ export default function CustomTreeview() {
 		setExpanded(nodeIds);
 	};
 
-	const handleSelect = (event, nodeIds) => {
+	const handleSelect = (event: React.MouseEvent, nodeIds: any) => {
 		setSelected(nodeIds);
-		// if nodeIds not in categoryNodes, then navigate
-		if (nodeIds.length === 1 && !categoryNodes.includes(nodeIds[0]))
-			navigate("/content/" + nodeIds[0]);
+		const selectedItemId = nodeIds[0];
+		const folderName = event.currentTarget.textContent; // target 으로 할 시 에러
+		if (!categoryNodes.includes(selectedItemId))
+			navigate(`/content/${folderName}`);
 	};
 
 	const handleExpandClick = () => {

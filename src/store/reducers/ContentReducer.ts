@@ -2,12 +2,11 @@
 import {
 	ContentReducerState,
 	Content,
-	Folder,
 	Treeitem,
 } from "interfaces/Content.interface";
 
 // state
-const INIT_CONTENT_STATE: any = {
+const INIT_CONTENT_STATE: ContentReducerState = {
 	menuItems: {
 		name: "준응급",
 		isEditMode: false,
@@ -102,7 +101,7 @@ export const ContentAction = {
 export default function ContentReducer(
 	state: ContentReducerState = INIT_CONTENT_STATE,
 	action: any
-): any {
+): ContentReducerState {
 	switch (action.type) {
 		case TYPE.SET_CONTENT_LIST_STATE:
 			return { ...state, contentListState: action.payload };
@@ -112,3 +111,37 @@ export default function ContentReducer(
 			return state;
 	}
 }
+
+// dummy
+// const after = [
+// 	{
+// 		id: 1,
+// 		question: "코피가 나고 있을땐 어떻게 하나요?",
+// 		answer:
+// 			"가장먼저, 코피가 나고 있는지 확인해야합니다. 코피가 나고 있으면 코피를 물로 씻어주세요.",
+// 		reference: "준응급교본",
+// 		referenceLink: "https://www.dbpia.co.kr",
+// 		rationale: "코피사진",
+// 		rationaleLink:
+// 			"https://blog.kakaocdn.net/dn/b0bEe7/btrFVv1atKF/K3TEq3U4gL7TbfppkWFJu0/img.png",
+// 		writer: "cherryme",
+// 		writeDate: "2022-12-21",
+// 		reviewer: "Santa Claus",
+// 		reviewDate: "2022-12-25",
+// 	},
+// 	{
+// 		id: 2,
+// 		question: "코피가 날때 코를 풀어도 괜찮은가요?",
+// 		answer:
+// 			"코피가 나고 있는 상태에서 코를 풀어도 괜찮습니다. 왜냐하면 코피가 나고 있는 상태에서 코를 풀면 코피가 더 잘 나오기 때문입니다.",
+// 		reference: "준응급교본",
+// 		referenceLink: "https://www.dbpia.co.kr",
+// 		rationale: "코피사진",
+// 		rationaleLink:
+// 			"https://blog.kakaocdn.net/dn/b0bEe7/btrFVv1atKF/K3TEq3U4gL7TbfppkWFJu0/img.png",
+// 		writer: "cherryme",
+// 		writeDate: "2022-12-22",
+// 		reviewer: "Santa Claus",
+// 		reviewDate: "2022-12-25",
+// 	},
+// ];
