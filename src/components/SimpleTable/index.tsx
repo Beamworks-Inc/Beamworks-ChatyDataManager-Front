@@ -7,12 +7,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import {
-  IRationaleDescription,
-  IReference,
+  RationaleDescription,
+  Reference,
 } from "interfaces/Content.interface";
 
 export default function BasicTable(props: {
-  rows: IReference[] | IRationaleDescription[];
+  rows: Reference[] | RationaleDescription[];
 }) {
   const { rows } = props;
 
@@ -27,7 +27,7 @@ export default function BasicTable(props: {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row: IReference | IRationaleDescription, idx: number) => (
+          {rows.map((row: Reference | RationaleDescription, idx: number) => (
             <TableRow
               key={idx}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

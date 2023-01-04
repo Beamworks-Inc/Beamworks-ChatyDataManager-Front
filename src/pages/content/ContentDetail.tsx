@@ -19,14 +19,14 @@ import Img from "components/Img";
 import MainCard from "components/MainCard";
 import TransitionsModal from "components/Modal";
 import SimpleTable from "components/SimpleTable";
-import { IContent } from "interfaces/Content.interface";
+import { Content } from "interfaces/Content.interface";
 
 // ==============================|| Content List Page ||============================== //
 
 const ContentList = () => {
   const navigate = useNavigate();
 
-  const [content, setContent] = useState<IContent>({
+  const [content, setContent] = useState<Content>({
     id: "1",
     folder: { name: "응급처치" },
     question: "코피가 날때 코를 풀어도 괜찮은가요?",

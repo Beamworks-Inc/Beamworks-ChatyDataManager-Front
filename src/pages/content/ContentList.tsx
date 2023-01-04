@@ -211,43 +211,6 @@ const ContentList = () => {
     // return breadcrumbs;
   };
 
-  const dummyItems: Folder = {
-    name: "root",
-    children: [
-      {
-        name: "준응급",
-        children: [
-          {
-            name: "코피",
-            children: [
-              {
-                name: "응급처치",
-                children: [],
-              },
-              {
-                name: "예방수칙",
-                children: [],
-              },
-            ],
-          },
-          {
-            name: "찰과상",
-            children: [
-              {
-                name: "응급처치",
-                children: [],
-              },
-              {
-                name: "예방수칙",
-                children: [],
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  };
-
   return (
     <Grid container rowSpacing={4.5} columnSpacing={2.75}>
       <Grid item xs={12} sm={2}>
@@ -262,7 +225,7 @@ const ContentList = () => {
               }}
             >
               {/* tree view component here */}
-              <CustomTreeView items={dummyItems} />
+              <CustomTreeView />
             </Box>
           </Typography>
         </MainCard>
