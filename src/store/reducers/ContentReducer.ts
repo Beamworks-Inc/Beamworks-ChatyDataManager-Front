@@ -1,56 +1,52 @@
 // type & interfaces
-import {
-	ContentReducerState,
-	Content,
-	Treeitem,
-} from "interfaces/Content.interface";
+import { IContentState, IContent } from "interfaces/Content.interface";
 
 // state
-const INIT_CONTENT_STATE: ContentReducerState = {
-	menuItems: {
-		id: 1,
-		name: "준응급",
-		isEditMode: false,
-		children: [
+const INIT_CONTENT_STATE: IContentState = {
+	currentContent: {
+		id: "1",
+		folder: { name: "응급처치" },
+		question: "코피가 날때 코를 풀어도 괜찮은가요?",
+		answer:
+			"코피가 나고 있는 상태에서 코를 풀어도 괜찮습니다. 왜냐하면 코피가 나고 있는 상태에서 코를 풀면 코피가 더 잘 나오기 때문입니다.",
+		reference: [
 			{
-				id: 2,
-				name: "코피",
-				isEditMode: false,
-				children: [
-					{
-						id: 3,
-						name: "응급1",
-						isEditMode: true,
-						children: [],
-					},
-					{
-						id: 4,
-						name: "예방1",
-						isEditMode: false,
-						children: [],
-					},
-				],
+				title: "코피응급처치",
+				description: "의료 유튜버임",
+				link: new URL("https://www.youtube.com"),
 			},
 			{
-				id: 5,
-				name: "찰과상",
-				isEditMode: false,
-				children: [
-					{
-						id: 6,
-						name: "응급2",
-						isEditMode: false,
-						children: [],
-					},
-					{
-						id: 7,
-						name: "예방2",
-						isEditMode: false,
-						children: [],
-					},
-				],
+				title: "코피에 대한 논문",
+				description: "2008년에 발표된 논문이며, IF 40 이상",
+				link: new URL("https://www.dbpia.com"),
 			},
 		],
+		rationale: {
+			file: [
+				new URL(
+					"https://blog.kakaocdn.net/dn/b0bEe7/btrFVv1atKF/K3TEq3U4gL7TbfppkWFJu0/img.png"
+				),
+				new URL(
+					"https://www.k-health.com/news/photo/202105/53654_52347_211.png"
+				),
+				new URL(
+					"https://t2.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/2fG8/image/zH0wg75_SQHSt9bibZF3b3UOsN4.jpg"
+				),
+			],
+			description: [
+				{
+					description:
+						"코피가 나고 있는 상태에서 코를 풀면 코피가 더 잘 나오기 때문입니다.",
+					link: new URL("https://www.dbpia.co.kr"),
+				},
+			],
+		},
+		writer: { name: "cherryme" },
+		writeDate: new Date("2022-12-24"),
+		reviewer: { name: "Santa Claus" },
+		reviewDate: new Date("2022-12-25"),
+		reviewComment: "좋은 내용입니다.",
+		keywords: ["코피", "응급"],
 	},
 	contentListState: [
 		{
@@ -73,13 +69,9 @@ const INIT_CONTENT_STATE: ContentReducerState = {
 			},
 			writeDate: new Date(),
 			writer: { name: "init" },
-			review: {
-				reviewer: { name: "init" },
-				reviewDate: new Date(),
-				reviewComment: "init",
-			},
-			keywords: ["init"],
-			state: "draft",
+			reviewer: { name: "init" },
+			reviewDate: new Date(),
+			reviewComment: "init",
 		},
 	],
 };
@@ -88,66 +80,32 @@ const INIT_CONTENT_STATE: ContentReducerState = {
 const HEADER = "ContentReducer";
 const TYPE = {
 	SET_CONTENT_LIST_STATE: `${HEADER}/SET_CONTENT_LIST_STATE` as const,
-	SET_MENU_ITEMS_STATE: `${HEADER}/SET_MENU_ITEMS_STATE` as const,
+	SET_CURRENT_CONTENT: `${HEADER}/SET_CURRENT_CONTENT` as const,
 };
 
 // action creator
 export const ContentAction = {
-	setContentList: (contentList: Content[]) => ({
+	setCurrentContent: (content: IContent) => ({
+		type: TYPE.SET_CURRENT_CONTENT,
+		payload: content,
+	}),
+	setContentList: (contentList: IContent[]) => ({
 		type: TYPE.SET_CONTENT_LIST_STATE,
 		payload: contentList,
-	}),
-	setMenuItems: (menuItems: Treeitem) => ({
-		type: TYPE.SET_MENU_ITEMS_STATE,
-		payload: menuItems,
 	}),
 };
 
 // reducer
 export default function ContentReducer(
-	state: ContentReducerState = INIT_CONTENT_STATE,
+	state: IContentState = INIT_CONTENT_STATE,
 	action: any
-): ContentReducerState {
+): any {
 	switch (action.type) {
 		case TYPE.SET_CONTENT_LIST_STATE:
 			return { ...state, contentListState: action.payload };
-		case TYPE.SET_MENU_ITEMS_STATE:
-			return { ...state, menuItems: action.payload };
+		case TYPE.SET_CURRENT_CONTENT:
+			return { ...state, currentContent: action.payload };
 		default:
 			return state;
 	}
 }
-
-// dummy
-// const after = [
-// 	{
-// 		id: 1,
-// 		question: "코피가 나고 있을땐 어떻게 하나요?",
-// 		answer:
-// 			"가장먼저, 코피가 나고 있는지 확인해야합니다. 코피가 나고 있으면 코피를 물로 씻어주세요.",
-// 		reference: "준응급교본",
-// 		referenceLink: "https://www.dbpia.co.kr",
-// 		rationale: "코피사진",
-// 		rationaleLink:
-// 			"https://blog.kakaocdn.net/dn/b0bEe7/btrFVv1atKF/K3TEq3U4gL7TbfppkWFJu0/img.png",
-// 		writer: "cherryme",
-// 		writeDate: "2022-12-21",
-// 		reviewer: "Santa Claus",
-// 		reviewDate: "2022-12-25",
-// 	},
-// 	{
-// 		id: 2,
-// 		question: "코피가 날때 코를 풀어도 괜찮은가요?",
-// 		answer:
-// 			"코피가 나고 있는 상태에서 코를 풀어도 괜찮습니다. 왜냐하면 코피가 나고 있는 상태에서 코를 풀면 코피가 더 잘 나오기 때문입니다.",
-// 		reference: "준응급교본",
-// 		referenceLink: "https://www.dbpia.co.kr",
-// 		rationale: "코피사진",
-// 		rationaleLink:
-// 			"https://blog.kakaocdn.net/dn/b0bEe7/btrFVv1atKF/K3TEq3U4gL7TbfppkWFJu0/img.png",
-// 		writer: "cherryme",
-// 		writeDate: "2022-12-22",
-// 		reviewer: "Santa Claus",
-// 		reviewDate: "2022-12-25",
-// 	},
-// ];
