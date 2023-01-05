@@ -80,7 +80,7 @@ const MainRoutes = {
       element: <ContentList />,
     },
     {
-      path: "content/:ffolderName",
+      path: "content/:folderName",
       element: <ContentList />,
     },
     {
