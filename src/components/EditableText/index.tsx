@@ -1,7 +1,7 @@
 import { TextField, Typography } from "@mui/material";
 
 import React from "react";
-
+// TODO: 컴포넌트 유형에 따라 줄바꿈 문자 안되게 하기
 const EditableText = ({
 	text = "",
 	handleTextChange,
@@ -19,14 +19,25 @@ const EditableText = ({
 	};
 
 	return (
-		<Typography variant="body1">
+		<>
 			{isEditing ? (
 				<TextField
-					id={id}
+					inputProps={{
+						style: {
+							margin: "-14px",
+						},
+					}}
 					fullWidth
+					id={id}
 					multiline
 					autoFocus
 					value={text}
+					onFocus={(e) =>
+						e.currentTarget.setSelectionRange(
+							e.currentTarget.value.length,
+							e.currentTarget.value.length
+						)
+					}
 					onBlur={handleBlur}
 					onChange={handleTextChange}
 					placeholder="Enter content.."
@@ -35,11 +46,12 @@ const EditableText = ({
 				<div
 					style={{ whiteSpace: "pre-wrap" }}
 					onDoubleClick={handleDoubleClick}
+					{...props}
 				>
 					{text || "double click here.."}
 				</div>
 			)}
-		</Typography>
+		</>
 	);
 };
 

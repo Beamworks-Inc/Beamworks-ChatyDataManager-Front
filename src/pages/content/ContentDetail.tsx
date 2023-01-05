@@ -24,6 +24,7 @@ import EditableText from "components/EditableText";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
 import { ContentAction } from "store/reducers/ContentReducer";
+import EditableChip from "components/EditableChip";
 
 // ==============================|| Content List Page ||============================== //
 
@@ -36,11 +37,25 @@ const ContentList = () => {
 
 	const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const inputLabel = e.currentTarget.id;
-		console.log(e.currentTarget.value);
 		dispatch(
 			ContentAction.setCurrentContent({
 				...content,
 				[inputLabel]: e.currentTarget.value,
+			})
+		);
+	};
+
+	const handleTextChangeForChip = (e: React.ChangeEvent<HTMLInputElement>) => {
+		dispatch(
+			ContentAction.setCurrentContent({
+				...content,
+				keywords: [...content.keywords].map((keyword, idx) => {
+					if (`keyword${idx}` === e.currentTarget.id) {
+						return e.currentTarget.value;
+					} else {
+						return keyword;
+					}
+				}),
 			})
 		);
 	};
@@ -56,12 +71,13 @@ const ContentList = () => {
 
 	const handleClickPlusButton = () => {
 		const newKeyword = prompt("키워드를 입력해주세요.");
-		if (newKeyword) {
-			setContent({
-				...content,
-				keywords: [...content.keywords, newKeyword],
-			});
-		}
+		if (newKeyword)
+			dispatch(
+				ContentAction.setCurrentContent({
+					...content,
+					keywords: [...content.keywords, newKeyword],
+				})
+			);
 	};
 
 	const [open, setOpen] = useState(false);
@@ -191,16 +207,19 @@ const ContentList = () => {
 								Keywords
 							</Typography>
 							<Box sx={{ display: "flex", gap: 1 }}>
-								{content.keywords?.map((keyword, idx: number) => {
+								{content.keywords?.map((keyword: string, idx: number) => {
 									return (
 										<>
-											<Chip
-												onBlur={handleBlur}
-												onDoubleClick={handleDoubleClick}
-												label={keyword}
+											<EditableChip
+												text={keyword}
+												handleTextChange={handleTextChangeForChip}
+												label={`keyword${idx}`}
 											/>
 											{idx === content.keywords.length - 1 && (
-												<Chip label="+" onClick={handleClickPlusButton} />
+												<EditableChip
+													text="+"
+													onClick={handleClickPlusButton}
+												/>
 											)}
 										</>
 									);
