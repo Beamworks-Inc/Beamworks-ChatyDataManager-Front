@@ -4,23 +4,12 @@ import { IContentState, IContent } from "interfaces/Content.interface";
 // state
 const INIT_CONTENT_STATE: IContentState = {
 	currentContent: {
-		id: "1",
+		id: "-1",
 		folder: { name: "응급처치" },
 		question: "코피가 날때 코를 풀어도 괜찮은가요?",
 		answer:
 			"코피가 나고 있는 상태에서 코를 풀어도 괜찮습니다. 왜냐하면 코피가 나고 있는 상태에서 코를 풀면 코피가 더 잘 나오기 때문입니다.",
-		reference: [
-			{
-				title: "코피응급처치",
-				description: "의료 유튜버임",
-				link: new URL("https://www.youtube.com"),
-			},
-			{
-				title: "코피에 대한 논문",
-				description: "2008년에 발표된 논문이며, IF 40 이상",
-				link: new URL("https://www.dbpia.com"),
-			},
-		],
+		reference: new Array(6).fill({ title: "", description: "", link: "" }),
 		rationale: {
 			file: [
 				new URL(
@@ -33,13 +22,7 @@ const INIT_CONTENT_STATE: IContentState = {
 					"https://t2.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/2fG8/image/zH0wg75_SQHSt9bibZF3b3UOsN4.jpg"
 				),
 			],
-			description: [
-				{
-					description:
-						"코피가 나고 있는 상태에서 코를 풀면 코피가 더 잘 나오기 때문입니다.",
-					link: new URL("https://www.dbpia.co.kr"),
-				},
-			],
+			description: new Array(6).fill({ description: "", link: "" }),
 		},
 		writer: { name: "cherryme" },
 		writeDate: new Date("2022-12-24"),

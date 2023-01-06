@@ -1,7 +1,7 @@
 export interface IReference {
 	title: string;
 	description: string;
-	link: URL;
+	link: URL | string;
 }
 export interface IFolder {
 	name: string;
@@ -9,10 +9,10 @@ export interface IFolder {
 }
 export interface IRationaleDescription {
 	description: string;
-	link: URL;
+	link: URL | string;
 }
 export interface IRationale {
-	file: URL[];
+	file: URL[] | string[];
 	description: IRationaleDescription[];
 }
 export interface IUser {

@@ -25,8 +25,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
 import { ContentAction } from "store/reducers/ContentReducer";
 import EditableChip from "components/EditableChip";
+import SimpleDatagrid from "components/SimpleDatagrid";
 
-// ==============================|| Content List Page ||============================== //
+// ==============================|| Content Detail Page ||============================== //
 
 const ContentList = () => {
 	const dispatch = useDispatch();
@@ -58,15 +59,6 @@ const ContentList = () => {
 				}),
 			})
 		);
-	};
-
-	const handleDoubleClick = (e) => {
-		e.target.contentEditable = true;
-		e.target.focus();
-	};
-
-	const handleBlur = (e) => {
-		e.target.contentEditable = false;
 	};
 
 	const handleClickPlusButton = () => {
@@ -227,14 +219,28 @@ const ContentList = () => {
 							</Box>
 						</Box>
 
-						<Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+						<Box
+							sx={{
+								display: "flex",
+								flexDirection: "column",
+								gap: 1,
+								height: "300px",
+							}}
+						>
 							<Typography variant="h4" sx={{}}>
 								Reference
 							</Typography>
-							<SimpleTable rows={content.reference} />
+							{/* <SimpleDatagrid rows={content.reference} /> */}
 						</Box>
 
-						<Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+						<Box
+							sx={{
+								display: "flex",
+								flexDirection: "column",
+								gap: 1,
+								height: "700px",
+							}}
+						>
 							<Typography variant="h4" sx={{}}>
 								Rationale
 							</Typography>
@@ -252,7 +258,7 @@ const ContentList = () => {
 									</ImageListItem>
 								))}
 							</ImageList>
-							<SimpleTable rows={content.rationale.description} />
+							{/* <SimpleDatagrid rows={content.rationale.description} /> */}
 						</Box>
 					</Box>
 				</MainCard>
@@ -325,6 +331,7 @@ const ContentList = () => {
 										{content.reviewComment}
 									</Typography>
 								</Box>
+								<Button onClick={() => console.log(content)}>hello</Button>
 							</>
 						)}
 					</Box>
