@@ -4,15 +4,15 @@ import {AxiosResponse} from "axios";
 
 interface IFoldersAPI {
     findAllRoot: ()=>Promise<AxiosResponse<Folder[]>>,
-    find: (folderId: string)=>Promise<AxiosResponse<Folder>>,
-    update: (folder: Folder)=>Promise<AxiosResponse<null>>,
+    findById: (folderId: string)=>Promise<AxiosResponse<Folder>>,
+    update: (folderId : number, folder: Folder)=>Promise<AxiosResponse<null>>,
     create: (folder: Folder)=>Promise<AxiosResponse<null>>,
-    delete: (folderId: string)=>Promise<AxiosResponse<null>>,
+    delete: (folderId: number)=>Promise<AxiosResponse<null>>,
     deleteAll : ()=>Promise<AxiosResponse<null>>,
 }
 const URI = "/folder";
 /**
- * axios 를 이용하여 서버에 요청을 보내는 함수들을 정의합니다.
+ * axios 를 이용하여 서버에 Folder 관련 요청을 보내는 함수들을 정의합니다.
  * @example
  * ```typescript
  * FoldersAPI.findAllRoot()
@@ -21,16 +21,19 @@ const URI = "/folder";
  * ```
  */
 const FoldersAPI: IFoldersAPI = {
+    /**
+     * 모든 루트 폴더를 가져옵니다.
+     */
   findAllRoot: ()=> api.get(`${URI}`),
-  find: (folderId: string) => api.get(`${URI}/${folderId}`),
+  findById: (folderId: string) => api.get(`${URI}/${folderId}`),
   create: (folder: Folder) => api.post(`${URI}`, folder),
-  update: (folder: Folder) => api.put(`${URI}/1`, folder),
-  delete: (folderId: string) => api.delete(`${URI}/${folderId}`),
+    /**
+     * @param folderId : 변경할 폴더의 아이디 입니다.
+     * @param folder :  변경할 폴더의 내용입니다.
+     */
+  update: (folderId : number, folder: Folder) => api.put(`${URI}/${folderId}`, folder),
+  delete: (folderId: number) => api.delete(`${URI}/${folderId}`),
   deleteAll: ()=>api.delete(`${URI}`),
 }
 
 export default FoldersAPI;
-const a:Folder = {
-    name: "init",
-    children: [],
-}
