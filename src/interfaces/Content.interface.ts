@@ -1,3 +1,14 @@
+import ContentsAPI from "../apis/content";
+
+ContentsAPI.findByContentId("1")
+	.then((response) => {
+		console.log(response);
+	})
+	.catch((error) => {
+		alert(error)
+	})
+
+
 export interface Reference {
 	title: string;
 	description: string;

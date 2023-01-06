@@ -4,7 +4,7 @@ import {AxiosResponse} from "axios";
 
 interface IFoldersAPI {
     findAllRoot: ()=>Promise<AxiosResponse<Folder[]>>,
-    findById: (folderId: string)=>Promise<AxiosResponse<Folder>>,
+    findById: (folderId: number)=>Promise<AxiosResponse<Folder>>,
     update: (folderId : number, folder: Folder)=>Promise<AxiosResponse<null>>,
     create: (folder: Folder)=>Promise<AxiosResponse<null>>,
     delete: (folderId: number)=>Promise<AxiosResponse<null>>,
@@ -25,7 +25,7 @@ const FoldersAPI: IFoldersAPI = {
      * 모든 루트 폴더를 가져옵니다.
      */
   findAllRoot: ()=> api.get(`${URI}`),
-  findById: (folderId: string) => api.get(`${URI}/${folderId}`),
+  findById: (folderId: number) => api.get(`${URI}/${folderId}`),
   create: (folder: Folder) => api.post(`${URI}`, folder),
     /**
      * @param folderId : 변경할 폴더의 아이디 입니다.
