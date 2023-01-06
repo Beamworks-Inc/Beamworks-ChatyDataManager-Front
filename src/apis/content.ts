@@ -3,8 +3,8 @@ import { Content } from "interfaces/Content.interface";
 import axios, {AxiosResponse} from "axios";
 
 interface IContentsAPI{
-    findAllByFolderId: (folderId: string)=>Promise<AxiosResponse<Content[]>>,
-    findByContentId: (contentId: string)=>Promise<AxiosResponse<Content>>,
+    findAllByFolderId: (folderId: number)=>Promise<AxiosResponse<Content[]>>,
+    findByContentId: (contentId: number)=>Promise<AxiosResponse<Content>>,
     create: (content: Content)=>Promise<AxiosResponse<null>>,
     update: (content: Content)=>Promise<AxiosResponse<null>>,
     delete: (contentId: number)=>Promise<AxiosResponse<null>>,
@@ -24,8 +24,8 @@ const ContentsAPI: IContentsAPI = {
    * 폴더에 포함된 모든 컨텐츠를 가져옵니다.
    * @param folderId
    */
-  findAllByFolderId: (folderId: string) => api.get(`/findAllByFolderId/${folderId}`),
-  findByContentId: (contentId: string) => api.get(`/findByContentId/${contentId}`),
+  findAllByFolderId: (folderId: number) => api.get(`/findAllByFolderId/${folderId}`),
+  findByContentId: (contentId: number) => api.get(`/findByContentId/${contentId}`),
   create: (content: Content) => api.post(`/content`, content),
   update: (content: Content) => api.put(`/content`, content),
   delete: (contentId: number) => api.delete(`/content/${contentId}`),
