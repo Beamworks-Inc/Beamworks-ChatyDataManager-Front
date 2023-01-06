@@ -1,6 +1,11 @@
 import api from "./index";
 import { Content } from "interfaces/Content.interface";
+import axios, {AxiosResponse} from "axios";
 
+interface ContentsAPI{
+    getContents: Promise<AxiosResponse<any,any>>,
+
+}
 // Content
 export const apiGetContentListByFolderName = async (
   folderName: string | undefined,
