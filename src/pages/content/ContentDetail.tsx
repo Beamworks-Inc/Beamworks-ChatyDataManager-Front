@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 
 // material-ui
 import {
 	Box,
 	Button,
-	Chip,
 	Divider,
 	Grid,
 	ImageList,
@@ -18,14 +16,13 @@ import Img from "components/Img";
 // project import
 import MainCard from "components/MainCard";
 import TransitionsModal from "components/Modal";
-import SimpleTable from "components/SimpleTable";
-import { IContent } from "interfaces/Content.interface";
 import EditableText from "components/EditableText";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
 import { ContentAction } from "store/reducers/ContentReducer";
 import EditableChip from "components/EditableChip";
-import SimpleDatagrid from "components/SimpleDatagrid";
+import ReferenceDatagrid from "components/ReferenceDatagrid";
+import RationaleDescDatagrid from "components/RationaleDescDatagrid";
 
 // ==============================|| Content Detail Page ||============================== //
 
@@ -230,7 +227,7 @@ const ContentList = () => {
 							<Typography variant="h4" sx={{}}>
 								Reference
 							</Typography>
-							{/* <SimpleDatagrid rows={content.reference} /> */}
+							<ReferenceDatagrid />
 						</Box>
 
 						<Box
@@ -258,7 +255,7 @@ const ContentList = () => {
 									</ImageListItem>
 								))}
 							</ImageList>
-							{/* <SimpleDatagrid rows={content.rationale.description} /> */}
+							<RationaleDescDatagrid />
 						</Box>
 					</Box>
 				</MainCard>
