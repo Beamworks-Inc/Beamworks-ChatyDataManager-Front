@@ -26,7 +26,16 @@ const ContentsAPI: IContentsAPI = {
    */
   findAllByFolderId: (folderId: number) => api.get(`/findAllByFolderId/${folderId}`),
   findByContentId: (contentId: number) => api.get(`/findByContentId/${contentId}`),
+  /**
+   * Content 생성시에는 folderId 를 반드시 포함해야 하며, contentId 는 null 로 설정되어야 합니다.
+   * Review 와 같이 생성시에 데이터를 가지고 있지 않은 경우 null 로 설정합니다.
+   * @param content
+   */
   create: (content: Content) => api.post(`/content`, content),
+  /**
+   * Content 수정시에는 contentId 를 반드시 포함해야 합니다.
+   * @param content
+   */
   update: (content: Content) => api.put(`/content`, content),
   delete: (contentId: number) => api.delete(`/content/${contentId}`),
 }

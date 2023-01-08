@@ -36,7 +36,7 @@ export interface Review {
 }
 type ContentState = "draft" | "review" | "approved" | "rejected";
 export interface Content {
-	id: string;
+	id: string | null;
 	folder: Folder;
 	question: string;
 	answer: string;
@@ -45,7 +45,7 @@ export interface Content {
 	writeDate: Date;
 	writer: User;
 	keywords: string[];
-	review: Review;
+	review: Review | null;
 	state: ContentState;
 }
 export interface ContentReducerState {
