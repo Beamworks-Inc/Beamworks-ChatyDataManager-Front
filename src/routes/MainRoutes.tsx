@@ -33,7 +33,7 @@ const ContentList = Loadable(
   lazy(() => import("../pages/content/ContentList"))
 );
 const ContentDetail = Loadable(
-  lazy(() => import("../pages/content/ContentDetail"))
+  lazy(() => import("../pages/content/ContentDetail/ContentDetail"))
 );
 
 // ==============================|| MAIN ROUTING ||============================== //
