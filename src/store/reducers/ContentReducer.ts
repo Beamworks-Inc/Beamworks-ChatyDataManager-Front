@@ -19,11 +19,11 @@ const INIT_CONTENT_STATE: IContentState = {
 			file: new Array(6).fill(""),
 			description: new Array(6).fill({ description: "", link: "" }),
 		},
-		writer: { name: "cherryme" },
-		writeDate: new Date("2022-12-24"),
-		reviewer: { name: "Santa Claus" },
-		reviewDate: new Date("2022-12-25"),
-		reviewComment: "좋은 내용입니다.",
+		writer: { name: "" },
+		writeDate: null,
+		reviewer: { name: "" },
+		reviewDate: null,
+		reviewComment: "",
 	},
 	contentListState: [
 		{

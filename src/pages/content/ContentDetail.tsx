@@ -291,7 +291,7 @@ const ContentDetail = () => {
 										Writer
 									</Typography>
 									<Typography variant="body1" sx={{}}>
-										{content.writer.name}
+										{content.writer.name || "Not created yet"}
 									</Typography>
 								</Box>
 
@@ -300,7 +300,8 @@ const ContentDetail = () => {
 										Write Date
 									</Typography>
 									<Typography variant="body1" sx={{}}>
-										{content.writeDate.toLocaleDateString()}
+										{content.writeDate?.toLocaleDateString() ||
+											"Not created yet"}
 									</Typography>
 								</Box>
 							</>
@@ -313,7 +314,7 @@ const ContentDetail = () => {
 										Reviewer
 									</Typography>
 									<Typography variant="body1" sx={{}}>
-										{content.reviewer.name}
+										{content.reviewer.name || "Not reviewed yet"}
 									</Typography>
 								</Box>
 
@@ -322,7 +323,8 @@ const ContentDetail = () => {
 										Review Date
 									</Typography>
 									<Typography variant="body1" sx={{}}>
-										{content.reviewDate.toLocaleDateString()}
+										{content.reviewDate?.toLocaleDateString() ||
+											"Not reviewed yet"}
 									</Typography>
 								</Box>
 
@@ -331,10 +333,12 @@ const ContentDetail = () => {
 										Review Comment
 									</Typography>
 									<Typography variant="body1" sx={{}}>
-										{content.reviewComment}
+										{content.reviewComment || "Not reviewed yet"}
 									</Typography>
 								</Box>
-								<Button onClick={() => console.log(content)}>hello</Button>
+								<Button onClick={() => console.log(content)}>
+									Check Reducer
+								</Button>
 							</>
 						)}
 					</Box>

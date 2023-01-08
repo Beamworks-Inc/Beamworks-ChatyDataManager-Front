@@ -25,10 +25,10 @@ export interface IContent {
 	answer: string;
 	reference: IReference[];
 	rationale: IRationale;
-	writeDate: Date;
+	writeDate: Date | null;
 	writer: IUser;
 	reviewer: IUser;
-	reviewDate: Date;
+	reviewDate: Date | null;
 	reviewComment: string;
 	keywords: string[];
 }
