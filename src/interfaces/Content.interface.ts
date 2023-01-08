@@ -12,7 +12,7 @@ export interface IRationaleDescription {
 	link: URL | string;
 }
 export interface IRationale {
-	file: URL[] | string[];
+	file: (URL | string)[];
 	description: IRationaleDescription[];
 }
 export interface IUser {

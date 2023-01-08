@@ -11,7 +11,6 @@ import {
 	TextField,
 	Typography,
 } from "@mui/material";
-import Img from "components/Img";
 
 // project import
 import MainCard from "components/MainCard";
@@ -23,15 +22,17 @@ import { ContentAction } from "store/reducers/ContentReducer";
 import EditableChip from "components/EditableChip";
 import ReferenceDatagrid from "components/ReferenceDatagrid";
 import RationaleDescDatagrid from "components/RationaleDescDatagrid";
+import CustomImageList from "components/CustomImageList";
+import { IContent } from "interfaces/Content.interface";
 
 // ==============================|| Content Detail Page ||============================== //
 
-const ContentList = () => {
+const ContentDetail = () => {
 	const dispatch = useDispatch();
 
 	const content = useSelector(
 		(state: RootState) => state.ContentReducer.currentContent
-	);
+	) as IContent;
 
 	const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const inputLabel = e.currentTarget.id;
@@ -67,6 +68,24 @@ const ContentList = () => {
 					keywords: [...content.keywords, newKeyword],
 				})
 			);
+	};
+
+	const handleImageListChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		dispatch(
+			ContentAction.setCurrentContent({
+				...content,
+				rationale: {
+					...content.rationale,
+					file: [...content.rationale.file].map((file, idx) => {
+						if (`file${idx}` === e.currentTarget.id) {
+							return e.currentTarget.value;
+						} else {
+							return file;
+						}
+					}),
+				},
+			})
+		);
 	};
 
 	const [open, setOpen] = useState(false);
@@ -198,21 +217,18 @@ const ContentList = () => {
 							<Box sx={{ display: "flex", gap: 1 }}>
 								{content.keywords?.map((keyword: string, idx: number) => {
 									return (
-										<>
-											<EditableChip
-												text={keyword}
-												handleTextChange={handleTextChangeForChip}
-												label={`keyword${idx}`}
-											/>
-											{idx === content.keywords.length - 1 && (
-												<EditableChip
-													text="+"
-													onClick={handleClickPlusButton}
-												/>
-											)}
-										</>
+										<EditableChip
+											// key={idx}
+											text={keyword}
+											handleTextChange={handleTextChangeForChip}
+											label={`keyword${idx}`}
+										/>
 									);
 								})}
+								<EditableChip
+									text="add keyword.."
+									onClick={handleClickPlusButton}
+								/>
 							</Box>
 						</Box>
 
@@ -241,20 +257,10 @@ const ContentList = () => {
 							<Typography variant="h4" sx={{}}>
 								Rationale
 							</Typography>
-							<ImageList sx={{ width: "100%" }} cols={3} rowHeight={300}>
-								{content.rationale.file.map((file: URL) => (
-									<ImageListItem
-										sx={{
-											border: "3px solid #efefef",
-											borderRadius: "10px",
-											padding: "1rem",
-										}}
-										key={file.toString()}
-									>
-										<Img src={file.toString()} alt={"image"} />
-									</ImageListItem>
-								))}
-							</ImageList>
+							<CustomImageList
+								files={content.rationale.file}
+								onImageListChange={handleImageListChange}
+							/>
 							<RationaleDescDatagrid />
 						</Box>
 					</Box>
@@ -338,4 +344,4 @@ const ContentList = () => {
 	);
 };
 
-export default ContentList;
+export default ContentDetail;
