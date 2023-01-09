@@ -14,30 +14,10 @@ import { ContentDetailEdit } from "./ContentDetailEdit/ContentDetailEdit";
 // ==============================|| Content Detail Page ||============================== //
 
 const ContentDetail = () => {
-	const dispatch = useDispatch();
 
 	const content = useSelector(
 		(state: RootState) => state.ContentReducer.currentContent
 	) as Content;
-
-	const handleTextChangeForChip = (e: React.ChangeEvent<HTMLInputElement>) => {
-		dispatch(
-			ContentAction.setCurrentContent({
-				...content,
-				keywords: [...content.keywords].map((keyword, idx) => {
-					if (`keyword${idx}` === e.currentTarget.id) {
-						return e.currentTarget.value;
-					} else {
-						return keyword;
-					}
-				}),
-			})
-		);
-	};
-
-	const [open, setOpen] = useState(false);
-	const handleOpen = () => setOpen(true);
-	const handleClose = () => setOpen(false);
 
 	// @ts-ignore
 	return (
