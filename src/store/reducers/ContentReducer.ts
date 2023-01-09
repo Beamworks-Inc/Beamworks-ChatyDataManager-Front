@@ -8,19 +8,23 @@ import {
 // state
 const INIT_CONTENT_STATE: ContentReducerState = {
 	menuItems: {
+		id: 1,
 		name: "준응급",
 		isEditMode: false,
 		children: [
 			{
+				id: 2,
 				name: "코피",
 				isEditMode: false,
 				children: [
 					{
+						id: 3,
 						name: "응급1",
 						isEditMode: true,
 						children: [],
 					},
 					{
+						id: 4,
 						name: "예방1",
 						isEditMode: false,
 						children: [],
@@ -28,15 +32,18 @@ const INIT_CONTENT_STATE: ContentReducerState = {
 				],
 			},
 			{
+				id: 5,
 				name: "찰과상",
 				isEditMode: false,
 				children: [
 					{
+						id: 6,
 						name: "응급2",
 						isEditMode: false,
 						children: [],
 					},
 					{
+						id: 7,
 						name: "예방2",
 						isEditMode: false,
 						children: [],
@@ -81,7 +88,6 @@ const INIT_CONTENT_STATE: ContentReducerState = {
 const HEADER = "ContentReducer";
 const TYPE = {
 	SET_CONTENT_LIST_STATE: `${HEADER}/SET_CONTENT_LIST_STATE` as const,
-	GET_MENU_ITEMS_STATE: `${HEADER}/GET_MENU_ITEMS_STATE` as const,
 	SET_MENU_ITEMS_STATE: `${HEADER}/SET_MENU_ITEMS_STATE` as const,
 };
 

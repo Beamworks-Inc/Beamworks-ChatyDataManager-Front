@@ -42,6 +42,7 @@ export interface ContentReducerState {
 	menuItems: Treeitem;
 }
 export interface Treeitem {
+	id: number;
 	name: string;
 	isEditMode: boolean;
 	children: Treeitem[];
