@@ -1,38 +1,38 @@
-export interface IReference {
+export interface Reference {
 	title: string;
 	description: string;
 	link: URL | string;
 }
-export interface IFolder {
+export interface Folder {
 	name: string;
-	children?: IFolder[];
+	children?: Folder[];
 }
-export interface IRationaleDescription {
+export interface RationaleDescription {
 	description: string;
 	link: URL | string;
 }
-export interface IRationale {
+export interface Rationale {
 	file: (URL | string)[];
-	description: IRationaleDescription[];
+	description: RationaleDescription[];
 }
-export interface IUser {
+export interface User {
 	name: string;
 }
-export interface IContent {
+export interface Content {
 	id: string;
-	folder: IFolder;
+	folder: Folder;
 	question: string;
 	answer: string;
-	reference: IReference[];
-	rationale: IRationale;
+	reference: Reference[];
+	rationale: Rationale;
 	writeDate: Date | null;
-	writer: IUser;
-	reviewer: IUser;
+	writer: User;
+	reviewer: User;
 	reviewDate: Date | null;
 	reviewComment: string;
 	keywords: string[];
 }
-export interface IContentState {
-	currentContent: IContent;
-	contentListState: IContent[];
+export interface ContentState {
+	currentContent: Content;
+	contentListState: Content[];
 }

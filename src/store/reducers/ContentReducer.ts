@@ -1,13 +1,13 @@
 // type & interfaces
 import {
-	IContentState,
-	IContent,
-	IReference,
-	IRationaleDescription,
+	ContentState,
+	Content,
+	Reference,
+	RationaleDescription,
 } from "interfaces/Content.interface";
 
 // state
-const INIT_CONTENT_STATE: IContentState = {
+const INIT_CONTENT_STATE: ContentState = {
 	currentContent: {
 		id: "0",
 		folder: { name: "응급처치" },
@@ -66,21 +66,21 @@ const TYPE = {
 
 // action creator
 export const ContentAction = {
-	setCurrentContent: (content: IContent) => ({
+	setCurrentContent: (content: Content) => ({
 		type: TYPE.SET_CURRENT_CONTENT,
 		payload: content,
 	}),
-	setCurrentContentReferences: (references: IReference[]) => ({
+	setCurrentContentReferences: (references: Reference[]) => ({
 		type: TYPE.SET_CURRENT_CONTENT_REFERENCES,
 		payload: references,
 	}),
 	setCurrentContentRationaleDescriptions: (
-		descriptions: IRationaleDescription[]
+		descriptions: RationaleDescription[]
 	) => ({
 		type: TYPE.SET_CURRENT_CONTENT_RATIONALE_DESCRIPTIONS,
 		payload: descriptions,
 	}),
-	setContentList: (contentList: IContent[]) => ({
+	setContentList: (contentList: Content[]) => ({
 		type: TYPE.SET_CONTENT_LIST_STATE,
 		payload: contentList,
 	}),
@@ -88,7 +88,7 @@ export const ContentAction = {
 
 // reducer
 export default function ContentReducer(
-	state: IContentState = INIT_CONTENT_STATE,
+	state: ContentState = INIT_CONTENT_STATE,
 	action: any
 ): any {
 	switch (action.type) {
