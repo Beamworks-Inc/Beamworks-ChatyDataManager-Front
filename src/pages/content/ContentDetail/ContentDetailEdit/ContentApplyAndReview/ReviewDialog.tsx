@@ -7,6 +7,46 @@ import React from "react";
 import { ContentAction } from "../../../../../store/reducers/ContentReducer";
 import ContentsAPI from "../../../../../apis/content";
 
+function ButtonGroupBox(props: { onClick: () => void, onClick1: () => void, onClick2: () => void }) {
+	return <Box
+		sx={{
+			display: "flex",
+			justifyContent: "space-between",
+			gap: 1,
+			mt: 2,
+		}}
+	>
+		<Box sx={{display: "flex", gap: 1}}>
+			<Button color="primary" variant="contained" onClick={props.onClick}>
+				Approve
+			</Button>
+			<Button color="error" variant="contained" onClick={props.onClick1}>
+				Reject
+			</Button>
+		</Box>
+		<Button
+			color="secondary"
+			variant="contained"
+			onClick={props.onClick2}
+		>
+			Close
+		</Button>
+	</Box>;
+}
+
+function ReviewCommnetTextField(props: { onChange: (e: React.ChangeEvent<HTMLInputElement>) => void }) {
+	return <TextField
+		fullWidth
+		id="standard-multiline-static"
+		label="review comment"
+		multiline
+		rows={4}
+		variant="standard"
+		placeholder="comments here..."
+		onChange={props.onChange}
+	/>;
+}
+
 export function ReviewDialog(props: {
 	open: boolean;
 	handleOpen: () => void;
@@ -73,42 +113,8 @@ export function ReviewDialog(props: {
 				<Typography variant="h4" sx={{}}>
 					Review
 				</Typography>
-				{/* text input */}
-				<TextField
-					fullWidth
-					id="standard-multiline-static"
-					label="review comment"
-					multiline
-					rows={4}
-					variant="standard"
-					placeholder="comments here..."
-					onChange={handleTextChange}
-				/>
-				{/* buttons */}
-				<Box
-					sx={{
-						display: "flex",
-						justifyContent: "space-between",
-						gap: 1,
-						mt: 2,
-					}}
-				>
-					<Box sx={{ display: "flex", gap: 1 }}>
-						<Button color="primary" variant="contained" onClick={approveReview}>
-							Approve
-						</Button>
-						<Button color="error" variant="contained" onClick={rejectReview}>
-							Reject
-						</Button>
-					</Box>
-					<Button
-						color="secondary"
-						variant="contained"
-						onClick={props.handleClose}
-					>
-						Close
-					</Button>
-				</Box>
+				<ReviewCommnetTextField onChange={handleTextChange}/>
+				<ButtonGroupBox onClick={approveReview} onClick1={rejectReview} onClick2={props.handleClose}/>
 			</Box>
 		</TransitionsModal>
 	);
