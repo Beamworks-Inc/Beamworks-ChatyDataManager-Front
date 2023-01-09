@@ -18,6 +18,7 @@ const ContentList = () => {
 	return (
 		<Grid container rowSpacing={4.5} columnSpacing={2.75}>
 			<Grid item xs={12} sm={2}>
+				{/*@ts-ignore*/}
 				<MainCard title="Content Category" content={false}>
 					<Typography variant="body2" sx={{ color: "text.secondary" }}>
 						<Box
@@ -35,6 +36,7 @@ const ContentList = () => {
 				</MainCard>
 			</Grid>
 			<Grid item xs={12} sm={10}>
+				{/*@ts-ignore*/}
 				<MainCard
 					sx={{ position: "relative" }}
 					title={"Content List"}

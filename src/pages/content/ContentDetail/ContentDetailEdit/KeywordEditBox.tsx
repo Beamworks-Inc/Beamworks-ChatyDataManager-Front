@@ -7,7 +7,7 @@ import {RootState} from "../../../../store";
 import React from "react";
 
 
-export function KeywordEditBox(props: { content: IContent, onClick: () => void }) {
+export function KeywordEditBox(props: { content: IContent }) {
 
     const dispatch = useDispatch();
 
@@ -30,6 +30,17 @@ export function KeywordEditBox(props: { content: IContent, onClick: () => void }
         );
     };
 
+    const handleClickPlusButton = () => {
+        const newKeyword = prompt("키워드를 입력해주세요.");
+        if (newKeyword)
+            dispatch(
+                ContentAction.setCurrentContent({
+                    ...content,
+                    keywords: [...content.keywords, newKeyword],
+                })
+            );
+    };
+
     return <Box sx={{display: "flex", flexDirection: "column", gap: 1}}>
         <Typography variant="h4" sx={{}}>
             Keywords
@@ -47,7 +58,7 @@ export function KeywordEditBox(props: { content: IContent, onClick: () => void }
             })}
             <EditableChip
                 text="add keyword.."
-                onClick={props.onClick}
+                onClick={handleClickPlusButton}
             />
         </Box>
     </Box>;
