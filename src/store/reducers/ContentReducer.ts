@@ -19,11 +19,10 @@ const INIT_CONTENT_STATE: ContentReducerState = {
 			file: new Array(6).fill(""),
 			description: new Array(6).fill({ description: "", link: "" }),
 		},
-		writer: { name: "" },
+		writer: null,
 		writeDate: null,
-		reviewer: { name: "" },
-		reviewDate: null,
-		reviewComment: "",
+		review: null,
+		status: "DRAFT"
 	},
 	contentListState: [
 		{
@@ -39,10 +38,10 @@ const INIT_CONTENT_STATE: ContentReducerState = {
 				],
 			},
 			writeDate: new Date(),
-			writer: { name: "init" },
-			reviewer: { name: "init" },
-			reviewDate: new Date(),
-			reviewComment: "init",
+			writer: null,
+			review: null,
+			status: "DRAFT",
+			keywords: [],
 		},
 	],
 	menuItems: {
