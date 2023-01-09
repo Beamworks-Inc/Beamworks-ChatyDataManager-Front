@@ -27,7 +27,7 @@ export interface Review {
 	reviewDate: Date;
 	reviewComment: string;
 }
-type ContentStatus = "draft" | "review" | "approved" | "rejected";
+export type ContentStatus = "DRAFT" | "REVIEW" | "APPROVED" | "REJECTED";
 export interface Content {
 	id: string | null;
 	folder: Folder | null;

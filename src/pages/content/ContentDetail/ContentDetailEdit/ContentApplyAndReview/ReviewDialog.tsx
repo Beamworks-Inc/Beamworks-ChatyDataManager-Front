@@ -2,7 +2,7 @@ import TransitionsModal from "../../../../../components/Modal";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../../store";
-import { Content } from "../../../../../interfaces/Content.interface";
+import {Content, ContentStatus} from "../../../../../interfaces/Content.interface";
 import React from "react";
 import { ContentAction } from "../../../../../store/reducers/ContentReducer";
 import ContentsAPI from "../../../../../apis/content";
@@ -40,12 +40,21 @@ export function ReviewDialog(props: {
 			});
 	}
 
+	function setReviewState(newStatus : ContentStatus) {
+		dispatch(
+			ContentAction.setCurrentContent({
+				...content,
+				status : newStatus
+			})
+		)
+	}
+
 	function rejectReview() {
-		//TODO set review state reject
+		setReviewState("REJECTED")
 		updateReview();
 	}
 	function approveReview() {
-		//TODO set review state approve
+		setReviewState("APPROVED")
 		updateReview();
 	}
 	return (
