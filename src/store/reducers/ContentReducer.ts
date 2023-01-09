@@ -1,16 +1,16 @@
 // type & interfaces
 import {
-	ContentState,
+	ContentReducerState,
 	Content,
 	Reference,
 	RationaleDescription,
 } from "interfaces/Content.interface";
 
 // state
-const INIT_CONTENT_STATE: ContentState = {
+const INIT_CONTENT_STATE: ContentReducerState = {
 	currentContent: {
 		id: "0",
-		folder: { name: "응급처치" },
+		folder: { id: 0, name: "응급처치", children: [] },
 		question: "",
 		answer: "",
 		keywords: [],
@@ -28,16 +28,10 @@ const INIT_CONTENT_STATE: ContentState = {
 	contentListState: [
 		{
 			id: "0",
-			folder: { name: "init", children: [] },
-			question: "init",
-			answer: "init",
-			reference: [
-				{
-					title: "init",
-					description: "init",
-					link: new URL("https://www.google.com"),
-				},
-			],
+			folder: { id: 0, name: "init", children: [] },
+			question: "sample question",
+			answer: "sample answer",
+			reference: [],
 			rationale: {
 				file: [new URL("https://www.google.com")],
 				description: [
@@ -51,6 +45,12 @@ const INIT_CONTENT_STATE: ContentState = {
 			reviewComment: "init",
 		},
 	],
+	menuItems: {
+		id: "0",
+		name: "응급1",
+		isEditMode: false,
+		children: [],
+	},
 };
 
 // action type
@@ -88,7 +88,7 @@ export const ContentAction = {
 
 // reducer
 export default function ContentReducer(
-	state: ContentState = INIT_CONTENT_STATE,
+	state: ContentReducerState = INIT_CONTENT_STATE,
 	action: any
 ): any {
 	switch (action.type) {

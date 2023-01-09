@@ -30,7 +30,7 @@ const ContentList = () => {
 							}}
 						>
 							{/* tree view component here */}
-							{/* <CustomTreeView /> */}
+							<CustomTreeView />
 						</Box>
 					</Typography>
 				</MainCard>

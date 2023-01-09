@@ -179,7 +179,7 @@ export default function CustomTreeview() {
 	const navigate = useNavigate();
 
 	// TODO: categoryNodes를 동적으로 만들도록 수정해야함.
-	const categoryNodes = ["1", "2", "5"];
+	const categoryNodes = ["2", "3", "5"];
 	const [expanded, setExpanded] = React.useState(categoryNodes);
 	const [selected, setSelected] = React.useState([]);
 
