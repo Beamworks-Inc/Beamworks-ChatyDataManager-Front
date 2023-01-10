@@ -10,7 +10,7 @@ interface FoldersAPI {
 	delete: (folderId: number) => Promise<AxiosResponse<null>>;
 	deleteAll: () => Promise<AxiosResponse<null>>;
 }
-const URI = "/folder";
+const URI = "/api/v1/folder";
 /**
  * axios 를 이용하여 서버에 Folder 관련 요청을 보내는 함수들을 정의합니다.
  * @example
