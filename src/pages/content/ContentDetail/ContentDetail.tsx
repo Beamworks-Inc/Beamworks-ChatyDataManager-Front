@@ -49,7 +49,6 @@ const ContentDetail = () => {
 	const content = useSelector(
 		(state: RootState) => state.ContentReducer.currentContent
 	) as Content;
-	// @ts-ignore
 	return (
 		<Grid container rowSpacing={4.5} columnSpacing={2.75}>
 			{isLoadingComplete ? (

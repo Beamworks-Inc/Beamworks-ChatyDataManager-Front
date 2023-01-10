@@ -3,7 +3,11 @@ import {
 	ContentReducerState,
 	Content,
 	Reference,
-	RationaleDescription, Rationale, User, Review, ContentStatus,
+	RationaleDescription,
+	Rationale,
+	User,
+	Review,
+	ContentStatus,
 } from "interfaces/Content.interface";
 
 const initialContent = {
@@ -12,7 +16,12 @@ const initialContent = {
 	question: "",
 	answer: "",
 	keyword: [],
-	reference: new Array(6).fill({ id: null, title: "", description: "", link: "" }),
+	reference: new Array(6).fill({
+		id: null,
+		title: "",
+		description: "",
+		link: "",
+	}),
 	rationale: {
 		id: null,
 		description: new Array(6).fill({ description: "", link: "" }),
@@ -22,13 +31,14 @@ const initialContent = {
 	writeDate: null,
 	review: null,
 	status: "DRAFT",
-} as Content
+} as Content;
 
 // state
 const INIT_CONTENT_STATE: ContentReducerState = {
 	currentContent: initialContent,
 	contentListState: [],
-	menuItems: { //
+	menuItems: {
+		//
 		id: "0",
 		name: "응급1",
 		isEditMode: false,
@@ -78,7 +88,6 @@ export default function ContentReducer(
 		case TYPE.SET_CONTENT_LIST_STATE:
 			return { ...state, contentListState: action.payload };
 		case TYPE.SET_CURRENT_CONTENT:
-			console.log("이거설정해야지", action.payload);
 			return { ...state, currentContent: action.payload };
 		case TYPE.SET_CURRENT_CONTENT_REFERENCES:
 			return {

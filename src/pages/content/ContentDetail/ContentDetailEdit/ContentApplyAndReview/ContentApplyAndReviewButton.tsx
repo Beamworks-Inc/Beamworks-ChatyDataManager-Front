@@ -23,13 +23,33 @@ export function ContentApplyAndReviewButton() {
 	}
 
 	function applyContentDetail() {
-		ContentsAPI.update(content)
-			.then((response) => {
-				alert("컨텐츠가 정상적으로 업데이트 되었습니다.");
-			})
-			.catch((error) => {
-				alert("컨텐츠 업데이트에 실패했습니다.");
-			});
+		if (typeof folderId !== "string") {
+			alert("folderId가 잘못되었습니다.");
+			return;
+		}
+
+		if (contentId === "create") {
+			const newContent = JSON.parse(JSON.stringify(content));
+			newContent.folderId = folderId;
+			newContent.writer = { id: 1 }; // content.writer = {} // get writer from local storage
+			newContent.writeDate = new Date().toISOString();
+			ContentsAPI.create(newContent)
+				.then((response) => {
+					alert("컨텐츠가 정상적으로 생성 되었습니다.");
+					// TOMORROW: response.data 에서 id 를 가져와서 해당 id로 reload
+				})
+				.catch((error) => {
+					alert("컨텐츠 생성에 실패했습니다.");
+				});
+		} else {
+			ContentsAPI.update(content)
+				.then((response) => {
+					alert("컨텐츠가 정상적으로 업데이트 되었습니다.");
+				})
+				.catch((error) => {
+					alert("컨텐츠 업데이트에 실패했습니다.");
+				});
+		}
 	}
 
 	return (

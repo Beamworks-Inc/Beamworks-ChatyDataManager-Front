@@ -1,6 +1,6 @@
 type NoNullFields<I> = { [K in keyof I]: NonNullable<I[K]> };
 export interface Reference {
-	id: number
+	id: number;
 	title: string;
 	description: string;
 	link: URL | string;
@@ -11,12 +11,12 @@ export interface Folder {
 	children?: Folder[];
 }
 export interface RationaleDescription {
-	id: number;
+	id: number | null;
 	description: string;
 	link: string;
 }
 export interface Rationale {
-	id: number | null,
+	id: number | null;
 	description: RationaleDescription[];
 	url: string[];
 }
