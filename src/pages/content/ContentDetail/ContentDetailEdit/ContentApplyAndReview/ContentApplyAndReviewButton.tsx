@@ -5,9 +5,11 @@ import ContentsAPI from "../../../../../apis/content";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../../store";
 import { Content } from "../../../../../interfaces/Content.interface";
+import { useParams } from "react-router-dom";
 
 export function ContentApplyAndReviewButton() {
 	const [open, setOpen] = useState(false);
+	const { folderId, contentId } = useParams();
 	const content = useSelector(
 		(state: RootState) => state.ContentReducer.currentContent
 	) as Content;
@@ -48,14 +50,18 @@ export function ContentApplyAndReviewButton() {
 			>
 				apply
 			</Button>
-			<Button variant="contained" color="secondary" onClick={handleOpen}>
-				review
-			</Button>
-			<ReviewDialog
-				open={open}
-				handleOpen={handleOpen}
-				handleClose={handleClose}
-			/>
+			{contentId === "create" ? null : (
+				<>
+					<Button variant="contained" color="secondary" onClick={handleOpen}>
+						review
+					</Button>
+					<ReviewDialog
+						open={open}
+						handleOpen={handleOpen}
+						handleClose={handleClose}
+					/>
+				</>
+			)}
 		</Box>
 	);
 }

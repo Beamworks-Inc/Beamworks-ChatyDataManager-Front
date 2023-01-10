@@ -14,6 +14,16 @@ import CustomTreeView from "components/CustomTreeview";
 
 const ContentList = () => {
 	const navigate = useNavigate();
+	const { folderId } = useParams();
+
+	const handleCreateBtnClick = () => {
+		// 먼저 folderId가 있는지 확인해야한다.
+		if (folderId) {
+			navigate(`/content/${folderId}/create`);
+		} else {
+			alert("컨텐츠가 속할 폴더를 좌측 Content Category에서 선택해주세요.");
+		}
+	};
 
 	return (
 		<Grid container rowSpacing={4.5} columnSpacing={2.75}>
@@ -55,7 +65,7 @@ const ContentList = () => {
 						<Button
 							variant="contained"
 							color="secondary"
-							onClick={() => navigate("/create")}
+							onClick={handleCreateBtnClick}
 						>
 							create
 						</Button>

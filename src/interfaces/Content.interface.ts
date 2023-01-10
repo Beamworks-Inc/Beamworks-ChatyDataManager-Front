@@ -1,5 +1,6 @@
 type NoNullFields<I> = { [K in keyof I]: NonNullable<I[K]> };
 export interface Reference {
+	id: number
 	title: string;
 	description: string;
 	link: URL | string;
@@ -10,34 +11,37 @@ export interface Folder {
 	children?: Folder[];
 }
 export interface RationaleDescription {
+	id: number;
 	description: string;
-	link: URL | string;
+	link: string;
 }
 export interface Rationale {
-	file: (URL | string)[];
+	id: number | null,
 	description: RationaleDescription[];
+	url: string[];
 }
 export interface User {
-	id: string;
+	id: number;
 	name: string;
 	email: string;
 }
 export interface Review {
+	id: number;
 	reviewer: User;
-	reviewDate: Date;
+	reviewDate: string;
 	reviewComment: string;
 }
 export type ContentStatus = "DRAFT" | "REVIEW" | "APPROVED" | "REJECTED";
 export interface Content {
 	id: string | null;
-	folder: Folder | null;
+	folderId: number | null;
 	question: string;
 	answer: string;
 	reference: Reference[];
 	rationale: Rationale | null;
-	writeDate: Date | null;
+	writeDate: string | null;
 	writer: User | null;
-	keywords: string[];
+	keyword: string[];
 	review: Review | null;
 	status: ContentStatus | null;
 }

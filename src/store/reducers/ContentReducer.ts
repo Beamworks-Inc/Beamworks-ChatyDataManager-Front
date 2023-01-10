@@ -3,48 +3,32 @@ import {
 	ContentReducerState,
 	Content,
 	Reference,
-	RationaleDescription,
+	RationaleDescription, Rationale, User, Review, ContentStatus,
 } from "interfaces/Content.interface";
+
+const initialContent = {
+	id: null,
+	folderId: null,
+	question: "",
+	answer: "",
+	keyword: [],
+	reference: new Array(6).fill({ id: null, title: "", description: "", link: "" }),
+	rationale: {
+		id: null,
+		description: new Array(6).fill({ description: "", link: "" }),
+		url: new Array(6).fill(""),
+	},
+	writer: null,
+	writeDate: null,
+	review: null,
+	status: "DRAFT",
+} as Content
 
 // state
 const INIT_CONTENT_STATE: ContentReducerState = {
-	currentContent: {
-		id: "0",
-		folder: { id: 0, name: "응급처치", children: [] },
-		question: "",
-		answer: "",
-		keywords: [],
-		reference: new Array(6).fill({ title: "", description: "", link: "" }),
-		rationale: {
-			file: new Array(6).fill(""),
-			description: new Array(6).fill({ description: "", link: "" }),
-		},
-		writer: null,
-		writeDate: null,
-		review: null,
-		status: "DRAFT"
-	},
-	contentListState: [
-		{
-			id: "0",
-			folder: { id: 0, name: "init", children: [] },
-			question: "sample question",
-			answer: "sample answer",
-			reference: [],
-			rationale: {
-				file: [new URL("https://www.google.com")],
-				description: [
-					{ description: "init", link: new URL("https://www.google.com") },
-				],
-			},
-			writeDate: new Date(),
-			writer: null,
-			review: null,
-			status: "DRAFT",
-			keywords: [],
-		},
-	],
-	menuItems: {
+	currentContent: initialContent,
+	contentListState: [],
+	menuItems: { //
 		id: "0",
 		name: "응급1",
 		isEditMode: false,
@@ -94,6 +78,7 @@ export default function ContentReducer(
 		case TYPE.SET_CONTENT_LIST_STATE:
 			return { ...state, contentListState: action.payload };
 		case TYPE.SET_CURRENT_CONTENT:
+			console.log("이거설정해야지", action.payload);
 			return { ...state, currentContent: action.payload };
 		case TYPE.SET_CURRENT_CONTENT_REFERENCES:
 			return {

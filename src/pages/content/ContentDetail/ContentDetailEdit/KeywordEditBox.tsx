@@ -7,17 +7,17 @@ import { RootState } from "../../../../store";
 import React from "react";
 
 export function KeywordEditBox(props: { content: Content }) {
-	const dispatch = useDispatch();
 
-	const content = useSelector(
-		(state: RootState) => state.ContentReducer.currentContent
-	) as Content;
+	const {content} = props;
+	const keyword = useSelector((state: RootState) => state.ContentReducer.currentContent.keyword);
+
+	const dispatch = useDispatch();
 
 	const handleTextChangeForChip = (e: React.ChangeEvent<HTMLInputElement>) => {
 		dispatch(
 			ContentAction.setCurrentContent({
 				...content,
-				keywords: [...content.keywords].map((keyword, idx) => {
+				keyword: [...content.keyword].map((keyword, idx) => {
 					if (`keyword${idx}` === e.currentTarget.id) {
 						return e.currentTarget.value;
 					} else {
@@ -34,7 +34,7 @@ export function KeywordEditBox(props: { content: Content }) {
 			dispatch(
 				ContentAction.setCurrentContent({
 					...content,
-					keywords: [...content.keywords, newKeyword],
+					keyword: [...content.keyword, newKeyword],
 				})
 			);
 	};
@@ -45,7 +45,7 @@ export function KeywordEditBox(props: { content: Content }) {
 				Keywords
 			</Typography>
 			<Box sx={{ display: "flex", gap: 1 }}>
-				{props.content.keywords?.map((keyword: string, idx: number) => {
+				{content.keyword?.map((keyword: string, idx: number) => {
 					return (
 						<EditableChip
 							// key={idx}

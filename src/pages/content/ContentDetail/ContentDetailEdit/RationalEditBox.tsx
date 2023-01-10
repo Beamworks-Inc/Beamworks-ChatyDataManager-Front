@@ -8,28 +8,28 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store";
 
 export function RationalEditBox(props: { content: Content }) {
+
+	const {content} = props;
 	const dispatch = useDispatch();
 
-	const content = useSelector(
-		(state: RootState) => state.ContentReducer.currentContent
-	) as Content;
 	const handleImageListChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		dispatch(
 			ContentAction.setCurrentContent({
 				...content,
 				rationale: {
 					...content.rationale,
-					file: [...content.rationale.file].map((file, idx) => {
+					url: [...content.rationale.url].map((url, idx) => {
 						if (`file${idx}` === e.currentTarget.id) {
 							return e.currentTarget.value;
 						} else {
-							return file;
+							return url;
 						}
 					}),
 				},
 			})
 		);
 	};
+
 	return (
 		<Box
 			sx={{
@@ -43,7 +43,7 @@ export function RationalEditBox(props: { content: Content }) {
 				Rationale
 			</Typography>
 			<CustomImageList
-				files={props.content.rationale.file}
+				files={content.rationale.url}
 				onImageListChange={handleImageListChange}
 			/>
 			<RationaleDescDatagrid />

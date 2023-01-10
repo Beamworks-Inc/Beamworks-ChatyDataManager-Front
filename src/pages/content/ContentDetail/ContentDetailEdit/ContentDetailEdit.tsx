@@ -10,19 +10,15 @@ import { ReferenceEditBox } from "./ReferenceEditBox";
 import { RationalEditBox } from "./RationalEditBox";
 import { ContentAction } from "../../../../store/reducers/ContentReducer";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../../store";
 
 export function ContentDetailEdit(props: { content: Content }) {
 	const dispatch = useDispatch();
-	const content = useSelector(
-		(state: RootState) => state.ContentReducer.currentContent
-	) as Content;
 
 	const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const inputLabel = e.currentTarget.id;
 		dispatch(
 			ContentAction.setCurrentContent({
-				...content,
+				...props.content,
 				[inputLabel]: e.currentTarget.value,
 			})
 		);
@@ -37,7 +33,6 @@ export function ContentDetailEdit(props: { content: Content }) {
 				content={false}
 			>
 				<ContentApplyAndReviewButton />
-
 				<Box
 					sx={{
 						// height: 550,

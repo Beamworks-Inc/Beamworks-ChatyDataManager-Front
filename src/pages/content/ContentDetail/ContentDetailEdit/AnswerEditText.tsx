@@ -1,3 +1,4 @@
+import React from "react";
 import { Content } from "../../../../interfaces/Content.interface";
 import { Box, Typography } from "@mui/material";
 import EditableText from "../../../../components/EditableText";

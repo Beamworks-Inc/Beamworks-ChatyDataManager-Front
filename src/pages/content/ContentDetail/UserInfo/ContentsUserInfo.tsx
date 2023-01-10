@@ -4,13 +4,11 @@ import MainCard from "../../../../components/MainCard";
 import { WriterInfo } from "./WriterInfo";
 import { ReviewerInfo } from "./ReviewerInfo";
 
-export function ContentsUserInfo(props: {
-	content: Content;
-	onClick: () => void;
-}) {
+export function ContentsUserInfo(props: { content: Content }) {
 	// @ts-ignore
 	return (
 		<Grid item xs={12} sm={3}>
+			{/* @ts-ignore */}
 			<MainCard
 				sx={{ position: "relative" }}
 				title={"Reviewer Section"}
@@ -29,7 +27,7 @@ export function ContentsUserInfo(props: {
 				>
 					<WriterInfo content={props.content} />
 					<Divider />
-					<ReviewerInfo content={props.content} onClick={props.onClick} />
+					<ReviewerInfo content={props.content} />
 				</Box>
 			</MainCard>
 		</Grid>
