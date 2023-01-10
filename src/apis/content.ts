@@ -1,8 +1,7 @@
-import api from "./index";
 import { Content } from "interfaces/Content.interface";
 import axios, { AxiosResponse } from "axios";
 
-interface ContentsAPI {
+interface IContentsAPI {
 	findAllByFolderId: (folderId: number) => Promise<AxiosResponse<Content[]>>;
 	findByContentId: (contentId: number) => Promise<AxiosResponse<Content>>;
 	create: (content: Content) => Promise<AxiosResponse<null>>;
@@ -10,6 +9,7 @@ interface ContentsAPI {
 	delete: (contentId: number) => Promise<AxiosResponse<null>>;
 }
 
+const URI='/api/v1/contents'
 /**
  * axios 를 이용하여 서버에 Contents 관련 요청을 보내는 함수들을 정의합니다.
  * @example
@@ -19,27 +19,27 @@ interface ContentsAPI {
  *  .error((err)=>{console.log(err)})
  * ```
  */
-const ContentsAPI: ContentsAPI = {
+const ContentsAPI: IContentsAPI = {
 	/**
 	 * 폴더에 포함된 모든 컨텐츠를 가져옵니다.
 	 * @param folderId
 	 */
 	findAllByFolderId: (folderId: number) =>
-		api.get(`/findAllByFolderId/${folderId}`),
+		axios.get(`${URI}/findAllByFolderId/${folderId}`),
 	findByContentId: (contentId: number) =>
-		api.get(`/findByContentId/${contentId}`),
+		axios.get(`${URI}/findByContentsId/7`),
 	/**
 	 * Content 생성시에는 folderId 를 반드시 포함해야 하며, contentId 는 null 로 설정되어야 합니다.
 	 * Review 와 같이 생성시에 데이터를 가지고 있지 않은 경우 null 로 설정합니다.
 	 * @param content
 	 */
-	create: (content: Content) => api.post(`/content`, content),
+	create: (content: Content) => axios.post(`${URI}`, content),
 	/**
 	 * Content 수정시에는 contentId 를 반드시 포함해야 합니다.
 	 * @param content
 	 */
-	update: (content: Content) => api.put(`/content`, content),
-	delete: (contentId: number) => api.delete(`/content/${contentId}`),
+	update: (content: Content) => axios.put(`${URI}`, content),
+	delete: (contentId: number) => axios.delete(`${URI}/${contentId}`),
 };
 
 export default ContentsAPI;
@@ -118,7 +118,7 @@ export const apiGetContentListByFolderName = async (
 
 	const url = `/content/${folderName}`;
 	try {
-		const response = await api.get<Content[]>(url);
+		const response = await axios.get<Content[]>(url);
 		return response.data;
 	} catch (error: any) {
 		const { status, statusText } = error.response;
