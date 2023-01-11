@@ -1,3 +1,5 @@
+import {Role} from "../apis/Auth";
+
 type NoNullFields<I> = { [K in keyof I]: NonNullable<I[K]> };
 export interface Reference {
 	id: number;
@@ -24,6 +26,7 @@ export interface User {
 	id: number;
 	name: string;
 	email: string;
+	role: Role |null;
 }
 export interface Review {
 	id: number;
