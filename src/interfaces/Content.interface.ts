@@ -6,7 +6,7 @@ export interface Reference {
 	link: URL | string;
 }
 export interface Folder {
-	id: number;
+	id: number | null;
 	name: string;
 	children?: Folder[];
 }
@@ -46,14 +46,16 @@ export interface Content {
 	status: ContentStatus | null;
 }
 export interface ContentReducerState {
-	currentContent: Content;
+	currentContent: Content | null;
 	contentListState: Content[];
-	menuItems: Treeitem;
+	menuItems: Treeitem | null;
 }
 export interface Treeitem {
-	id: string;
+	id: number;
+	parentId: number;
 	name: string;
 	isEditMode: boolean;
+	isCategory: boolean;
 	children: Treeitem[];
 }
 export interface ContentForGrid {

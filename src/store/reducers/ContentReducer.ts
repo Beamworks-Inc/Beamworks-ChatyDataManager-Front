@@ -8,6 +8,7 @@ import {
 	User,
 	Review,
 	ContentStatus,
+	Treeitem,
 } from "interfaces/Content.interface";
 
 const initialContent = {
@@ -37,13 +38,7 @@ const initialContent = {
 const INIT_CONTENT_STATE: ContentReducerState = {
 	currentContent: initialContent,
 	contentListState: [],
-	menuItems: {
-		//
-		id: "0",
-		name: "응급1",
-		isEditMode: false,
-		children: [],
-	},
+	menuItems: null,
 };
 
 // action type
@@ -55,6 +50,7 @@ const TYPE = {
 		`${HEADER}/SET_CURRENT_CONTENT_REFERENCES` as const,
 	SET_CURRENT_CONTENT_RATIONALE_DESCRIPTIONS:
 		`${HEADER}/SET_CURRENT_CONTENT_RATIONALE_DESCRIPTIONS` as const,
+	SET_MENU_ITEMS: `${HEADER}/SET_MENU_ITEMS` as const,
 };
 
 // action creator
@@ -76,6 +72,10 @@ export const ContentAction = {
 	setContentList: (contentList: Content[]) => ({
 		type: TYPE.SET_CONTENT_LIST_STATE,
 		payload: contentList,
+	}),
+	setMenuItems: (menuItems: Treeitem | null) => ({
+		type: TYPE.SET_MENU_ITEMS,
+		payload: menuItems,
 	}),
 };
 
@@ -111,6 +111,8 @@ export default function ContentReducer(
 					},
 				},
 			};
+		case TYPE.SET_MENU_ITEMS:
+			return { ...state, menuItems: action.payload };
 		default:
 			return state;
 	}
