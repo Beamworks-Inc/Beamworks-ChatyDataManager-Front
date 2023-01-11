@@ -6,88 +6,88 @@ import MainLayout from "../layout/MainLayout";
 
 // render - sample page
 const SamplePage = Loadable(
-  lazy(() => import("../pages/extra-pages/SamplePage"))
+	lazy(() => import("../pages/extra-pages/SamplePage"))
 );
 
 // render - dashboard
 const DashboardDefault = Loadable(
-  lazy(() => import("../pages/dashboard/dashboard"))
+	lazy(() => import("../pages/dashboard/dashboard"))
 );
 
 // render - utilities
 const Typography = Loadable(
-  lazy(() => import("../pages/components-overview/Typography"))
+	lazy(() => import("../pages/components-overview/Typography"))
 );
 const Color = Loadable(
-  lazy(() => import("../pages/components-overview/Color"))
+	lazy(() => import("../pages/components-overview/Color"))
 );
 const Shadow = Loadable(
-  lazy(() => import("../pages/components-overview/Shadow"))
+	lazy(() => import("../pages/components-overview/Shadow"))
 );
 const AntIcons = Loadable(
-  lazy(() => import("../pages/components-overview/AntIcons"))
+	lazy(() => import("../pages/components-overview/AntIcons"))
 );
 
 // render - beamworks pages
 const ContentList = Loadable(
-  lazy(() => import("../pages/content/ContentList"))
+	lazy(() => import("../pages/content/ContentList"))
 );
 const ContentDetail = Loadable(
-  lazy(() => import("../pages/content/ContentDetail"))
+	lazy(() => import("../pages/content/ContentDetail/ContentDetail"))
 );
 
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
-  path: "/",
-  element: <MainLayout />,
-  children: [
-    {
-      path: "/",
-      element: <DashboardDefault />,
-    },
-    {
-      path: "color",
-      element: <Color />,
-    },
-    {
-      path: "dashboard",
-      children: [
-        {
-          path: "default",
-          element: <DashboardDefault />,
-        },
-      ],
-    },
-    {
-      path: "sample-page",
-      element: <SamplePage />,
-    },
-    {
-      path: "shadow",
-      element: <Shadow />,
-    },
-    {
-      path: "typography",
-      element: <Typography />,
-    },
-    {
-      path: "icons/ant",
-      element: <AntIcons />,
-    },
-    {
-      path: "content",
-      element: <ContentList />,
-    },
-    {
-      path: "content/:ffolderName",
-      element: <ContentList />,
-    },
-    {
-      path: "content/:folderName/:contentId",
-      element: <ContentDetail />,
-    },
-  ],
+	path: "/",
+	element: <MainLayout />,
+	children: [
+		{
+			path: "/",
+			element: <DashboardDefault />,
+		},
+		{
+			path: "color",
+			element: <Color />,
+		},
+		{
+			path: "dashboard",
+			children: [
+				{
+					path: "default",
+					element: <DashboardDefault />,
+				},
+			],
+		},
+		{
+			path: "sample-page",
+			element: <SamplePage />,
+		},
+		{
+			path: "shadow",
+			element: <Shadow />,
+		},
+		{
+			path: "typography",
+			element: <Typography />,
+		},
+		{
+			path: "icons/ant",
+			element: <AntIcons />,
+		},
+		{
+			path: "content",
+			element: <ContentList />,
+		},
+		{
+			path: "content/:folderId",
+			element: <ContentList />,
+		},
+		{
+			path: "content/:folderId/:contentId",
+			element: <ContentDetail />,
+		},
+	],
 };
 
 export default MainRoutes;
