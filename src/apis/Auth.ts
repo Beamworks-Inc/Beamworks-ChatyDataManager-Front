@@ -9,7 +9,7 @@ export interface IAuthAPI{
 const URI = "/api/v1/user";
 
 const AuthAPI: IAuthAPI = {
-    getUserInfo:()=>axios.get<User>(`${URI}/info`),
+    getUserInfo:()=>axios.get<User>(`${URI}ㄹ럍`),
     updateUserRole:(role : Role)=>axios.post(`${URI}/${role}`),
 }
 
