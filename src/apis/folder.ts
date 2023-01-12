@@ -1,6 +1,5 @@
-import api from "./index";
 import { Folder } from "interfaces/Content.interface";
-import { AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 
 interface FoldersAPI {
 	findAllRoot: () => Promise<AxiosResponse<Folder[]>>;
@@ -24,17 +23,17 @@ const FoldersAPI: FoldersAPI = {
 	/**
 	 * 모든 루트 폴더를 가져옵니다.
 	 */
-	findAllRoot: () => api.get(`${URI}`),
-	findById: (folderId: number) => api.get(`${URI}/${folderId}`),
-	create: (folder: Folder) => api.post(`${URI}`, folder),
+	findAllRoot: () => axios.get(`${URI}`),
+	findById: (folderId: number) => axios.get(`${URI}/${folderId}`),
+	create: (folder: Folder) => axios.post(`${URI}`, folder),
 	/**
 	 * @param folderId : 변경할 폴더의 아이디 입니다.
 	 * @param folder :  변경할 폴더의 내용입니다.
 	 */
 	update: (folderId: number, folder: Folder) =>
-		api.put(`${URI}/${folderId}`, folder),
-	delete: (folderId: number) => api.delete(`${URI}/${folderId}`),
-	deleteAll: () => api.delete(`${URI}`),
+		axios.put(`${URI}/${folderId}`, folder),
+	delete: (folderId: number) => axios.delete(`${URI}/${folderId}`),
+	deleteAll: () => axios.delete(`${URI}`),
 };
 
 export default FoldersAPI;

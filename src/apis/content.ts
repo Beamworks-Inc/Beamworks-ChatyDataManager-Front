@@ -27,7 +27,7 @@ const ContentsAPI: IContentsAPI = {
 	findAllByFolderId: (folderId: number) =>
 		axios.get(`${URI}/findAllByFolderId/${folderId}`),
 	findByContentId: (contentId: number) =>
-		axios.get(`${URI}/findByContentsId/7`), //REMEMBER: 7 to var
+		axios.get(`${URI}/findByContentsId/${contentId}`), //REMEMBER: 7 to var
 	/**
 	 * Content 생성시에는 folderId 를 반드시 포함해야 하며, contentId 는 null 로 설정되어야 합니다.
 	 * Review 와 같이 생성시에 데이터를 가지고 있지 않은 경우 null 로 설정합니다.

@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { TreeItem, TreeView } from "@mui/lab";
 import { Box, Button } from "@mui/material";
 
 // modules
 import { useNavigate, useParams } from "react-router-dom";
-import { Treeitem } from "interfaces/Content.interface";
+import { Treeitem, Folder } from "interfaces/Content.interface";
+import EditModeComponent from "./EditModeComponent";
+import NormalModeComponent from "./NormalModeComponent";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
@@ -14,180 +16,90 @@ import { ContentAction } from "store/reducers/ContentReducer";
 // icons
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import EditIcon from "@mui/icons-material/Edit";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
-import CheckIcon from "@mui/icons-material/Check";
-import CloseIcon from "@mui/icons-material/Close";
-import { LeftSquareTwoTone } from "@ant-design/icons";
 
-// styles
+// apis
+import FoldersAPI from "apis/folder";
 
-const divStyle = {
-	display: "inline-block",
-	width: "100%",
-	position: "relative",
-} as React.CSSProperties;
+const RecursiveTreeitem = (root: Treeitem, item: Treeitem) => (
+	<div
+		style={{
+			display: "inline-block",
+			width: "100%",
+			position: "relative",
+		}}
+	>
+		{item.isEditMode ? (
+			<EditModeComponent root={root} item={item} />
+		) : (
+			<NormalModeComponent root={root} item={item} />
+		)}
+		<TreeItem
+			style={{ position: "relative" }}
+			nodeId={item.nodeId}
+			label={item.name}
+		>
+			{item.children.map((item) => {
+				return RecursiveTreeitem(root, item);
+			})}
+		</TreeItem>
+	</div>
+);
+
+const presetMenuitem = (root: Folder) => {
+	let nodeId = 1;
+	let category = [] as string[];
+	const traverseFolder = (root: Folder, parentId) => {
+		const newRoot = {
+			...root,
+			isEditMode: false,
+			isCategory: false,
+			parentId: parentId,
+			nodeId: nodeId.toString(),
+		} as Treeitem;
+		if (newRoot.children.length > 0) {
+			newRoot.isCategory = true;
+			category.push(newRoot.nodeId);
+			newRoot.children = newRoot.children.map((child) => {
+				nodeId += 1;
+				return traverseFolder(child, newRoot.id);
+			});
+		}
+		return newRoot;
+	};
+	const newRoot = traverseFolder(root, root.id);
+	console.log(newRoot);
+	return { newRoot, category };
+};
 
 export default function CustomTreeview() {
-	const updateTreeRoot = (root: Treeitem, item: Treeitem) => {
-		if (root.id === item.id) {
-			return item;
-		} else {
-			if (root.children) {
-				root.children = root.children.map((child) => {
-					return updateTreeRoot(child, item);
-				});
-			}
-			return root;
-		}
-	};
-
-	const NormalModeComponent = ({
-		root,
-		item,
-	}: {
-		root: Treeitem;
-		item: Treeitem;
-	}) => {
-		const divStyle = {
-			position: "absolute",
-			right: "0px",
-			top: "0px",
-			zIndex: "2",
-		} as React.CSSProperties;
-
-		const handleEditButtonClick = (event: React.MouseEvent) => {
-			event.stopPropagation();
-			item.isEditMode = true;
-			root = updateTreeRoot(root, item);
-			dispatch(ContentAction.setMenuItems({ ...root }));
-		};
-
-		return (
-			<div style={divStyle}>
-				<EditIcon onClick={handleEditButtonClick} fontSize="small" />
-				{/* <AddIcon
-					onClick={handleAddButtonClick}
-					fontSize="small"
-				/>
-				<RemoveIcon
-					onClick={handleRemoveButtonClick}
-					fontSize="small"
-				/> */}
-			</div>
-		);
-	};
-
-	const EditModeComponent = ({
-		root,
-		item,
-	}: {
-		root: Treeitem;
-		item: Treeitem;
-	}) => {
-		const inputStyle = {
-			width: "60%",
-			height: "20px",
-			border: "0px",
-			position: "absolute",
-			top: "1px",
-			left: "30px",
-			zIndex: "1",
-		} as React.CSSProperties;
-
-		const divStyle = {
-			position: "absolute",
-			right: "0px",
-			top: "0px",
-			zIndex: "2",
-		} as React.CSSProperties;
-
-		const [value, setValue] = React.useState(item.name);
-
-		const handleOnChangeInput = (
-			event: React.ChangeEvent<HTMLInputElement>
-		) => {
-			setValue(event.target.value);
-		};
-
-		const handleCheckIconClick = (event: React.MouseEvent) => {
-			event.stopPropagation();
-			item.isEditMode = false;
-			root = updateTreeRoot(root, item);
-			dispatch(ContentAction.setMenuItems({ ...root }));
-		};
-
-		const handleCloseIconClick = (event: React.MouseEvent) => {
-			event.stopPropagation();
-			item.isEditMode = false;
-			// no update
-			dispatch(ContentAction.setMenuItems({ ...root }));
-		};
-
-		return (
-			<>
-				<input
-					style={inputStyle}
-					value={value}
-					onChange={handleOnChangeInput}
-					type="text"
-				/>
-				<div style={divStyle}>
-					<CheckIcon onClick={handleCheckIconClick} fontSize="small" />
-					<CloseIcon onClick={handleCloseIconClick} fontSize="small" />
-				</div>
-			</>
-		);
-	};
-
-	/**
-	 * 이 함수는 재귀적으로 TreeItem을 만들어주는 함수입니다.
-	 * TreeItem의 nodeId로는 순차적으로 증가하는 count를 사용하기 때문에, count를 Wrapper함수의 지역변수로 선언해줍니다.
-	 * Wrapper가 없다면(count를 해당 파일의 전역변수로 선언하는경우) : count가 계속 증가하면서, 새로고침할때마다 TreeItem의 nodeId가 누적되어 오류가 발생합니다.
-	 */
-	const RecursiveTreeViewWrapper = (root: Treeitem, item: Treeitem) => {
-		let nodeId = 1;
-		const RecursiveTreeView = (root: Treeitem, item: Treeitem) => (
-			// TODO: TreeItem에 CustomComponent를 넣는 방법을 찾아야함.
-			<div style={divStyle}>
-				{item.isEditMode ? (
-					<EditModeComponent root={root} item={item} />
-				) : (
-					<NormalModeComponent root={root} item={item} />
-				)}
-				<TreeItem
-					style={{ position: "relative" }}
-					nodeId={nodeId.toString()}
-					label={item.name}
-				>
-					{item.children.map((item) => {
-						nodeId += 1;
-						return RecursiveTreeView(root, item);
-					})}
-				</TreeItem>
-			</div>
-		);
-		return RecursiveTreeView(root, item);
-	};
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const items = useSelector(
 		(state: RootState) => state.ContentReducer.menuItems
 	);
 
-	const dispatch = useDispatch();
-	const navigate = useNavigate();
+	const [categoryNodes, setCategoryNodes] = React.useState([] as string[]);
+	const [expanded, setExpanded] = React.useState([] as string[]);
+	const [selected, setSelected] = React.useState([] as string[]);
 
-	// TODO: categoryNodes를 동적으로 만들도록 수정해야함.
-	const categoryNodes = ["2", "3", "5"];
-	const [expanded, setExpanded] = React.useState(categoryNodes);
-	const [selected, setSelected] = React.useState([]);
+	useEffect(() => {
+		FoldersAPI.findAllRoot()
+			.then((res) => {
+				dispatch(ContentAction.setMenuItems(null));
+				return;
+				const [root] = res.data;
+				const { newRoot, category } = presetMenuitem(root);
+				dispatch(ContentAction.setMenuItems(newRoot));
+				setExpanded(category);
+				setCategoryNodes(category);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}, []);
 
-	const handleToggle = (event, nodeIds) => {
-		setExpanded(nodeIds);
-	};
-
-	const handleSelect = (event: React.MouseEvent, nodeIds: any) => {
+	const handleSelect = (event: React.SyntheticEvent, nodeIds: any) => {
 		setSelected(nodeIds);
 		const selectedItemId = nodeIds[0];
 		const folderName = event.currentTarget.textContent; // target 으로 할 시 에러
@@ -195,10 +107,32 @@ export default function CustomTreeview() {
 			navigate(`/content/${folderName}`);
 	};
 
+	const handleToggle = (event: React.SyntheticEvent, nodeIds: string[]) => {
+		setExpanded(nodeIds);
+	};
+
 	const handleExpandClick = () => {
 		setExpanded((oldExpanded) =>
 			oldExpanded.length === 0 ? categoryNodes : []
 		);
+	};
+
+	const handleClickAddFolder = () => {
+		const folderName = prompt("enter folder name");
+		const newFolder = {
+			id: null,
+			name: folderName,
+			children: [],
+		} as Folder;
+		alert("add new folder!");
+		// FoldersAPI.create(newFolder)
+		// 	.then((res) => {
+		// 		console.log(res);
+		// 		dispatch(ContentAction.setMenuItems(res.data));
+		// 	})
+		// 	.catch((err) => {
+		// 		console.log(err);
+		// 	});
 	};
 
 	return (
@@ -211,9 +145,11 @@ export default function CustomTreeview() {
 			}}
 		>
 			<Box sx={{ display: "flex", justifyContent: "center" }}>
-				<Button onClick={handleExpandClick}>
-					{expanded.length === 0 ? "Expand all" : "Collapse all"}
-				</Button>
+				{items && (
+					<Button onClick={handleExpandClick}>
+						{expanded.length === 0 ? "Expand all" : "Collapse all"}
+					</Button>
+				)}
 			</Box>
 			<TreeView
 				aria-label="controlled"
@@ -225,8 +161,21 @@ export default function CustomTreeview() {
 				onNodeSelect={handleSelect}
 				// multiSelect
 			>
-				{/* make TreeItem by traversing TreeItem */}
-				{items && RecursiveTreeViewWrapper(items, items)}
+				{items ? (
+					RecursiveTreeitem(items, items)
+				) : (
+					<div
+						style={{ width: "100%", display: "flex", justifyContent: "center" }}
+					>
+						<Button
+							sx={{ width: "80%" }}
+							variant="contained"
+							onClick={handleClickAddFolder}
+						>
+							add folder
+						</Button>
+					</div>
+				)}
 			</TreeView>
 		</Box>
 	);
