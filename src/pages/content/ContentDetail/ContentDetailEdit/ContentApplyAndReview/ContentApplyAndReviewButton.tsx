@@ -5,10 +5,11 @@ import ContentsAPI from "../../../../../apis/content";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../../store";
 import { Content } from "../../../../../interfaces/Content.interface";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 
 export function ContentApplyAndReviewButton() {
 	const [open, setOpen] = useState(false);
+	const navigate = useNavigate();
 	const { folderId, contentId } = useParams();
 	const content = useSelector(
 		(state: RootState) => state.ContentReducer.currentContent
@@ -36,7 +37,7 @@ export function ContentApplyAndReviewButton() {
 			ContentsAPI.create(newContent)
 				.then((response) => {
 					alert("컨텐츠가 정상적으로 생성 되었습니다.");
-					// TOMORROW: response.data 에서 id 를 가져와서 해당 id로 reload
+					navigate(`/content/${folderId}`);
 				})
 				.catch((error) => {
 					alert("컨텐츠 생성에 실패했습니다.");

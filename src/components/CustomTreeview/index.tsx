@@ -25,7 +25,7 @@ import { AxiosError, AxiosResponse } from "axios";
 const presetMenuitem = (root: Folder) => {
 	let nodeId = 1;
 	let category = [] as string[];
-	const traverseFolder = (root: Folder, parentId: number) => {
+	const traverseFolder = (root: Folder, parentId: number | null) => {
 		const newRoot = {
 			...root,
 			isEditMode: false,
@@ -34,7 +34,7 @@ const presetMenuitem = (root: Folder) => {
 		} as Treeitem;
 		if (newRoot.children.length > 0) {
 			newRoot.isCategory = true;
-			category.push(nodeId);
+			category.push(String(nodeId));
 			newRoot.children = newRoot.children.map((child) => {
 				nodeId += 1;
 				return traverseFolder(child, newRoot.id);

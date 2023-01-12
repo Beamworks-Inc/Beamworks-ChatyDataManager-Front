@@ -6,11 +6,11 @@ import { CircularProgress, Grid } from "@mui/material";
 // project import
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
-import { ContentAction } from "store/reducers/ContentReducer";
+import { ContentAction, initialContent } from "store/reducers/ContentReducer";
 import { Content } from "interfaces/Content.interface";
 import { ContentsUserInfo } from "./UserInfo/ContentsUserInfo";
 import { ContentDetailEdit } from "./ContentDetailEdit/ContentDetailEdit";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import ProgressView from "./ProgressView";
 import ContentsAPI from "../../../apis/content";
 import { AxiosError, AxiosResponse } from "axios";
@@ -20,12 +20,14 @@ import { AxiosError, AxiosResponse } from "axios";
 const ContentDetail = () => {
 	const { contentId } = useParams();
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const [isLoadingComplete, setLoadingState] = useState(false);
 
 	useEffect(() => {
 		if (typeof contentId === "string") {
 			if (contentId === "create") {
+				dispatch(ContentAction.setCurrentContent(initialContent));
 				setLoadingState(true);
 			} else {
 				const id = parseInt(contentId);
@@ -41,6 +43,7 @@ const ContentDetail = () => {
 						alert(
 							`컨텐츠를 로드하는데 실패했습니다. contentId : ${contentId}, error : ${error}`
 						);
+						navigate(-1);
 					});
 			}
 		}

@@ -25,7 +25,7 @@ const editTreeNode = (root: Treeitem, item: Treeitem) => {
 };
 
 const appendTreeNode = (root: Treeitem, item: Treeitem, nodeName: string) => {
-	if (root.id === item.parentId) {
+	if (root.id === item.id) {
 		root.children.push({
 			id: null,
 			parentId: root.id,
@@ -73,10 +73,12 @@ const NormalModeComponent = ({ root, item }: any) => {
 		if (nodeName === null) return; // 취소 버튼 눌렀을때
 		if (nodeName === "") nodeName = "new content"; // 아무것도 입력없이 확인 눌렀을때
 		root = appendTreeNode(root, item, nodeName);
+		console.log("bef", root);
 		FoldersAPI.update(root.id, root)
 			.then((response: AxiosResponse) => {
 				const folder = response.data;
 				const updatedTreeitem = fromFolderToTreeitem(folder, folder.id);
+				console.log("aft", updatedTreeitem);
 				dispatch(ContentAction.setMenuItems(updatedTreeitem));
 			})
 			.catch((error: AxiosError) => {
