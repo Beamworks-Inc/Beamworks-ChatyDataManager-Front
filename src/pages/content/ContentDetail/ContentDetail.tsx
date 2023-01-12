@@ -13,6 +13,7 @@ import { ContentDetailEdit } from "./ContentDetailEdit/ContentDetailEdit";
 import { useParams } from "react-router-dom";
 import ProgressView from "./ProgressView";
 import ContentsAPI from "../../../apis/content";
+import { AxiosError, AxiosResponse } from "axios";
 
 // ==============================|| Content Detail Page ||============================== //
 
@@ -32,15 +33,14 @@ const ContentDetail = () => {
 					alert(`잘못된 contentId 입니다. content Id : ${contentId}`);
 				}
 				ContentsAPI.findByContentId(id)
-					.then((response) => {
+					.then((response: AxiosResponse) => {
 						dispatch(ContentAction.setCurrentContent(response.data));
 						setLoadingState(true);
 					})
-					.catch((error) => {
+					.catch((error: AxiosError) => {
 						alert(
 							`컨텐츠를 로드하는데 실패했습니다. contentId : ${contentId}, error : ${error}`
 						);
-						console.log(error);
 					});
 			}
 		}

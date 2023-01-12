@@ -7,8 +7,9 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { Treeitem } from "interfaces/Content.interface";
 import React from "react";
-import axios from "axios";
 import FoldersAPI from "apis/folder";
+import { AxiosError, AxiosResponse, ResponseType } from "axios";
+import { fromFolderToTreeitem } from "./util";
 
 const editTreeNode = (root: Treeitem, item: Treeitem) => {
 	if (root.id === item.id) {
@@ -68,10 +69,19 @@ const NormalModeComponent = ({ root, item }: any) => {
 
 	const handleAddButtonClick = (event: React.MouseEvent) => {
 		event.stopPropagation();
-		const nodeName = prompt("Enter name..") || "new node";
+		let nodeName = prompt("Enter name..");
+		if (nodeName === null) return; // 취소 버튼 눌렀을때
+		if (nodeName === "") nodeName = "new content"; // 아무것도 입력없이 확인 눌렀을때
 		root = appendTreeNode(root, item, nodeName);
-		dispatch(ContentAction.setMenuItems({ ...root }));
-		FoldersAPI.update(root.id, root);
+		FoldersAPI.update(root.id, root)
+			.then((response: AxiosResponse) => {
+				const folder = response.data;
+				const updatedTreeitem = fromFolderToTreeitem(folder, folder.id);
+				dispatch(ContentAction.setMenuItems(updatedTreeitem));
+			})
+			.catch((error: AxiosError) => {
+				alert(`add error, code: (${error.code})`);
+			});
 	};
 
 	const handleRemoveButtonClick = (event: React.MouseEvent) => {
@@ -79,8 +89,15 @@ const NormalModeComponent = ({ root, item }: any) => {
 		const answer = confirm("delete it?");
 		if (!answer) return;
 		root = deleteTreeNode(root, item);
-		dispatch(ContentAction.setMenuItems({ ...root }));
-		FoldersAPI.update(root.id, root);
+		FoldersAPI.update(root.id, root)
+			.then((response: AxiosResponse) => {
+				const folder = response.data;
+				const updatedTreeitem = fromFolderToTreeitem(folder, folder.id);
+				dispatch(ContentAction.setMenuItems(updatedTreeitem));
+			})
+			.catch((error: AxiosError) => {
+				alert(`remove error, code: (${error.code})`);
+			});
 	};
 
 	return (

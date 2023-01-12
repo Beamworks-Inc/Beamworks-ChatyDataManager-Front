@@ -19,46 +19,22 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 // apis
 import FoldersAPI from "apis/folder";
-
-const RecursiveTreeitem = (root: Treeitem, item: Treeitem) => (
-	<div
-		style={{
-			display: "inline-block",
-			width: "100%",
-			position: "relative",
-		}}
-	>
-		{item.isEditMode ? (
-			<EditModeComponent root={root} item={item} />
-		) : (
-			<NormalModeComponent root={root} item={item} />
-		)}
-		<TreeItem
-			style={{ position: "relative" }}
-			nodeId={item.nodeId}
-			label={item.name}
-		>
-			{item.children.map((item) => {
-				return RecursiveTreeitem(root, item);
-			})}
-		</TreeItem>
-	</div>
-);
+import FolderAddButton from "./FolderAddButton";
+import { AxiosError, AxiosResponse } from "axios";
 
 const presetMenuitem = (root: Folder) => {
 	let nodeId = 1;
 	let category = [] as string[];
-	const traverseFolder = (root: Folder, parentId) => {
+	const traverseFolder = (root: Folder, parentId: number) => {
 		const newRoot = {
 			...root,
 			isEditMode: false,
 			isCategory: false,
 			parentId: parentId,
-			nodeId: nodeId.toString(),
 		} as Treeitem;
 		if (newRoot.children.length > 0) {
 			newRoot.isCategory = true;
-			category.push(newRoot.nodeId);
+			category.push(nodeId);
 			newRoot.children = newRoot.children.map((child) => {
 				nodeId += 1;
 				return traverseFolder(child, newRoot.id);
@@ -67,7 +43,6 @@ const presetMenuitem = (root: Folder) => {
 		return newRoot;
 	};
 	const newRoot = traverseFolder(root, root.id);
-	console.log(newRoot);
 	return { newRoot, category };
 };
 
@@ -85,26 +60,20 @@ export default function CustomTreeview() {
 
 	useEffect(() => {
 		FoldersAPI.findAllRoot()
-			.then((res) => {
-				dispatch(ContentAction.setMenuItems(null));
-				return;
-				const [root] = res.data;
+			.then((res: AxiosResponse) => {
+				const [root] = res.data; // 가장 첫번재 루트만 받아온다.
 				const { newRoot, category } = presetMenuitem(root);
 				dispatch(ContentAction.setMenuItems(newRoot));
 				setExpanded(category);
 				setCategoryNodes(category);
 			})
-			.catch((err) => {
-				console.log(err);
+			.catch((err: AxiosError) => {
+				alert(`find all root error, code:(${err.code})`);
 			});
 	}, []);
 
 	const handleSelect = (event: React.SyntheticEvent, nodeIds: any) => {
 		setSelected(nodeIds);
-		const selectedItemId = nodeIds[0];
-		const folderName = event.currentTarget.textContent; // target 으로 할 시 에러
-		if (!categoryNodes.includes(selectedItemId))
-			navigate(`/content/${folderName}`);
 	};
 
 	const handleToggle = (event: React.SyntheticEvent, nodeIds: string[]) => {
@@ -117,22 +86,40 @@ export default function CustomTreeview() {
 		);
 	};
 
-	const handleClickAddFolder = () => {
-		const folderName = prompt("enter folder name");
-		const newFolder = {
-			id: null,
-			name: folderName,
-			children: [],
-		} as Folder;
-		alert("add new folder!");
-		// FoldersAPI.create(newFolder)
-		// 	.then((res) => {
-		// 		console.log(res);
-		// 		dispatch(ContentAction.setMenuItems(res.data));
-		// 	})
-		// 	.catch((err) => {
-		// 		console.log(err);
-		// 	});
+	const RecursiveTreeitems = (root: Treeitem, item: Treeitem) => {
+		let nodeId = 1;
+		const renderTree = (root: Treeitem, item: Treeitem) => {
+			return (
+				<div
+					style={{
+						display: "inline-block",
+						width: "100%",
+						position: "relative",
+					}}
+				>
+					{item.isEditMode ? (
+						<EditModeComponent root={root} item={item} />
+					) : (
+						<NormalModeComponent root={root} item={item} />
+					)}
+					<TreeItem
+						onClick={(e: React.MouseEvent) => {
+							e.stopPropagation();
+							if (item.isCategory === false) navigate(`/content/${item.id}`);
+						}}
+						style={{ position: "relative" }}
+						nodeId={nodeId.toString()}
+						label={item.name}
+					>
+						{item.children.map((item) => {
+							nodeId += 1;
+							return renderTree(root, item);
+						})}
+					</TreeItem>
+				</div>
+			);
+		};
+		return renderTree(root, item);
 	};
 
 	return (
@@ -151,6 +138,7 @@ export default function CustomTreeview() {
 					</Button>
 				)}
 			</Box>
+
 			<TreeView
 				aria-label="controlled"
 				defaultCollapseIcon={<ExpandMoreIcon />}
@@ -161,21 +149,8 @@ export default function CustomTreeview() {
 				onNodeSelect={handleSelect}
 				// multiSelect
 			>
-				{items ? (
-					RecursiveTreeitem(items, items)
-				) : (
-					<div
-						style={{ width: "100%", display: "flex", justifyContent: "center" }}
-					>
-						<Button
-							sx={{ width: "80%" }}
-							variant="contained"
-							onClick={handleClickAddFolder}
-						>
-							add folder
-						</Button>
-					</div>
-				)}
+				<FolderAddButton />
+				{items && RecursiveTreeitems(items, items)}
 			</TreeView>
 		</Box>
 	);

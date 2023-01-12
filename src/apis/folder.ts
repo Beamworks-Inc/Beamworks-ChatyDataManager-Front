@@ -4,8 +4,8 @@ import axios, { AxiosResponse } from "axios";
 interface FoldersAPI {
 	findAllRoot: () => Promise<AxiosResponse<Folder[]>>;
 	findById: (folderId: number) => Promise<AxiosResponse<Folder>>;
-	update: (folderId: number, folder: Folder) => Promise<AxiosResponse<null>>;
-	create: (folder: Folder) => Promise<AxiosResponse<null>>;
+	update: (folderId: number, folder: Folder) => Promise<AxiosResponse<Folder>>;
+	create: (folder: Folder) => Promise<AxiosResponse<Folder>>;
 	delete: (folderId: number) => Promise<AxiosResponse<null>>;
 	deleteAll: () => Promise<AxiosResponse<null>>;
 }

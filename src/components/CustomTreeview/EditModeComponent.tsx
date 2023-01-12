@@ -1,10 +1,12 @@
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import FoldersAPI from "apis/folder";
-import { Treeitem } from "interfaces/Content.interface";
+import { AxiosError, AxiosResponse } from "axios";
+import { Folder, Treeitem } from "interfaces/Content.interface";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { ContentAction } from "store/reducers/ContentReducer";
+import { fromFolderToTreeitem } from "./util";
 
 const updateTreeRoot = (root: Treeitem, item: Treeitem) => {
 	if (root.id === item.id) {
@@ -33,13 +35,19 @@ const EditModeComponent = ({ root, item }: any) => {
 		item.isEditMode = false;
 		item.name = value;
 		root = updateTreeRoot(root, item);
-		dispatch(ContentAction.setMenuItems({ ...root }));
+		FoldersAPI.update(root.id, root)
+			.then((response: AxiosResponse) => {
+				const treeitems = fromFolderToTreeitem(response.data, response.data.id);
+				dispatch(ContentAction.setMenuItems(treeitems));
+			})
+			.catch((error: AxiosError) => {
+				alert(`edit error, code: (${error.code})`);
+			});
 	};
 
 	const handleCloseIconClick = (event: React.MouseEvent) => {
 		event.stopPropagation();
 		item.isEditMode = false;
-		// no update
 		dispatch(ContentAction.setMenuItems({ ...root }));
 	};
 
