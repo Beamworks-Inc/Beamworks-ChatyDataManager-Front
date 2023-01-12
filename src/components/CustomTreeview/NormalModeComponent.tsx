@@ -109,9 +109,21 @@ const NormalModeComponent = ({ root, item }: any) => {
 				zIndex: "2",
 			}}
 		>
-			<EditIcon onClick={handleEditButtonClick} fontSize="small" />
-			<AddIcon onClick={handleAddButtonClick} fontSize="small" />
-			<RemoveIcon onClick={handleRemoveButtonClick} fontSize="small" />
+			<EditIcon
+				sx={{ "&:hover": { color: "black" }, cursor: "pointer" }}
+				onClick={handleEditButtonClick}
+				fontSize="small"
+			/>
+			<AddIcon
+				sx={{ "&:hover": { color: "black" }, cursor: "pointer" }}
+				onClick={handleAddButtonClick}
+				fontSize="small"
+			/>
+			<RemoveIcon
+				sx={{ "&:hover": { color: "black" }, cursor: "pointer" }}
+				onClick={handleRemoveButtonClick}
+				fontSize="small"
+			/>
 		</div>
 	);
 };

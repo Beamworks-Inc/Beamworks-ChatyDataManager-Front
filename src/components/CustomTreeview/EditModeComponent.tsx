@@ -75,8 +75,16 @@ const EditModeComponent = ({ root, item }: any) => {
 					zIndex: "2",
 				}}
 			>
-				<CheckIcon onClick={handleCheckIconClick} fontSize="small" />
-				<CloseIcon onClick={handleCloseIconClick} fontSize="small" />
+				<CheckIcon
+					sx={{ "&:hover": { color: "black" }, cursor: "pointer" }}
+					onClick={handleCheckIconClick}
+					fontSize="small"
+				/>
+				<CloseIcon
+					sx={{ "&:hover": { color: "black" }, cursor: "pointer" }}
+					onClick={handleCloseIconClick}
+					fontSize="small"
+				/>
 			</div>
 		</>
 	);
