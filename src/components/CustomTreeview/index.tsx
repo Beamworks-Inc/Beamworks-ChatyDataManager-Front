@@ -149,8 +149,7 @@ export default function CustomTreeview() {
 				onNodeSelect={handleSelect}
 				// multiSelect
 			>
-				<FolderAddButton />
-				{items && RecursiveTreeitems(items, items)}
+				{items ? RecursiveTreeitems(items, items) : <FolderAddButton />}
 			</TreeView>
 		</Box>
 	);
