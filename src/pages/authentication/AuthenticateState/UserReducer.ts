@@ -3,7 +3,7 @@ import {Role} from "../../../apis/Auth";
 
 const initUser: User={
     id: 0,
-    name: "",
+    name: "사용자",
     email: "",
     role: null
 }
@@ -33,7 +33,7 @@ export default function UserReducer(
         case TYPE.SET_USER:
             return action.payload
         case TYPE.SET_USER_ROLE:
-            return {...state, role : action.type}
+            return {...state, role : action.payload}
         default:
             return state
     }
