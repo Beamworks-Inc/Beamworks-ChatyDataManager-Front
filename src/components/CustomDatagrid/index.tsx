@@ -5,7 +5,8 @@ import {
 	GridToolbarQuickFilter,
 	GridLinkOperator,
 } from "@mui/x-data-grid";
-import { apiGetContentListByFolderName } from "apis/content";
+import ContentsAPI, { apiGetContentListByFolderName } from "apis/content";
+import { AxiosError, AxiosResponse } from "axios";
 import { Content, ContentForGrid } from "interfaces/Content.interface";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -145,15 +146,19 @@ function fromContentToRow(contents: Content[]): ContentForGrid[] {
 const CustomDatagrid = () => {
 	const dispatch = useDispatch();
 	const location = useLocation();
-	const { folderName } = useParams();
+	const { folderId } = useParams();
 
 	useEffect(() => {
 		// folderName에 따라 서버로부터 컨텐츠리스트를 받아 업데이트합니다.
-		(async () => {
-			const contentList = await apiGetContentListByFolderName(folderName, true);
-			dispatch(ContentAction.setContentList(contentList));
-		})();
-		// check if url parameter is changed
+		if (folderId === undefined) return;
+		ContentsAPI.findAllByFolderId(Number(folderId))
+			.then((response: AxiosResponse) => {
+				const contentList = response.data as Content[];
+				dispatch(ContentAction.setContentList(contentList));
+			})
+			.catch((error: AxiosError) =>
+				alert(`컨텐츠 리스트 불러오기 에러, code:(${error.code})`)
+			);
 	}, [location]);
 
 	const rows = fromContentToRow(
