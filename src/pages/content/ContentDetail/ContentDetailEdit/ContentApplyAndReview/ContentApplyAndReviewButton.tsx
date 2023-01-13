@@ -76,7 +76,7 @@ export function ContentApplyAndReviewButton() {
 			>
 				apply
 			</Button>
-			{contentId === "create" && userRole == "REVIEWER" ? null : (
+			{contentId !== "create" && userRole == "REVIEWER" ? (
 				<>
 					<Button variant="contained" color="secondary" onClick={handleOpen}>
 						review
@@ -87,7 +87,7 @@ export function ContentApplyAndReviewButton() {
 						handleClose={handleClose}
 					/>
 				</>
-			)}
+			) : null}
 		</Box>
 	);
 }
