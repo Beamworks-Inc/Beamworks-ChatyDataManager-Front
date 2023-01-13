@@ -5,10 +5,11 @@ import { ContentAction } from "store/reducers/ContentReducer";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { Treeitem } from "interfaces/Content.interface";
+import { Folder, Treeitem } from "interfaces/Content.interface";
 import React from "react";
-import axios from "axios";
 import FoldersAPI from "apis/folder";
+import { AxiosError, AxiosResponse, ResponseType } from "axios";
+import { fromFolderToTreeitem } from "./util";
 
 const editTreeNode = (root: Treeitem, item: Treeitem) => {
 	if (root.id === item.id) {
@@ -24,7 +25,7 @@ const editTreeNode = (root: Treeitem, item: Treeitem) => {
 };
 
 const appendTreeNode = (root: Treeitem, item: Treeitem, nodeName: string) => {
-	if (root.id === item.parentId) {
+	if (root.id === item.id) {
 		root.children.push({
 			id: null,
 			parentId: root.id,
@@ -68,19 +69,35 @@ const NormalModeComponent = ({ root, item }: any) => {
 
 	const handleAddButtonClick = (event: React.MouseEvent) => {
 		event.stopPropagation();
-		const nodeName = prompt("Enter name..") || "new node";
-		root = appendTreeNode(root, item, nodeName);
-		dispatch(ContentAction.setMenuItems({ ...root }));
-		FoldersAPI.update(root.id, root);
+		let nodeName = prompt("Enter name..");
+		if (nodeName === null) return; // 취소 버튼 눌렀을때
+		if (nodeName === "") nodeName = "new content"; // 아무것도 입력없이 확인 눌렀을때
+		// root = appendTreeNode(root, item, nodeName);
+		FoldersAPI.addChild(item.id, nodeName)
+			.then((response: AxiosResponse) => {
+				const folder = response.data;
+				const updatedTreeitem = fromFolderToTreeitem(folder, folder.id);
+				dispatch(ContentAction.setMenuItems(updatedTreeitem));
+			})
+			.catch((error: AxiosError) => {
+				alert(`add error, code: (${error.code})`);
+			});
 	};
 
 	const handleRemoveButtonClick = (event: React.MouseEvent) => {
 		event.stopPropagation();
 		const answer = confirm("delete it?");
 		if (!answer) return;
-		root = deleteTreeNode(root, item);
-		dispatch(ContentAction.setMenuItems({ ...root }));
-		FoldersAPI.update(root.id, root);
+		FoldersAPI.delete(item.id)
+			.then((response: AxiosResponse<Folder>) => {
+				const folder = response.data || null;
+				const updatedTreeitem =
+					folder !== null ? fromFolderToTreeitem(folder, folder.id) : null;
+				dispatch(ContentAction.setMenuItems(updatedTreeitem));
+			})
+			.catch((error: AxiosError) => {
+				alert(`remove error, code: (${error})`);
+			});
 	};
 
 	return (
@@ -92,9 +109,21 @@ const NormalModeComponent = ({ root, item }: any) => {
 				zIndex: "2",
 			}}
 		>
-			<EditIcon onClick={handleEditButtonClick} fontSize="small" />
-			<AddIcon onClick={handleAddButtonClick} fontSize="small" />
-			<RemoveIcon onClick={handleRemoveButtonClick} fontSize="small" />
+			<EditIcon
+				sx={{ "&:hover": { color: "black" }, cursor: "pointer" }}
+				onClick={handleEditButtonClick}
+				fontSize="small"
+			/>
+			<AddIcon
+				sx={{ "&:hover": { color: "black" }, cursor: "pointer" }}
+				onClick={handleAddButtonClick}
+				fontSize="small"
+			/>
+			<RemoveIcon
+				sx={{ "&:hover": { color: "black" }, cursor: "pointer" }}
+				onClick={handleRemoveButtonClick}
+				fontSize="small"
+			/>
 		</div>
 	);
 };

@@ -11,7 +11,7 @@ import {
 	Treeitem,
 } from "interfaces/Content.interface";
 
-const initialContent = {
+export const initialContent = {
 	id: null,
 	folderId: null,
 	question: "",

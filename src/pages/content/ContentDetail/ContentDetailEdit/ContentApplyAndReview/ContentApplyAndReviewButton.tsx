@@ -1,18 +1,24 @@
 import { Box, Button } from "@mui/material";
 import { ReviewDialog } from "./ReviewDialog";
-import React, { useState } from "react";
+import { useState } from "react";
 import ContentsAPI from "../../../../../apis/content";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../../../../store";
 import { Content } from "../../../../../interfaces/Content.interface";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { Role } from "../../../../../apis/Auth";
 
 export function ContentApplyAndReviewButton() {
 	const [open, setOpen] = useState(false);
+	const navigate = useNavigate();
 	const { folderId, contentId } = useParams();
 	const content = useSelector(
 		(state: RootState) => state.ContentReducer.currentContent
 	) as Content;
+
+	const userRole = useSelector(
+		(state: RootState) => state.ContentReducer.role
+	) as Role;
 
 	function handleOpen() {
 		setOpen(true);
@@ -36,7 +42,7 @@ export function ContentApplyAndReviewButton() {
 			ContentsAPI.create(newContent)
 				.then((response) => {
 					alert("컨텐츠가 정상적으로 생성 되었습니다.");
-					// TOMORROW: response.data 에서 id 를 가져와서 해당 id로 reload
+					navigate(`/content/${folderId}`);
 				})
 				.catch((error) => {
 					alert("컨텐츠 생성에 실패했습니다.");
@@ -70,7 +76,7 @@ export function ContentApplyAndReviewButton() {
 			>
 				apply
 			</Button>
-			{contentId === "create" ? null : (
+			{contentId !== "create" && userRole == "REVIEWER" ? (
 				<>
 					<Button variant="contained" color="secondary" onClick={handleOpen}>
 						review
@@ -81,7 +87,7 @@ export function ContentApplyAndReviewButton() {
 						handleClose={handleClose}
 					/>
 				</>
-			)}
+			) : null}
 		</Box>
 	);
 }
