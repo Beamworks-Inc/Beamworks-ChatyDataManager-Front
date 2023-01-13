@@ -44,7 +44,7 @@ const MainRoutes = {
 	children: [
 		{
 			path: "/",
-			element: <DashboardDefault />,
+			element: <ContentList />,
 		},
 		{
 			path: "color",
@@ -55,7 +55,7 @@ const MainRoutes = {
 			children: [
 				{
 					path: "default",
-					element: <DashboardDefault />,
+					element: <ContentList />,
 				},
 			],
 		},

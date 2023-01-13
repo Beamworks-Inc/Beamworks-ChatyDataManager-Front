@@ -19,6 +19,10 @@ const DrawerHeader = ({ open }) => {
 			<Stack direction="row" spacing={1} alignItems="center">
 				<Logo />
 				<Chip
+					style={{
+						// translate to the left 1rem
+						transform: "translateX(-1rem) translateY(0.2rem)",
+					}}
 					label={import.meta.env.VITE_REACT_APP_VERSION}
 					size="small"
 					sx={{

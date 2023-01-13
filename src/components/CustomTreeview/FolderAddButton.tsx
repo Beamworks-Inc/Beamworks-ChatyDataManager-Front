@@ -33,7 +33,7 @@ const FolderAddButton = () => {
 				width: "100%",
 				display: "flex",
 				justifyContent: "center",
-				marginBottom: "1rem",
+				margin: "1rem 0",
 			}}
 		>
 			<Button

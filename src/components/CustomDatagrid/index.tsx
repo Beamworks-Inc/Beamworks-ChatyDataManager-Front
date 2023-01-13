@@ -41,7 +41,6 @@ const columns = [
 	// valueGetter: (params) => `${params.row.firstName || ''} ${params.row.lastName || ''}`
 	// 2. 마우스 오버시 툴팁을 표시할 수 있습니다.
 	// description: 'This column has a value getter and is not sortable.',
-
 	{ field: "id", headerName: "ID", width: 90, sortable: false },
 	{
 		field: "question",
@@ -101,7 +100,7 @@ const columns = [
 		type: "date",
 		width: 110,
 		editable: false,
-		renderCell: (params) => {
+		renderCell: (params: any) => {
 			return <div>{params.row.writeDate.slice(0, 10)}</div>;
 		},
 	},
@@ -115,6 +114,13 @@ const columns = [
 		field: "reviewDate",
 		headerName: "review date",
 		type: "date",
+		width: 110,
+		editable: false,
+	},
+	{
+		field: "status",
+		headerName: "status",
+		type: "string",
 		width: 110,
 		editable: false,
 	},
@@ -142,6 +148,7 @@ function fromContentToRow(contents: Content[]): ContentForGrid[] {
 			writeDate: content?.writeDate?.toString() || "No data",
 			reviewer: content?.review?.reviewer?.name || "No data",
 			reviewDate: content?.review?.reviewDate?.toString() || "No data",
+			status: content?.status || "No data",
 		};
 	});
 }
