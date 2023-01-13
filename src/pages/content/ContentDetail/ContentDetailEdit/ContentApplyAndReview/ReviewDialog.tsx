@@ -67,30 +67,32 @@ export function ReviewDialog(props: {
 		(state: RootState) => state.ContentReducer.currentContent
 	) as Content;
 	const user = useSelector(
-		(state: RootState) => state.UserReducer.user
+		(state: RootState) => state.UserReducer
 	) as User;
 	const [comment, setComment] = useState<string>("");
 	const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setComment(e.target.value);
 	};
-
-	function setReviewerReducer() {
+	function setReviewerReducer(reviewStatus : ContentStatus) {
+		const newContent = {
+			...content,
+			status : reviewStatus,
+			review: {
+				id: 0,
+				reviewer: user,
+				reviewDate: new Date(),
+				reviewComment: comment,
+			},
+		}
 		dispatch(
-			ContentAction.setCurrentContent({
-				...content,
-				review: {
-					id: 0,
-					reviewer: user,
-					reviewDate: new Date(),
-					reviewComment: comment,
-				},
-			})
+			ContentAction.setCurrentContent(newContent)
 		);
+		return newContent
 	}
 
-	function updateReview() {
-		setReviewerReducer();
-		ContentsAPI.update(content)
+	function updateReview(reviewStatus : ContentStatus) {
+		const newContent=setReviewerReducer(reviewStatus);
+		ContentsAPI.update(newContent)
 			.then((response) => {
 				alert("리뷰가 성공적으로 업데이트 되었습니다.");
 			})
@@ -102,22 +104,12 @@ export function ReviewDialog(props: {
 			});
 	}
 
-	function setReviewState(newStatus: ContentStatus) {
-		dispatch(
-			ContentAction.setCurrentContent({
-				...content,
-				status: newStatus,
-			})
-		);
-	}
 
 	function rejectReview() {
-		setReviewState("REJECTED");
-		updateReview();
+		updateReview("REJECTED");
 	}
 	function approveReview() {
-		setReviewState("APPROVED");
-		updateReview();
+		updateReview("APPROVED");
 	}
 	return (
 		<TransitionsModal

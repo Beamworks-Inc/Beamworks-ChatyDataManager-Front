@@ -3,6 +3,7 @@ import { Box, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 
 export function WriterInfo(props: { content: Content }) {
+	const newDate=new Date(props.content?.writeDate as unknown as string)
 	return (
 		<>
 			{/* Reviewer Section */}
@@ -20,7 +21,7 @@ export function WriterInfo(props: { content: Content }) {
 					Write Date
 				</Typography>
 				<Typography variant="body1" sx={{}}>
-					{props.content?.writeDate || "Not created yet"}
+					{newDate.toLocaleString() || "Not created yet"}
 				</Typography>
 			</Box>
 		</>
