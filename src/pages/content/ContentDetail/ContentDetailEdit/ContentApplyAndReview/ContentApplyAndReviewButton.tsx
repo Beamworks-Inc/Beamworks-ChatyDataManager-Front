@@ -1,11 +1,12 @@
 import { Box, Button } from "@mui/material";
 import { ReviewDialog } from "./ReviewDialog";
-import React, { useState } from "react";
+import { useState } from "react";
 import ContentsAPI from "../../../../../apis/content";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../../../../store";
 import { Content } from "../../../../../interfaces/Content.interface";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { Role } from "../../../../../apis/Auth";
 
 export function ContentApplyAndReviewButton() {
 	const [open, setOpen] = useState(false);
@@ -14,6 +15,10 @@ export function ContentApplyAndReviewButton() {
 	const content = useSelector(
 		(state: RootState) => state.ContentReducer.currentContent
 	) as Content;
+
+	const userRole = useSelector(
+		(state: RootState) => state.ContentReducer.role
+	) as Role;
 
 	function handleOpen() {
 		setOpen(true);
@@ -71,7 +76,7 @@ export function ContentApplyAndReviewButton() {
 			>
 				apply
 			</Button>
-			{contentId === "create" ? null : (
+			{contentId === "create" && userRole == "REVIEWER" ? null : (
 				<>
 					<Button variant="contained" color="secondary" onClick={handleOpen}>
 						review
