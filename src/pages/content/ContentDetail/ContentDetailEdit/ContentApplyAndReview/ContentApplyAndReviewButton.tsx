@@ -1,24 +1,21 @@
 import { Box, Button } from "@mui/material";
 import { ReviewDialog } from "./ReviewDialog";
 import { useState } from "react";
-import ContentsAPI from "../../../../../apis/content";
+import ContentsAPI from "apis/content";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../../store";
-import { Content } from "../../../../../interfaces/Content.interface";
+import { Content } from "interfaces/Content.interface";
+import { RootState } from "store";
 import { useNavigate, useParams } from "react-router-dom";
-import { Role } from "../../../../../apis/Auth";
+import { User } from "interfaces/Content.interface";
 
 export function ContentApplyAndReviewButton() {
 	const [open, setOpen] = useState(false);
 	const navigate = useNavigate();
 	const { folderId, contentId } = useParams();
+	const user = useSelector((state: RootState) => state.UserReducer) as User;
 	const content = useSelector(
 		(state: RootState) => state.ContentReducer.currentContent
 	) as Content;
-
-	const userRole = useSelector(
-		(state: RootState) => state.ContentReducer.role
-	) as Role;
 
 	function handleOpen() {
 		setOpen(true);
@@ -29,8 +26,6 @@ export function ContentApplyAndReviewButton() {
 	}
 
 	function applyContentDetail() {
-		const user = useSelector((state: RootState) => state.UserReducer);
-
 		if (typeof folderId !== "string") {
 			alert("folderId가 잘못되었습니다.");
 			return;
@@ -78,7 +73,7 @@ export function ContentApplyAndReviewButton() {
 			>
 				apply
 			</Button>
-			{contentId !== "create" && userRole == "REVIEWER" ? (
+			{contentId !== "create" && user.role == "REVIEWER" ? (
 				<>
 					<Button variant="contained" color="secondary" onClick={handleOpen}>
 						review
