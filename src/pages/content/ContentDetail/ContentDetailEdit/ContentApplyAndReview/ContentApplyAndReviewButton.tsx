@@ -29,6 +29,8 @@ export function ContentApplyAndReviewButton() {
 	}
 
 	function applyContentDetail() {
+		const user = useSelector((state: RootState) => state.UserReducer);
+
 		if (typeof folderId !== "string") {
 			alert("folderId가 잘못되었습니다.");
 			return;
@@ -37,7 +39,7 @@ export function ContentApplyAndReviewButton() {
 		if (contentId === "create") {
 			const newContent = JSON.parse(JSON.stringify(content));
 			newContent.folderId = folderId;
-			newContent.writer = { id: 1 }; // content.writer = {} // get writer from local storage
+			newContent.writer = user; // content.writer = {} // get writer from local storage
 			newContent.writeDate = new Date().toISOString();
 			ContentsAPI.create(newContent)
 				.then((response) => {
