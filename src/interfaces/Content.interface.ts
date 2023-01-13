@@ -31,7 +31,7 @@ export interface User {
 export interface Review {
 	id: number;
 	reviewer: User;
-	reviewDate: string;
+	reviewDate: Date;
 	reviewComment: string;
 }
 export type ContentStatus = "DRAFT" | "REVIEW" | "APPROVED" | "REJECTED";
