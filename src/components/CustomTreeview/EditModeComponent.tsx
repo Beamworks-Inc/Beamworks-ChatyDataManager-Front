@@ -32,10 +32,10 @@ const EditModeComponent = ({ root, item }: any) => {
 	const handleCheckIconClick = (event: React.MouseEvent) => {
 		event.stopPropagation();
 		if (!confirm("Are you sure to update this item?")) return;
-		item.isEditMode = false;
-		item.name = value;
-		root = updateTreeRoot(root, item);
-		FoldersAPI.update(root.id, root)
+		// item.isEditMode = false;
+		// item.name = value;
+		// root = updateTreeRoot(root, item);
+		FoldersAPI.changeName(item.id, value)
 			.then((response: AxiosResponse) => {
 				const treeitems = fromFolderToTreeitem(response.data, response.data.id);
 				dispatch(ContentAction.setMenuItems(treeitems));

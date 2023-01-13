@@ -5,14 +5,14 @@ import {
 	GridToolbarQuickFilter,
 	GridLinkOperator,
 } from "@mui/x-data-grid";
-import ContentsAPI, { apiGetContentListByFolderName } from "apis/content";
+import ContentsAPI from "apis/content";
 import { AxiosError, AxiosResponse } from "axios";
 import { Content, ContentForGrid } from "interfaces/Content.interface";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { RootState } from "store";
-import ContentReducer, { ContentAction } from "store/reducers/ContentReducer";
+import { ContentAction } from "store/reducers/ContentReducer";
 
 function QuickSearchToolbar() {
 	// TODO: make it search by date too
@@ -48,14 +48,14 @@ const columns = [
 		headerName: "Question",
 		width: 200,
 		sortable: false,
-		editable: true,
+		editable: false,
 	},
 	{
 		field: "answer",
 		headerName: "Answer",
 		width: 200,
 		sortable: false,
-		editable: true,
+		editable: false,
 	},
 	{
 		field: "reference",
@@ -101,6 +101,9 @@ const columns = [
 		type: "date",
 		width: 110,
 		editable: false,
+		renderCell: (params) => {
+			return <div>{params.row.writeDate.slice(0, 10)}</div>;
+		},
 	},
 	{
 		field: "reviewer",
@@ -145,6 +148,7 @@ function fromContentToRow(contents: Content[]): ContentForGrid[] {
 
 const CustomDatagrid = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const location = useLocation();
 	const { folderId } = useParams();
 
@@ -167,6 +171,10 @@ const CustomDatagrid = () => {
 
 	return (
 		<DataGrid
+			onRowClick={(e: any) => {
+				const contentId = e.id;
+				navigate(`/content/${folderId}/${contentId}`);
+			}}
 			initialState={{
 				filter: {
 					filterModel: {

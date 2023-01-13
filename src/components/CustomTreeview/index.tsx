@@ -23,6 +23,8 @@ import FolderAddButton from "./FolderAddButton";
 import { AxiosError, AxiosResponse } from "axios";
 
 const presetMenuitem = (root: Folder) => {
+	if (root === undefined) return { newRoot: null, category: [] };
+
 	let nodeId = 1;
 	let category = [] as string[];
 	const traverseFolder = (root: Folder, parentId: number | null) => {
@@ -68,7 +70,7 @@ export default function CustomTreeview() {
 				setCategoryNodes(category);
 			})
 			.catch((err: AxiosError) => {
-				alert(`find all root error, code:(${err.code})`);
+				alert(`find all root error, code:(${err})`);
 			});
 	}, []);
 

@@ -1,9 +1,6 @@
 import { Folder, Treeitem } from "interfaces/Content.interface";
 
-export const fromFolderToTreeitem = (
-	root: Folder,
-	parentId: number | null | undefined
-) => {
+export const fromFolderToTreeitem = (root: Folder, parentId: number | null) => {
 	const newRoot = {
 		...root,
 		isEditMode: false,

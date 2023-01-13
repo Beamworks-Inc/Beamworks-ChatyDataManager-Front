@@ -5,7 +5,7 @@ import { ContentAction } from "store/reducers/ContentReducer";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { Treeitem } from "interfaces/Content.interface";
+import { Folder, Treeitem } from "interfaces/Content.interface";
 import React from "react";
 import FoldersAPI from "apis/folder";
 import { AxiosError, AxiosResponse, ResponseType } from "axios";
@@ -72,13 +72,11 @@ const NormalModeComponent = ({ root, item }: any) => {
 		let nodeName = prompt("Enter name..");
 		if (nodeName === null) return; // 취소 버튼 눌렀을때
 		if (nodeName === "") nodeName = "new content"; // 아무것도 입력없이 확인 눌렀을때
-		root = appendTreeNode(root, item, nodeName);
-		console.log("bef", root);
-		FoldersAPI.update(root.id, root)
+		// root = appendTreeNode(root, item, nodeName);
+		FoldersAPI.addChild(item.id, nodeName)
 			.then((response: AxiosResponse) => {
 				const folder = response.data;
 				const updatedTreeitem = fromFolderToTreeitem(folder, folder.id);
-				console.log("aft", updatedTreeitem);
 				dispatch(ContentAction.setMenuItems(updatedTreeitem));
 			})
 			.catch((error: AxiosError) => {
@@ -90,15 +88,15 @@ const NormalModeComponent = ({ root, item }: any) => {
 		event.stopPropagation();
 		const answer = confirm("delete it?");
 		if (!answer) return;
-		root = deleteTreeNode(root, item);
-		FoldersAPI.update(root.id, root)
-			.then((response: AxiosResponse) => {
-				const folder = response.data;
-				const updatedTreeitem = fromFolderToTreeitem(folder, folder.id);
+		FoldersAPI.delete(item.id)
+			.then((response: AxiosResponse<Folder>) => {
+				const folder = response.data || null;
+				const updatedTreeitem =
+					folder !== null ? fromFolderToTreeitem(folder, folder.id) : null;
 				dispatch(ContentAction.setMenuItems(updatedTreeitem));
 			})
 			.catch((error: AxiosError) => {
-				alert(`remove error, code: (${error.code})`);
+				alert(`remove error, code: (${error})`);
 			});
 	};
 
