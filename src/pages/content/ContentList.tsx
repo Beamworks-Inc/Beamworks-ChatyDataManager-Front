@@ -9,6 +9,7 @@ import CustomDatagrid from "components/CustomDatagrid";
 
 import { useNavigate, useParams } from "react-router-dom";
 import CustomTreeView from "components/CustomTreeview";
+import ContentUpdateButton from "./ContentsUpdate/ContentUpdateButton";
 
 // ==============================|| Content List Page ||============================== //
 
@@ -69,6 +70,7 @@ const ContentList = () => {
 						>
 							create
 						</Button>
+						<ContentUpdateButton/>
 					</Box>
 					<Typography variant="body2" sx={{ color: "text.secondary" }}>
 						<Box sx={{ height: 550, width: "100%" }}>

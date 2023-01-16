@@ -7,6 +7,7 @@ interface IContentsAPI {
 	create: (content: Content) => Promise<AxiosResponse<null>>;
 	update: (content: Content) => Promise<AxiosResponse<null>>;
 	delete: (contentId: number) => Promise<AxiosResponse<null>>;
+	updateApprovedContentsToChatBot: () => Promise<AxiosResponse<null>>;
 }
 
 const URI = "/api/v1/contents";
@@ -40,6 +41,7 @@ const ContentsAPI: IContentsAPI = {
 	 */
 	update: (content: Content) => axios.put(`${URI}`, content),
 	delete: (contentId: number) => axios.delete(`${URI}/${contentId}`),
+	updateApprovedContentsToChatBot : () => axios.post(`${URI}/updateApprovedDataToChatBot`)
 };
 
 export default ContentsAPI;
