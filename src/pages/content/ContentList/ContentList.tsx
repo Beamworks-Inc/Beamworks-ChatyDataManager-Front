@@ -1,5 +1,15 @@
 // material-ui
-import { Box, Button, Grid, Typography } from "@mui/material";
+import {
+	Box,
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
+	DialogTitle,
+	Grid,
+	Typography,
+} from "@mui/material";
 
 // project import
 import MainCard from "components/MainCard";
@@ -9,23 +19,12 @@ import CustomDatagrid from "components/CustomDatagrid";
 
 import { useNavigate, useParams } from "react-router-dom";
 import CustomTreeView from "components/CustomTreeview";
-import ContentUpdateButton from "./ContentsUpdate/ContentUpdateButton";
+import ContentChatbotUpdateButton from "./ContentsUpdate/ContentChatbotUpdateButton";
+import ContentCreateTypeDialogButton from "./ContentCreateTypeDialogButton";
 
 // ==============================|| Content List Page ||============================== //
 
 const ContentList = () => {
-	const navigate = useNavigate();
-	const { folderId } = useParams();
-
-	const handleCreateBtnClick = () => {
-		// 먼저 folderId가 있는지 확인해야한다.
-		if (folderId) {
-			navigate(`/content/${folderId}/create`);
-		} else {
-			alert("컨텐츠가 속할 폴더를 좌측 Content Category에서 선택해주세요.");
-		}
-	};
-
 	return (
 		<Grid container rowSpacing={4.5} columnSpacing={2.75}>
 			<Grid item xs={12} sm={2}>
@@ -61,16 +60,11 @@ const ContentList = () => {
 							position: "absolute",
 							top: 12,
 							right: 12,
+							gap: 1,
 						}}
 					>
-						<Button
-							variant="contained"
-							color="secondary"
-							onClick={handleCreateBtnClick}
-						>
-							create
-						</Button>
-						<ContentUpdateButton/>
+						<ContentCreateTypeDialogButton />
+						<ContentChatbotUpdateButton />
 					</Box>
 					<Typography variant="body2" sx={{ color: "text.secondary" }}>
 						<Box sx={{ height: 550, width: "100%" }}>

@@ -1,4 +1,5 @@
 import { lazy } from "react";
+import { Navigate } from "react-router-dom";
 
 // project import
 import Loadable from "../components/Loadable";
@@ -30,7 +31,7 @@ const AntIcons = Loadable(
 
 // render - beamworks pages
 const ContentList = Loadable(
-	lazy(() => import("../pages/content/ContentList"))
+	lazy(() => import("../pages/content/ContentList/ContentList"))
 );
 const ContentDetail = Loadable(
 	lazy(() => import("../pages/content/ContentDetail/ContentDetail"))
@@ -44,7 +45,7 @@ const MainRoutes = {
 	children: [
 		{
 			path: "/",
-			element: <ContentList />,
+			element: <Navigate to="/content" />,
 		},
 		{
 			path: "color",
@@ -55,7 +56,7 @@ const MainRoutes = {
 			children: [
 				{
 					path: "default",
-					element: <ContentList />,
+					element: <Navigate to="/content" />,
 				},
 			],
 		},
