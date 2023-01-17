@@ -1,42 +1,77 @@
+import {Role} from "../apis/Auth";
+
+type NoNullFields<I> = { [K in keyof I]: NonNullable<I[K]> };
 export interface Reference {
-  title: string;
-  description: string;
-  link: URL;
+	id: number;
+	title: string;
+	description: string;
+	link: URL | string;
 }
 export interface Folder {
-  name: string;
-  children?: Folder[];
+	id: number | null;
+	name: string;
+	children?: Folder[];
 }
 export interface RationaleDescription {
-  description: string;
-  link: URL;
+	id: number | null;
+	description: string;
+	link: string;
 }
 export interface Rationale {
-  file: URL[];
-  description: RationaleDescription[];
+	id: number | null;
+	description: RationaleDescription[];
+	url: string[];
 }
 export interface User {
-  name: string;
+	id: number;
+	name: string;
+	email: string;
+	role: Role |null;
 }
 export interface Review {
-  reviewer: User;
-  reviewDate: Date;
-  reviewComment: string;
+	id: number;
+	reviewer: User;
+	reviewDate: Date;
+	reviewComment: string;
 }
-type ContentState = "draft" | "review" | "approved" | "rejected";
+export type ContentStatus = "DRAFT" | "REVIEW" | "APPROVED" | "REJECTED";
 export interface Content {
-  id: string;
-  folder: Folder;
-  question: string;
-  answer: string;
-  reference: Reference[];
-  rationale: Rationale;
-  writeDate: Date;
-  writer: User;
-  keywords: string[];
-  review: Review;
-  state : ContentState;
+	id: string | null;
+	folderId: number | null;
+	question: string;
+	answer: string;
+	reference: Reference[];
+	rationale: Rationale | null;
+	writeDate: string | null;
+	writer: User | null;
+	keyword: string[];
+	reviewerKeyword : string;
+	review: Review | null;
+	status: ContentStatus | null;
 }
-export interface IContentState {
-  contentListState: Content[];
+export interface ContentReducerState {
+	currentContent: Content | null;
+	contentListState: Content[];
+	menuItems: Treeitem | null;
+}
+export interface Treeitem {
+	id: number;
+	parentId: number;
+	name: string;
+	isEditMode: boolean;
+	isCategory: boolean;
+	children: Treeitem[];
+}
+export interface ContentForGrid {
+	id: string;
+	question: string;
+	answer: string;
+	reference: string;
+	referenceLink: string;
+	rationale: string;
+	rationaleLink: string;
+	writer: string;
+	writeDate: string;
+	reviewer: string;
+	reviewDate: string;
 }
