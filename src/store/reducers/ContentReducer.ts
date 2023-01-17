@@ -37,6 +37,7 @@ const INIT_CONTENT_STATE: ContentReducerState = {
 	contentListState: [],
 	menuItems: null,
 	keywordCategories: [],
+	selectedCategoryList : [],
 };
 
 // action type
@@ -50,6 +51,7 @@ const TYPE = {
 		`${HEADER}/SET_CURRENT_CONTENT_RATIONALE_DESCRIPTIONS` as const,
 	SET_MENU_ITEMS: `${HEADER}/SET_MENU_ITEMS` as const,
 	SET_KEYWORD_CATEGORIES: `${HEADER}/SET_KEYWORD_CATEGORIES` as const,
+	SET_SELECTED_CATEGORY_LIST: `${HEADER}/SET_SELECTED_CATEGORY_LIST` as const,
 };
 
 // action creator
@@ -80,6 +82,10 @@ export const ContentAction = {
 		type: TYPE.SET_KEYWORD_CATEGORIES,
 		payload: keywordCategories,
 	}),
+	setSelectedCategoryList: (selectedCategoryList: KeywordDto[]) => ({
+		type: TYPE.SET_SELECTED_CATEGORY_LIST,
+		payload: selectedCategoryList,
+	})
 };
 
 // reducer
@@ -118,6 +124,8 @@ export default function ContentReducer(
 			return { ...state, menuItems: action.payload };
 		case TYPE.SET_KEYWORD_CATEGORIES:
 			return { ...state, keywordCategories: action.payload };
+		case TYPE.SET_SELECTED_CATEGORY_LIST:
+			return { ...state, selectedCategoryList: action.payload };
 		default:
 			return state;
 	}

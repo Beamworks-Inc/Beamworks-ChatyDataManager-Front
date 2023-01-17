@@ -1,5 +1,5 @@
 import { TreeView } from "@mui/lab";
-import React, { useEffect, CSSProperties } from "react";
+import React, {useEffect, CSSProperties, useState} from "react";
 import {Box, ListItem, ListItemButton, ListItemText} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import KeywordTreeItems from "./KeywordTreeItems";
@@ -22,11 +22,28 @@ const boxStyle = {
 } as CSSProperties;
 
 function KeywordSelectView(props: {keywords : KeywordDto}) {
+	const dispatch = useDispatch();
+	const [selected,setSelected]=useState(false)
+	const selectedKeyword= useSelector((state: RootState) => state.ContentReducer.selectedCategoryList);
+	function onClick(){
+		if(selected){
+			const newSelectedKeyword = selectedKeyword.filter((keyword: KeywordDto)=>keyword.name!==props.keywords.name)
+			dispatch(ContentAction.setSelectedCategoryList(newSelectedKeyword));
+			console.log(newSelectedKeyword)
+		}
+		else{
+			const newSelectedKeyword = selectedKeyword.concat(props.keywords)
+			dispatch(ContentAction.setSelectedCategoryList(newSelectedKeyword));
+			console.log(newSelectedKeyword)
+		}
+		setSelected(!selected)
+	}
 	return(
 		<ListItem
 			secondaryAction={<div>{props.keywords.count}</div>}
+			selected={selected}
 		>
-			<ListItemButton>
+			<ListItemButton onClick={onClick}>
 				<ListItemText primary={props.keywords.name} />
 			</ListItemButton>
 		</ListItem>
