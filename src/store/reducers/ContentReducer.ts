@@ -4,11 +4,8 @@ import {
 	Content,
 	Reference,
 	RationaleDescription,
-	Rationale,
-	User,
-	Review,
-	ContentStatus,
 	Treeitem,
+	KeywordDto,
 } from "interfaces/Content.interface";
 
 export const initialContent = {
@@ -39,6 +36,7 @@ const INIT_CONTENT_STATE: ContentReducerState = {
 	currentContent: initialContent,
 	contentListState: [],
 	menuItems: null,
+	keywordCategories: [],
 };
 
 // action type
@@ -51,6 +49,7 @@ const TYPE = {
 	SET_CURRENT_CONTENT_RATIONALE_DESCRIPTIONS:
 		`${HEADER}/SET_CURRENT_CONTENT_RATIONALE_DESCRIPTIONS` as const,
 	SET_MENU_ITEMS: `${HEADER}/SET_MENU_ITEMS` as const,
+	SET_KEYWORD_CATEGORIES: `${HEADER}/SET_KEYWORD_CATEGORIES` as const,
 };
 
 // action creator
@@ -76,6 +75,10 @@ export const ContentAction = {
 	setMenuItems: (menuItems: Treeitem | null) => ({
 		type: TYPE.SET_MENU_ITEMS,
 		payload: menuItems,
+	}),
+	setKeywordCategories: (keywordCategories: KeywordDto[]) => ({
+		type: TYPE.SET_KEYWORD_CATEGORIES,
+		payload: keywordCategories,
 	}),
 };
 
@@ -113,6 +116,8 @@ export default function ContentReducer(
 			};
 		case TYPE.SET_MENU_ITEMS:
 			return { ...state, menuItems: action.payload };
+		case TYPE.SET_KEYWORD_CATEGORIES:
+			return { ...state, keywordCategories: action.payload };
 		default:
 			return state;
 	}

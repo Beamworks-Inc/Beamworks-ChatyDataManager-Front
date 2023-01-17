@@ -1,4 +1,4 @@
-import {Role} from "../apis/Auth";
+import { Role } from "../apis/Auth";
 
 type NoNullFields<I> = { [K in keyof I]: NonNullable<I[K]> };
 export interface Reference {
@@ -26,7 +26,7 @@ export interface User {
 	id: number;
 	name: string;
 	email: string;
-	role: Role |null;
+	role: Role | null;
 }
 export interface Review {
 	id: number;
@@ -45,7 +45,7 @@ export interface Content {
 	writeDate: string | null;
 	writer: User | null;
 	keyword: string[];
-	reviewerKeyword : string;
+	reviewerKeyword: string;
 	review: Review | null;
 	status: ContentStatus | null;
 }
@@ -53,6 +53,7 @@ export interface ContentReducerState {
 	currentContent: Content | null;
 	contentListState: Content[];
 	menuItems: Treeitem | null;
+	keywordCategories: KeywordDto[];
 }
 export interface Treeitem {
 	id: number;
@@ -74,4 +75,8 @@ export interface ContentForGrid {
 	writeDate: string;
 	reviewer: string;
 	reviewDate: string;
+}
+export interface KeywordDto {
+	name: string;
+	count: number;
 }

@@ -7,7 +7,7 @@ import CustomDatagrid from "components/CustomDatagrid";
 
 // interfaces
 
-import CustomTreeView from "components/CustomTreeview";
+import LevelOneTreeView from "./LevelOneTreeView";
 import ContentChatbotUpdateButton from "./ContentsUpdate/ContentChatbotUpdateButton";
 import ContentCreateTypeDialogButton from "./ContentCreateTypeDialogButton";
 
@@ -29,7 +29,8 @@ const ContentList = () => {
 							}}
 						>
 							{/* tree view component here */}
-							<CustomTreeView />
+							{/* <CustomTreeView /> */}
+							<LevelOneTreeView />
 						</Box>
 					</Typography>
 				</MainCard>
