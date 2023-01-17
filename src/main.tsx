@@ -15,11 +15,9 @@ const store = createStore(rootReducer);
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<React.StrictMode>
 		<ReduxProvider store={store}>
-			<AuthenticatePage>
-				<BrowserRouter basename="/">
-					<App />
-				</BrowserRouter>
-			</AuthenticatePage>
+			<BrowserRouter basename="/">
+				<App />
+			</BrowserRouter>
 		</ReduxProvider>
 	</React.StrictMode>
 );

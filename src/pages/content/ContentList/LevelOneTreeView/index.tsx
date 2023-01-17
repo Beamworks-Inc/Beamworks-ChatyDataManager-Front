@@ -1,6 +1,6 @@
 import { TreeView } from "@mui/lab";
 import React, { useEffect, CSSProperties } from "react";
-import { Box } from "@mui/material";
+import {Box, ListItem, ListItemButton, ListItemText} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import KeywordTreeItems from "./KeywordTreeItems";
 
@@ -12,6 +12,7 @@ import ContentCreateBtn from "./ContentCreateBtn";
 import ContentsAPI from "apis/content";
 import { AxiosError, AxiosResponse } from "axios";
 import { ContentAction } from "store/reducers/ContentReducer";
+import {KeywordDto} from "../../../../interfaces/Content.interface";
 
 const boxStyle = {
 	height: 550,
@@ -19,6 +20,18 @@ const boxStyle = {
 	maxWidth: 400,
 	overflowY: "auto",
 } as CSSProperties;
+
+function KeywordSelectView(props: {keywords : KeywordDto}) {
+	return(
+		<ListItem
+			secondaryAction={<div>{props.keywords.count}</div>}
+		>
+			<ListItemButton>
+				<ListItemText primary={props.keywords.name} />
+			</ListItemButton>
+		</ListItem>
+	)
+}
 
 export default function LevelOneTreeView() {
 	const dispatch = useDispatch();
@@ -38,7 +51,7 @@ export default function LevelOneTreeView() {
 	};
 
 	useEffect(() => {
-		if (user.role === "CREATOR") {
+		if (true) {
 			ContentsAPI.findAllKeywordList()
 				.then((res: AxiosResponse) => {
 					dispatch(ContentAction.setKeywordCategories(res.data));
@@ -59,22 +72,7 @@ export default function LevelOneTreeView() {
 
 	return (
 		<Box sx={boxStyle}>
-			<TreeView
-				aria-label="controlled"
-				defaultCollapseIcon={<ExpandMoreIcon />}
-				defaultExpandIcon={<ChevronRightIcon />}
-				expanded={expanded}
-				selected={selected}
-				onNodeToggle={handleToggle}
-				onNodeSelect={handleSelect}
-				// multiSelect
-			>
-				{keywordCategories.length > 0 ? (
-					<KeywordTreeItems items={keywordCategories} />
-				) : (
-					<ContentCreateBtn />
-				)}
-			</TreeView>
+			{keywordCategories.map((keyword: KeywordDto) => <KeywordSelectView keywords={keyword}/>)}
 		</Box>
 	);
 }
