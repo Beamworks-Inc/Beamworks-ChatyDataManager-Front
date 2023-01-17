@@ -10,8 +10,9 @@ interface FoldersAPI {
 		name: string
 	) => Promise<AxiosResponse<Folder>>;
 	addChild: (folderId: number, name: string) => Promise<AxiosResponse<Folder>>;
+	addSiblings : (siblings : String[])=> Promise<AxiosResponse<null>>
 	create: (folder: Folder) => Promise<AxiosResponse<Folder>>;
-	delete: (folderId: number) => Promise<AxiosResponse<Folder>>; // empty string will come when there's no folder
+	delete: (folderId: number) => Promise<AxiosResponse<Folder| null>>; // empty string will come when there's no folder
 	deleteAll: () => Promise<AxiosResponse<null>>;
 }
 const URI = "/api/v1/folder";
@@ -66,6 +67,8 @@ const FoldersAPI: FoldersAPI = {
 	 */
 	addChild: (folderId: number, name: string): Promise<AxiosResponse<Folder>> =>
 		axios.put(`${URI}/addChild/${folderId}/${name}`),
+
+	addSiblings : (siblings : String[])=> axios.post(`${URI}/appendSiblingsFromRoot`,siblings),
 
 	/**
 	 * folderId에 해당하는 폴더를 삭제합니다.

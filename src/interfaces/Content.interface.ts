@@ -45,6 +45,7 @@ export interface Content {
 	writeDate: string | null;
 	writer: User | null;
 	keyword: string[];
+	reviewerKeyword : string;
 	review: Review | null;
 	status: ContentStatus | null;
 }

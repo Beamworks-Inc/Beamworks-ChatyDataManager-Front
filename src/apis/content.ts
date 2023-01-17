@@ -1,6 +1,9 @@
 import { Content } from "interfaces/Content.interface";
 import axios, { AxiosResponse } from "axios";
-
+interface KeywordDto {
+	name : string,
+	count : number
+}
 interface IContentsAPI {
 	findAllByFolderId: (folderId: number) => Promise<AxiosResponse<Content[]>>;
 	findByContentId: (contentId: number) => Promise<AxiosResponse<Content>>;
@@ -8,6 +11,11 @@ interface IContentsAPI {
 	update: (content: Content) => Promise<AxiosResponse<null>>;
 	delete: (contentId: number) => Promise<AxiosResponse<null>>;
 	updateApprovedContentsToChatBot: () => Promise<AxiosResponse<null>>;
+	//새로 추가
+	findAllKeywordList:()=> Promise<AxiosResponse<KeywordDto[]>>;
+	findAllReviewerKeywordList:()=> Promise<AxiosResponse<KeywordDto[]>>;
+	findAllContentsContainKeyword:(keyword:string[])=> Promise<AxiosResponse<Content[]>>;
+	findAllContentsContainReviewerKeyword:(keyword:string[])=> Promise<AxiosResponse<Content[]>>;
 }
 
 const URI = "/api/v1/contents";
@@ -41,7 +49,11 @@ const ContentsAPI: IContentsAPI = {
 	 */
 	update: (content: Content) => axios.put(`${URI}`, content),
 	delete: (contentId: number) => axios.delete(`${URI}/${contentId}`),
-	updateApprovedContentsToChatBot : () => axios.post(`${URI}/updateApprovedDataToChatBot`)
+	updateApprovedContentsToChatBot : () => axios.post(`${URI}/updateApprovedDataToChatBot`),
+	findAllKeywordList: ()=>axios.get(`${URI}/findAllKeywordList`),
+	findAllReviewerKeywordList: ()=>axios.get(`${URI}/findAllReviewerKeywordList`),
+	findAllContentsContainKeyword: (keyword:string[])=>axios.get(`${URI}/findAllContentsContainKeyword/${keyword}`),
+	findAllContentsContainReviewerKeyword: (keyword:string[])=>axios.get(`${URI}/findAllContentsContainReviewerKeyword/${keyword}`),
 };
 
 export default ContentsAPI;
