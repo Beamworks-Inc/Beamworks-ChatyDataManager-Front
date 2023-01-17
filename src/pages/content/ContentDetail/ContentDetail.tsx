@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 // material-ui
-import { CircularProgress, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 
 // project import
-import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
 import { ContentAction, initialContent } from "store/reducers/ContentReducer";
 import { Content } from "interfaces/Content.interface";
 import { ContentsUserInfo } from "./UserInfo/ContentsUserInfo";
 import { ContentDetailEdit } from "./ContentDetailEdit/ContentDetailEdit";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
 import ProgressView from "./ProgressView";
-import ContentsAPI from "../../../apis/content";
+import ContentsAPI from "apis/content";
+
+// modules
 import { AxiosError, AxiosResponse } from "axios";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 // ==============================|| Content Detail Page ||============================== //
 

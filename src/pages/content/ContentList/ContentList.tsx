@@ -1,15 +1,5 @@
 // material-ui
-import {
-	Box,
-	Button,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogContentText,
-	DialogTitle,
-	Grid,
-	Typography,
-} from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 
 // project import
 import MainCard from "components/MainCard";
@@ -17,7 +7,6 @@ import CustomDatagrid from "components/CustomDatagrid";
 
 // interfaces
 
-import { useNavigate, useParams } from "react-router-dom";
 import CustomTreeView from "components/CustomTreeview";
 import ContentChatbotUpdateButton from "./ContentsUpdate/ContentChatbotUpdateButton";
 import ContentCreateTypeDialogButton from "./ContentCreateTypeDialogButton";

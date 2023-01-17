@@ -81,11 +81,7 @@ const MainRoutes = {
 			element: <ContentList />,
 		},
 		{
-			path: "content/:folderId",
-			element: <ContentList />,
-		},
-		{
-			path: "content/:folderId/:contentId",
+			path: "content/:contentId",
 			element: <ContentDetail />,
 		},
 	],
