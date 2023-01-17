@@ -29,12 +29,10 @@ function KeywordSelectView(props: {keywords : KeywordDto}) {
 		if(selected){
 			const newSelectedKeyword = selectedKeyword.filter((keyword: KeywordDto)=>keyword.name!==props.keywords.name)
 			dispatch(ContentAction.setSelectedCategoryList(newSelectedKeyword));
-			console.log(newSelectedKeyword)
 		}
 		else{
 			const newSelectedKeyword = selectedKeyword.concat(props.keywords)
 			dispatch(ContentAction.setSelectedCategoryList(newSelectedKeyword));
-			console.log(newSelectedKeyword)
 		}
 		setSelected(!selected)
 	}
