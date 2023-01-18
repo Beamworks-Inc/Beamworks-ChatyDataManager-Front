@@ -53,6 +53,7 @@ const TYPE = {
 	SET_MENU_ITEMS: `${HEADER}/SET_MENU_ITEMS` as const,
 	SET_KEYWORD_CATEGORIES: `${HEADER}/SET_KEYWORD_CATEGORIES` as const,
 	SET_SELECTED_CATEGORY_LIST: `${HEADER}/SET_SELECTED_CATEGORY_LIST` as const,
+	SET_REVIEWER_KEYWORD: `${HEADER}/SET_REVIEWER_KEYWORD` as const,
 };
 
 // action creator
@@ -86,6 +87,10 @@ export const ContentAction = {
 	setSelectedCategoryList: (selectedCategoryList: KeywordDto[]) => ({
 		type: TYPE.SET_SELECTED_CATEGORY_LIST,
 		payload: selectedCategoryList,
+	}),
+	setReviewerKeyword: (reviewerKeyword: string) => ({
+		type: TYPE.SET_REVIEWER_KEYWORD,
+		payload: reviewerKeyword,
 	}),
 };
 
@@ -127,6 +132,14 @@ export default function ContentReducer(
 			return { ...state, keywordCategories: action.payload };
 		case TYPE.SET_SELECTED_CATEGORY_LIST:
 			return { ...state, selectedCategoryList: action.payload };
+		case TYPE.SET_REVIEWER_KEYWORD:
+			return {
+				...state,
+				currentContent: {
+					...state.currentContent,
+					reviewerKeyword: action.payload,
+				},
+			};
 		default:
 			return state;
 	}
