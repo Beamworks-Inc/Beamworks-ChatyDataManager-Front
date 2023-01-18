@@ -106,8 +106,7 @@ const CustomDatagrid = () => {
 			}
 			rows={rows}
 			columns={columns}
-			pageSize={5}
-			rowsPerPageOptions={[5]}
+			pageSize={10}
 			disableSelectionOnClick
 			experimentalFeatures={{ newEditingApi: true }}
 		/>

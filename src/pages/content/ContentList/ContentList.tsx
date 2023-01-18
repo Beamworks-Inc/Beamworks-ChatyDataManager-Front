@@ -22,7 +22,7 @@ const ContentList = () => {
 					<Typography variant="body2" sx={{ color: "text.secondary" }}>
 						<Box
 							sx={{
-								height: 550,
+								height: 700,
 								flexGrow: 1,
 								maxWidth: 400,
 								overflowY: "auto",
@@ -57,7 +57,7 @@ const ContentList = () => {
 						<ContentChatbotUpdateButton />
 					</Box>
 					<Typography variant="body2" sx={{ color: "text.secondary" }}>
-						<Box sx={{ height: 550, width: "100%" }}>
+						<Box sx={{ height: 700, width: "100%" }}>
 							<CustomDatagrid />
 						</Box>
 					</Typography>

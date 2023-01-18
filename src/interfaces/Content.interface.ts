@@ -2,7 +2,7 @@ import { Role } from "../apis/Auth";
 
 type NoNullFields<I> = { [K in keyof I]: NonNullable<I[K]> };
 export interface Reference {
-	id: number;
+	id?: number;
 	title: string;
 	description: string;
 	link: URL | string;
@@ -54,7 +54,7 @@ export interface ContentReducerState {
 	contentListState: Content[];
 	menuItems: Treeitem | null;
 	keywordCategories: KeywordDto[];
-	selectedCategoryList : KeywordDto[];
+	selectedCategoryList: KeywordDto[];
 }
 export interface Treeitem {
 	id: number;
