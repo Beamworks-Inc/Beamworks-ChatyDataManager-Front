@@ -21,6 +21,7 @@ import {
 	Switch,
 } from "@mui/material";
 import React, { BaseSyntheticEvent } from "react";
+import excelHandler from "./ExcelContentHandler/ExcelContentsHandler";
 
 const ExcelUploadDialog = ({ open, handleClose }: any) => {
 	XLSX.set_fs(fs);
@@ -33,8 +34,8 @@ const ExcelUploadDialog = ({ open, handleClose }: any) => {
 		// parse Excel Rows to json
 		const wb = XLSX.read(HTML, { type: "string" });
 		const ws = wb.Sheets[wb.SheetNames[0]];
-		const json = XLSX.utils.sheet_to_json(ws, { header: 1 });
-		console.log(json);
+		const json: object[] = XLSX.utils.sheet_to_json(ws, {blankrows:true, defval:"None"});
+		excelHandler.setExcelContents(json).getUploader().upload()
 	};
 
 	return (

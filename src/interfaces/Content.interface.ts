@@ -40,7 +40,7 @@ export interface Content {
 	folderId: number | null;
 	question: string;
 	answer: string;
-	reference: Reference[];
+	reference: Reference[] | null;
 	rationale: Rationale | null;
 	writeDate: string | null;
 	writer: User | null;
