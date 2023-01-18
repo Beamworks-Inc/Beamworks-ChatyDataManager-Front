@@ -40,6 +40,7 @@ export function ContentApplyAndReviewButton() {
 	}
 
 	function handleApplyBtnClick() {
+		console.log(content);
 		const newContent = JSON.parse(JSON.stringify(content));
 		newContent.writer = user;
 		newContent.writeDate = new Date().toISOString();
