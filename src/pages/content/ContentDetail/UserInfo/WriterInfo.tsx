@@ -25,7 +25,7 @@ export function WriterInfo(props: { content: Content }) {
 					)
 						? "Not created yet"
 						: new Date(
-								props.content?.review?.reviewDate as unknown as string
+								props.content?.writeDate as unknown as string
 						  ).toLocaleString()}
 				</Typography>
 			</Box>
