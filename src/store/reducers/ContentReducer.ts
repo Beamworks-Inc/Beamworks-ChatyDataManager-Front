@@ -14,6 +14,7 @@ export const initialContent = {
 	question: "",
 	answer: "",
 	keyword: [],
+	reviewerKeyword: "",
 	reference: new Array(6).fill({
 		id: null,
 		title: "",
@@ -37,7 +38,7 @@ const INIT_CONTENT_STATE: ContentReducerState = {
 	contentListState: [],
 	menuItems: null,
 	keywordCategories: [],
-	selectedCategoryList : [],
+	selectedCategoryList: [],
 };
 
 // action type
@@ -85,7 +86,7 @@ export const ContentAction = {
 	setSelectedCategoryList: (selectedCategoryList: KeywordDto[]) => ({
 		type: TYPE.SET_SELECTED_CATEGORY_LIST,
 		payload: selectedCategoryList,
-	})
+	}),
 };
 
 // reducer
