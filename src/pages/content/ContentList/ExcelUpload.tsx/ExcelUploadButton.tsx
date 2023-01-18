@@ -5,7 +5,7 @@ import * as fs from "fs"; /* load 'fs' for readFile and writeFile support */
 
 import {
 	Box,
-	Button,
+	Button, CircularProgress, CircularProgressProps,
 	Dialog,
 	DialogActions,
 	DialogContent,
@@ -17,67 +17,119 @@ import {
 	InputLabel,
 	MenuItem,
 	Select,
-	SelectChangeEvent,
-	Switch,
+	SelectChangeEvent, Snackbar,
+	Switch, Typography,
 } from "@mui/material";
 import React, { BaseSyntheticEvent } from "react";
 import excelHandler from "./ExcelContentHandler/ExcelContentsHandler";
 
+function CircularProgressWithLabel(
+	props: CircularProgressProps & { value: number },
+) {
+	return (
+		<Box sx={{ position: 'relative', display: 'inline-flex' }}>
+			<CircularProgress variant="determinate" {...props} />
+			<Box
+				sx={{
+					top: 0,
+					left: 0,
+					bottom: 0,
+					right: 0,
+					position: 'absolute',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+				}}
+			>
+				<Typography
+					variant="caption"
+					component="div"
+					color="text.secondary"
+				>{`${Math.round(props.value)}%`}</Typography>
+			</Box>
+		</Box>
+	);
+}
+
+const ProgressSnackBar=(props : {snackBarOpen: Boolean, progressValue :number})=>{
+	console.log("ProgressSnackBar props",props)
+	return (
+		<Snackbar
+			// @ts-ignore
+			open={props.snackBarOpen}
+			message="Uploading..."
+			action={<CircularProgressWithLabel value={props.progressValue}/>}
+		/>
+	)
+}
 const ExcelUploadDialog = ({ open, handleClose }: any) => {
 	XLSX.set_fs(fs);
 	// XLSX.stream.set_readable(Readable);
 	// XLSX.set_cptable(cpexcel);
 
 	const [HTML, setHTML] = React.useState("");
+	const [snackBarOpen, setSnackBarOpen] = React.useState(false);
+	const [progressValue, setProgressValue] = React.useState(0);
 
 	const handleApply = (e: BaseSyntheticEvent) => {
 		// parse Excel Rows to json
 		const wb = XLSX.read(HTML, { type: "string" });
 		const ws = wb.Sheets[wb.SheetNames[0]];
 		const json: object[] = XLSX.utils.sheet_to_json(ws, {blankrows:true, defval:"None"});
-		excelHandler.setExcelContents(json).getUploader().upload()
+		setSnackBarOpen(true);
+		excelHandler.setExcelContents(json).getUploader().upload(
+			(dataIndex: number,totalContentNumber : number)=>{
+				setProgressValue(((dataIndex+1)/totalContentNumber)*100);
+				if(dataIndex+1===totalContentNumber){
+					setSnackBarOpen(false);
+				}
+			}
+		)
 	};
 
 	return (
-		<Dialog fullWidth={true} maxWidth="lg" open={open} onClose={handleClose}>
-			<DialogTitle>Excel Upload</DialogTitle>
-			<DialogContent>
-				<DialogContentText>
-					You can upload excel data to content list.
-				</DialogContentText>
-				<Box
-					noValidate
-					component="form"
-					sx={{
-						display: "flex",
-						flexDirection: "column",
-						m: "1rem",
-						width: "fit-content",
-					}}
-				>
-					{/* File upload button here */}
-					<input
-						style={{ marginBottom: "1rem" }}
-						type="file"
-						onChange={async (e: React.ChangeEvent) => {
-							/* get data as an ArrayBuffer */
-							const file = e.target.files[0];
-							const data = await file.arrayBuffer();
-
-							/* parse and load first worksheet */
-							const wb = XLSX.read(data);
-							const ws = wb.Sheets[wb.SheetNames[0]];
-							setHTML(XLSX.utils.sheet_to_html(ws, { id: "tabeller" }));
+		<>
+			<Dialog fullWidth={true} maxWidth="lg" open={open} onClose={handleClose}>
+				<DialogTitle>Excel Upload</DialogTitle>
+				<DialogContent>
+					<DialogContentText>
+						You can upload excel data to content list.
+					</DialogContentText>
+					<Box
+						noValidate
+						component="form"
+						sx={{
+							display: "flex",
+							flexDirection: "column",
+							m: "1rem",
+							width: "fit-content",
 						}}
-					/>
-					<div dangerouslySetInnerHTML={{ __html: HTML }} />
-				</Box>
-			</DialogContent>
-			<DialogActions>
-				<Button onClick={handleApply}>Apply</Button>
-				<Button onClick={handleClose}>Close</Button>
-			</DialogActions>
-		</Dialog>
+					>
+						{/* File upload button here */}
+						<input
+							style={{ marginBottom: "1rem" }}
+							type="file"
+							onChange={async (e: React.ChangeEvent) => {
+								/* get data as an ArrayBuffer */
+								const file = e.target.files[0];
+								const data = await file.arrayBuffer();
+
+								/* parse and load first worksheet */
+								const wb = XLSX.read(data);
+								const ws = wb.Sheets[wb.SheetNames[0]];
+								setHTML(XLSX.utils.sheet_to_html(ws, { id: "tabeller" }));
+							}}
+						/>
+						<div dangerouslySetInnerHTML={{ __html: HTML }} />
+					</Box>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={handleApply}>Apply</Button>
+					<Button onClick={handleClose}>Close</Button>
+				</DialogActions>
+			</Dialog>
+			<ProgressSnackBar snackBarOpen={snackBarOpen} progressValue={progressValue}/>
+		</>
 	);
 };
 
