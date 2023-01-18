@@ -9,6 +9,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { User } from "interfaces/Content.interface";
 
 export function ContentApplyAndReviewButton() {
+	const DEFAULT_FOLDERID = 390;
+
 	// styles
 	const boxStyle = {
 		display: "flex",
@@ -40,11 +42,11 @@ export function ContentApplyAndReviewButton() {
 	}
 
 	function handleApplyBtnClick() {
-		console.log(content);
 		const newContent = JSON.parse(JSON.stringify(content));
 		newContent.writer = user;
 		newContent.writeDate = new Date().toISOString();
 		if (contentId === "create") {
+			newContent.folderId = DEFAULT_FOLDERID; // TODO: 임시로 폴더 아이디를 390으로 설정
 			ContentsAPI.create(newContent)
 				.then(() => {
 					alert("컨텐츠가 정상적으로 생성 되었습니다.");
