@@ -19,6 +19,36 @@ import { useDispatch, useSelector } from "react-redux";
 
 // ==============================|| Content Detail Page ||============================== //
 
+const defaultValueSetting = (content: Content) => {
+	const MAX_REFERENCE_COUNT = 6;
+	const MAX_RATIONALE_COUNT = 6;
+
+	const newContent = Object.assign({}, content);
+	if (newContent.reference.length <= MAX_REFERENCE_COUNT) {
+		newContent.reference = newContent.reference.concat(
+			new Array(MAX_REFERENCE_COUNT - newContent.reference.length).fill({
+				id: null,
+				title: "",
+				description: "",
+				link: "",
+			})
+		);
+	}
+	// pretend rationale has two options. if it is not null, description and url has full length
+	if (newContent.rationale === null) {
+		newContent.rationale = {
+			id: null,
+			description: new Array(MAX_RATIONALE_COUNT).fill({
+				description: "",
+				link: "",
+			}),
+			url: new Array(MAX_RATIONALE_COUNT).fill(""),
+		};
+	}
+
+	return newContent;
+};
+
 const ContentDetail = () => {
 	const { contentId } = useParams();
 	const dispatch = useDispatch();
@@ -38,7 +68,11 @@ const ContentDetail = () => {
 				}
 				ContentsAPI.findByContentId(id)
 					.then((response: AxiosResponse) => {
-						dispatch(ContentAction.setCurrentContent(response.data));
+						dispatch(
+							ContentAction.setCurrentContent(
+								defaultValueSetting(response.data)
+							)
+						);
 						setLoadingState(true);
 					})
 					.catch((error: AxiosError) => {
