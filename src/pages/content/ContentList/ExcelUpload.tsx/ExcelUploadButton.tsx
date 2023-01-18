@@ -34,7 +34,6 @@ const ExcelUploadDialog = ({ open, handleClose }: any) => {
 		const wb = XLSX.read(HTML, { type: "string" });
 		const ws = wb.Sheets[wb.SheetNames[0]];
 		const json = XLSX.utils.sheet_to_json(ws, { header: 1 });
-		console.log(json);
 	};
 
 	return (
