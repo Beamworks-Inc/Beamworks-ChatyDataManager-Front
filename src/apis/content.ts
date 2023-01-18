@@ -55,9 +55,9 @@ const ContentsAPI: IContentsAPI = {
 	findAllReviewerKeywordList: () =>
 		axios.get(`${URI}/findAllReviewerKeywordList`),
 	findAllContentsContainKeyword: (keyword: string[]) =>
-		axios.get(`${URI}/findAllContentsContainKeyword/${keyword}`),
+		axios.post(`${URI}/findAllContentsContainKeyword`, keyword),
 	findAllContentsContainReviewerKeyword: (keyword: string[]) =>
-		axios.get(`${URI}/findAllContentsContainReviewerKeyword/${keyword}`),
+		axios.post(`${URI}/findAllContentsContainReviewerKeyword`,keyword),
 };
 
 export default ContentsAPI;

@@ -13,6 +13,7 @@ import RoleSelectDialog from "./pages/authentication/AuthenticateState/RoleSelec
 const store = createStore(rootReducer);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+
 	<React.StrictMode>
 		<ReduxProvider store={store}>
 			<BrowserRouter basename="/">

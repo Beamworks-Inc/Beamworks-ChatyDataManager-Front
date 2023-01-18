@@ -7,12 +7,13 @@ import {
 } from "@mui/x-data-grid";
 import ContentsAPI from "apis/content";
 import { AxiosError, AxiosResponse } from "axios";
-import { Content, ContentForGrid } from "interfaces/Content.interface";
-import { useEffect } from "react";
+import {Content, ContentForGrid, KeywordDto, User} from "interfaces/Content.interface";
+import {Dispatch, useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { RootState } from "store";
 import { ContentAction } from "store/reducers/ContentReducer";
+import {AnyAction} from "redux";
 
 function QuickSearchToolbar() {
 	// TODO: make it search by date too
@@ -153,11 +154,40 @@ function fromContentToRow(contents: Content[]): ContentForGrid[] {
 	});
 }
 
+function fetchContent(user: User, selectedCategory: KeywordDto[], dispatch: Dispatch<AnyAction>) {
+	const selectedCategoryNames: string[] = selectedCategory.map((category) => category.name);
+	if (user.role == "REVIEWER") {
+		ContentsAPI.findAllContentsContainReviewerKeyword(selectedCategoryNames)
+			.then((res) => {
+				dispatch(ContentAction.setContentList(res.data));
+			})
+			.catch((err) => {
+				alert('컨텐츠 데이터를 가져오는 중 에러가 발생했습니다.')
+			})
+	} else if (user.role == "USER") {
+		ContentsAPI.findAllContentsContainKeyword(selectedCategoryNames)
+			.then((res) => {
+				dispatch(ContentAction.setContentList(res.data));
+			})
+			.catch((err) => {
+				alert('컨텐츠 데이터를 가져오는 중 에러가 발생했습니다.')
+			})
+	} else {
+		throw new Error("Invalid role");
+	}
+}
+
 const CustomDatagrid = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
 	const { folderId } = useParams();
+	const selectedCategory: KeywordDto[]=useSelector((state:RootState)=>state.ContentReducer.selectedCategoryList);
+	const user=useSelector((state:RootState)=>state.UserReducer);
+
+	useEffect(()=> {
+		fetchContent(user, selectedCategory, dispatch);
+	},[selectedCategory,user])
 
 	useEffect(() => {
 		// folderName에 따라 서버로부터 컨텐츠리스트를 받아 업데이트합니다.
