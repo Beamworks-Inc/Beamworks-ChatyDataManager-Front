@@ -11,13 +11,6 @@ import { KeywordDto } from "interfaces/Content.interface";
 import { LabelComponent } from "./LabelComponent";
 import { UnselectBox } from "./UnselectBox";
 
-const boxStyle = {
-	height: 550,
-	flexGrow: 1,
-	maxWidth: 400,
-	overflowY: "auto",
-} as CSSProperties;
-
 function KeywordSelectView(props: { keyword: KeywordDto }) {
 	const dispatch = useDispatch();
 	const selectedKeyword = useSelector(
@@ -79,7 +72,7 @@ export default function LevelOneTreeView() {
 	}, []);
 
 	return (
-		<Box sx={boxStyle}>
+		<Box>
 			<UnselectBox />
 			{keywordCategories.map((keyword: KeywordDto) => (
 				<KeywordSelectView keyword={keyword} />

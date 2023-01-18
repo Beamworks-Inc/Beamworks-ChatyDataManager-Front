@@ -1,3 +1,45 @@
+function CellReferenceLinkComp({ params }: any) {
+	return (
+		<div
+			style={{
+				width: "100%",
+				margin: "auto 0",
+				cursor: "pointer",
+				color: "blue",
+				textDecoration: "underline",
+			}}
+			onClick={(e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				if (params.row.referenceLink) window.open(params.row.referenceLink);
+			}}
+		>
+			{params.row.reference}
+		</div>
+	);
+}
+
+function CellRationaleLinkComp({ params }: any) {
+	return (
+		<div
+			style={{
+				width: "100%",
+				margin: "auto 0",
+				cursor: "pointer",
+				color: "blue",
+				textDecoration: "underline",
+			}}
+			onClick={(e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				if (params.row.rationaleLink) window.open(params.row.rationale);
+			}}
+		>
+			{params.row.rationale}
+		</div>
+	);
+}
+
 export const columns = [
 	// 1. 특정 칼럼의 값을 다른 칼럼을 통해 계산할 수 있습니다.
 	// valueGetter: (params) => `${params.row.firstName || ''} ${params.row.lastName || ''}`
@@ -25,9 +67,7 @@ export const columns = [
 		editable: false,
 		description: "논문 서치 정보, 웹페이지 링크등을 사용합니다.",
 		// @ts-ignore
-		renderCell: (params) => (
-			<a href={params.row.referenceLink}>{params.row.reference}</a>
-		),
+		renderCell: (params) => <CellReferenceLinkComp params={params} />,
 	},
 	{
 		field: "referenceLink",
@@ -42,9 +82,7 @@ export const columns = [
 		editable: false,
 		description: "A에 대한 부가 자료 (Link, Image, Movie)",
 		// @ts-ignore
-		renderCell: (params) => (
-			<a href={params.row.rationaleLink}>{params.row.rationale}</a>
-		),
+		renderCell: (params) => <CellRationaleLinkComp params={params} />,
 	},
 	{
 		field: "rationaleLink",
