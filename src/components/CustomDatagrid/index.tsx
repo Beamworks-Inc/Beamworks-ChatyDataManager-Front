@@ -80,7 +80,7 @@ const CustomDatagrid = () => {
 	// effects
 	useEffect(() => {
 		fetchContent(user, selectedCategory, dispatch);
-	}, [selectedCategory, user]);
+	}, [selectedCategory]);
 
 	// handlers
 	const handleRowClick = (e: any) => {

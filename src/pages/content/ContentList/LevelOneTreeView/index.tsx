@@ -1,18 +1,15 @@
-import { TreeView } from "@mui/lab";
-import React, {useEffect, CSSProperties, useState} from "react";
-import {Box, ListItem, ListItemButton, ListItemText} from "@mui/material";
+import React, { useEffect, CSSProperties } from "react";
+import { Box, ListItem, ListItemButton, ListItemText } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import KeywordTreeItems from "./KeywordTreeItems";
 
 // icons
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { RootState } from "store";
-import ContentCreateBtn from "./ContentCreateBtn";
 import ContentsAPI from "apis/content";
 import { AxiosError, AxiosResponse } from "axios";
 import { ContentAction } from "store/reducers/ContentReducer";
-import {KeywordDto} from "../../../../interfaces/Content.interface";
+import { KeywordDto } from "interfaces/Content.interface";
+import { LabelComponent } from "./LabelComponent";
+import { UnselectBox } from "./UnselectBox";
 
 const boxStyle = {
 	height: 550,
@@ -21,31 +18,35 @@ const boxStyle = {
 	overflowY: "auto",
 } as CSSProperties;
 
-function KeywordSelectView(props: {keywords : KeywordDto}) {
+function KeywordSelectView(props: { keyword: KeywordDto }) {
 	const dispatch = useDispatch();
-	const [selected,setSelected]=useState(false)
-	const selectedKeyword= useSelector((state: RootState) => state.ContentReducer.selectedCategoryList);
-	function onClick(){
-		if(selected){
-			const newSelectedKeyword = selectedKeyword.filter((keyword: KeywordDto)=>keyword.name!==props.keywords.name)
+	const selectedKeyword = useSelector(
+		(state: RootState) => state.ContentReducer.selectedCategoryList
+	) as KeywordDto[];
+	function onClick() {
+		// if selected, remove from selectedKeyword and dispatch
+		if (selectedKeyword.includes(props.keyword)) {
+			const newSelectedKeyword = selectedKeyword.filter(
+				(keyword) => keyword.name !== props.keyword.name
+			);
 			dispatch(ContentAction.setSelectedCategoryList(newSelectedKeyword));
 		}
-		else{
-			const newSelectedKeyword = selectedKeyword.concat(props.keywords)
+		// if not selected, add to selectedKeyword and dispatch
+		else {
+			const newSelectedKeyword = [...selectedKeyword, props.keyword];
 			dispatch(ContentAction.setSelectedCategoryList(newSelectedKeyword));
 		}
-		setSelected(!selected)
 	}
-	return(
+	return (
 		<ListItem
-			secondaryAction={<div>{props.keywords.count}</div>}
-			selected={selected}
+			secondaryAction={<LabelComponent label={props.keyword.count} />}
+			selected={selectedKeyword.includes(props.keyword)}
 		>
 			<ListItemButton onClick={onClick}>
-				<ListItemText primary={props.keywords.name} />
+				<ListItemText primary={props.keyword.name} />
 			</ListItemButton>
 		</ListItem>
-	)
+	);
 }
 
 export default function LevelOneTreeView() {
@@ -54,19 +55,9 @@ export default function LevelOneTreeView() {
 		(state: RootState) => state.ContentReducer.keywordCategories
 	);
 	const user = useSelector((state: RootState) => state.UserReducer);
-	const [expanded, setExpanded] = React.useState([] as string[]);
-	const [selected, setSelected] = React.useState([] as string[]);
-
-	const handleSelect = (event: React.SyntheticEvent, nodeIds: any) => {
-		setSelected(nodeIds);
-	};
-
-	const handleToggle = (event: React.SyntheticEvent, nodeIds: string[]) => {
-		setExpanded(nodeIds);
-	};
 
 	useEffect(() => {
-		if (true) {
+		if (user.role === "USER") {
 			ContentsAPI.findAllKeywordList()
 				.then((res: AxiosResponse) => {
 					dispatch(ContentAction.setKeywordCategories(res.data));
@@ -74,7 +65,7 @@ export default function LevelOneTreeView() {
 				.catch((err: AxiosError) => {
 					alert(`findAllKeywordList error, code:(${err})`);
 				});
-		} else if (user.rold === "REVIEWER") {
+		} else if (user.role === "REVIEWER") {
 			ContentsAPI.findAllReviewerKeywordList()
 				.then((res: AxiosResponse) => {
 					dispatch(ContentAction.setKeywordCategories(res.data));
@@ -82,12 +73,17 @@ export default function LevelOneTreeView() {
 				.catch((err: AxiosError) => {
 					alert(`findAllReviewerKeywordList error, code:(${err})`);
 				});
+		} else {
+			throw new Error("Invalid user role");
 		}
 	}, []);
 
 	return (
 		<Box sx={boxStyle}>
-			{keywordCategories.map((keyword: KeywordDto) => <KeywordSelectView keywords={keyword}/>)}
+			<UnselectBox />
+			{keywordCategories.map((keyword: KeywordDto) => (
+				<KeywordSelectView keyword={keyword} />
+			))}
 		</Box>
 	);
 }
