@@ -18,7 +18,9 @@ function KeywordSelectView(props: { keyword: KeywordDto }) {
 	) as KeywordDto[];
 	function onClick() {
 		// if selected, remove from selectedKeyword and dispatch
-		if (selectedKeyword.includes(props.keyword)) {
+		if (
+			selectedKeyword.some((keyword) => keyword.name === props.keyword.name)
+		) {
 			const newSelectedKeyword = selectedKeyword.filter(
 				(keyword) => keyword.name !== props.keyword.name
 			);
@@ -33,7 +35,9 @@ function KeywordSelectView(props: { keyword: KeywordDto }) {
 	return (
 		<ListItem
 			secondaryAction={<LabelComponent label={props.keyword.count} />}
-			selected={selectedKeyword.includes(props.keyword)}
+			selected={selectedKeyword.some(
+				(keyword) => keyword.name === props.keyword.name
+			)}
 		>
 			<ListItemButton onClick={onClick}>
 				<ListItemText primary={props.keyword.name} />
