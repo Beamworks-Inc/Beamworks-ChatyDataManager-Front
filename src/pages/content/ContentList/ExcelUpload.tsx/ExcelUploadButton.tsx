@@ -75,9 +75,9 @@ const ExcelUploadDialog = ({ open, handleClose }: any) => {
 		// parse Excel Rows to json
 		const wb = XLSX.read(HTML, { type: "string" });
 		const ws = wb.Sheets[wb.SheetNames[0]];
-		const json: object[] = XLSX.utils.sheet_to_json(ws, {blankrows:true, defval:"None"});
+		const json: object[] = XLSX.utils.sheet_to_json(ws, {blankrows:true, defval:"None",raw:false});
 		setSnackBarOpen(true);
-		excelHandler.setExcelContents(json).getUploader().upload(
+		excelHandler.setExcelContents(json).buildUploader().upload(
 			(dataIndex: number,totalContentNumber : number)=>{
 				setProgressValue(((dataIndex+1)/totalContentNumber)*100);
 				if(dataIndex+1===totalContentNumber){
