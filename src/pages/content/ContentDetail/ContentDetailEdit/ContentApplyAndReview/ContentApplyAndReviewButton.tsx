@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, Fab } from "@mui/material";
 import { ReviewDialog } from "./ReviewDialog";
 import { CSSProperties, useState } from "react";
 import ContentsAPI from "apis/content";
@@ -7,6 +7,11 @@ import { Content } from "interfaces/Content.interface";
 import { RootState } from "store";
 import { useNavigate, useParams } from "react-router-dom";
 import { User } from "interfaces/Content.interface";
+
+// icons
+// import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
+// import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import MenuIcon from "@mui/icons-material/Menu";
 
 export function ContentApplyAndReviewButton() {
 	const DEFAULT_FOLDERID = 390;
@@ -41,6 +46,11 @@ export function ContentApplyAndReviewButton() {
 		setOpen(false);
 	}
 
+	// Fab : Floating Action Button
+	function handleMenuFabClick() {
+		navigate(`/content`);
+	}
+
 	function handleApplyBtnClick() {
 		const newContent = JSON.parse(JSON.stringify(content));
 		newContent.writer = user;
@@ -68,6 +78,20 @@ export function ContentApplyAndReviewButton() {
 
 	return (
 		<Box sx={boxStyle}>
+			{/* <Fab size="small" color="secondary" aria-label="add">
+				<ArrowLeftIcon />
+			</Fab> */}
+			<Fab
+				onClick={handleMenuFabClick}
+				size="small"
+				color="secondary"
+				aria-label="add"
+			>
+				<MenuIcon />
+			</Fab>
+			{/* <Fab size="small" color="secondary" aria-label="add">
+				<ArrowRightIcon />
+			</Fab> */}
 			<Button
 				variant="contained"
 				color="secondary"
