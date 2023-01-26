@@ -1,20 +1,15 @@
-function isImageAddress(url: URL) {
-	return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url.toString());
-}
-
-function isValidImage(src: string) {
-	try {
-		if (isImageAddress(new URL(src))) return true;
-		else return false;
-	} catch (error) {
-		return false;
-	}
-}
+import React from "react";
 
 export default function Img(props: { src: string }) {
 	const { src } = props;
 
-	if (!isValidImage(src)) {
+	const [valid, setValid] = React.useState(true);
+
+	React.useEffect(() => {
+		setValid(true);
+	}, [src]);
+
+	if (!valid) {
 		return (
 			<div
 				style={{
@@ -35,6 +30,7 @@ export default function Img(props: { src: string }) {
 
 	return (
 		<img
+			onError={() => setValid(false)}
 			src={src}
 			alt={"No Valid Image Link"}
 			style={{
