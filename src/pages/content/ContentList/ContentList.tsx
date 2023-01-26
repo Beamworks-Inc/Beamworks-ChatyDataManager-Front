@@ -1,15 +1,5 @@
 // material-ui
-import {
-	Box,
-	Button,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogContentText,
-	DialogTitle,
-	Grid,
-	Typography,
-} from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 
 // project import
 import MainCard from "components/MainCard";
@@ -17,8 +7,7 @@ import CustomDatagrid from "components/CustomDatagrid";
 
 // interfaces
 
-import { useNavigate, useParams } from "react-router-dom";
-import CustomTreeView from "components/CustomTreeview";
+import LevelOneTreeView from "./LevelOneTreeView";
 import ContentChatbotUpdateButton from "./ContentsUpdate/ContentChatbotUpdateButton";
 import ContentCreateTypeDialogButton from "./ContentCreateTypeDialogButton";
 
@@ -33,14 +22,15 @@ const ContentList = () => {
 					<Typography variant="body2" sx={{ color: "text.secondary" }}>
 						<Box
 							sx={{
-								height: 550,
+								height: 700,
 								flexGrow: 1,
 								maxWidth: 400,
 								overflowY: "auto",
 							}}
 						>
 							{/* tree view component here */}
-							<CustomTreeView />
+							{/* <CustomTreeView /> */}
+							<LevelOneTreeView />
 						</Box>
 					</Typography>
 				</MainCard>
@@ -67,7 +57,7 @@ const ContentList = () => {
 						<ContentChatbotUpdateButton />
 					</Box>
 					<Typography variant="body2" sx={{ color: "text.secondary" }}>
-						<Box sx={{ height: 550, width: "100%" }}>
+						<Box sx={{ height: 700, width: "100%" }}>
 							<CustomDatagrid />
 						</Box>
 					</Typography>

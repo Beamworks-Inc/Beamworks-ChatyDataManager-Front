@@ -9,7 +9,8 @@ import { KeywordEditBox } from "./KeywordEditBox";
 import { ReferenceEditBox } from "./ReferenceEditBox";
 import { RationalEditBox } from "./RationalEditBox";
 import { ContentAction } from "../../../../store/reducers/ContentReducer";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { ReviewerKeywordEditBox } from "./ReviewerKeywordEditBox";
 
 export function ContentDetailEdit(props: { content: Content }) {
 	const dispatch = useDispatch();
@@ -53,6 +54,7 @@ export function ContentDetailEdit(props: { content: Content }) {
 						handleTextChange={handleTextChange}
 					/>
 					<KeywordEditBox content={props.content} />
+					<ReviewerKeywordEditBox />
 					<ReferenceEditBox />
 					<RationalEditBox content={props.content} />
 				</Box>

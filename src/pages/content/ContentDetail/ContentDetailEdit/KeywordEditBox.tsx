@@ -3,13 +3,10 @@ import { Box, Typography } from "@mui/material";
 import EditableChip from "../../../../components/EditableChip";
 import { ContentAction } from "../../../../store/reducers/ContentReducer";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../../store";
 import React from "react";
 
 export function KeywordEditBox(props: { content: Content }) {
-
-	const {content} = props;
-	const keyword = useSelector((state: RootState) => state.ContentReducer.currentContent.keyword);
+	const { content } = props;
 
 	const dispatch = useDispatch();
 
@@ -55,7 +52,11 @@ export function KeywordEditBox(props: { content: Content }) {
 						/>
 					);
 				})}
-				<EditableChip text="add keyword.." onClick={handleClickPlusButton} />
+				<EditableChip
+					style={{ cursor: "pointer" }}
+					text="add keyword.."
+					onClick={handleClickPlusButton}
+				/>
 			</Box>
 		</Box>
 	);

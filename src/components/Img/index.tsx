@@ -1,7 +1,11 @@
-function isInValidImage(src: string) {
+function isImageAddress(url: URL) {
+	return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url.toString());
+}
+
+function isValidImage(src: string) {
 	try {
-		new URL(src);
-		return true;
+		if (isImageAddress(new URL(src))) return true;
+		else return false;
 	} catch (error) {
 		return false;
 	}
@@ -10,7 +14,7 @@ function isInValidImage(src: string) {
 export default function Img(props: { src: string }) {
 	const { src } = props;
 
-	if (!isInValidImage(src)) {
+	if (!isValidImage(src)) {
 		return (
 			<div
 				style={{
@@ -20,6 +24,8 @@ export default function Img(props: { src: string }) {
 					justifyContent: "center",
 					alignItems: "center",
 					boxSizing: "border-box",
+					color: "red",
+					fontWeight: "bolder",
 				}}
 			>
 				No Valid Image Link
@@ -30,7 +36,7 @@ export default function Img(props: { src: string }) {
 	return (
 		<img
 			src={src}
-			alt={"Image Link is not valid"}
+			alt={"No Valid Image Link"}
 			style={{
 				width: "100%",
 				height: "100%",

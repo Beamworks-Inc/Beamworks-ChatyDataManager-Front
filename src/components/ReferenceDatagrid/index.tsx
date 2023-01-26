@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
 import { rowConverter, rowInverter } from "./util";
 import { ContentAction } from "store/reducers/ContentReducer";
-import { useParams } from "react-router-dom";
 
 const columns = [
 	{ field: "id", headerName: "id", hide: true },
@@ -56,12 +55,12 @@ const isURL = (url: string) => {
 };
 
 const LinkField = ({ link }: { link: string }) => {
-	return isURL ? (
-		<div>{link}</div>
+	return isURL(link) ? (
+		<a href={link} target="_blank">
+			{link}
+		</a>
 	) : (
-		<>
-			<div style={{ color: "red", fontWeight: "bolder" }}>{link}</div>
-		</>
+		<div style={{ color: "red", fontWeight: "bolder" }}>{link}</div>
 	);
 };
 
@@ -83,9 +82,11 @@ const ReferenceDatagrid = () => {
 	const handleCellEditDone = async () => {
 		// 오류: 기존 작동 방식 (렌더링됨 -> 셀이 렌더링되면서 apiRef.current가 업데이트됨 -> 수정완료 이벤트 -> 이벤트 후 onCellEditDone이 실행됨 (dispatch) -> apiRef.current가 업데이트 되지 않은채로 dispatch!)
 		// 해결: Async와 forceUpdate를 사용으로 해결
+		// @ts-ignore
 		await apiRef.current?.forceUpdate(); // TODO: don't know how to fix it!
 		await dispatch(
 			ContentAction.setCurrentContentReferences(
+				// @ts-ignore
 				rowInverter(apiRef.current?.getRowModels()) // TODO: don't know how to fix it!
 			)
 		);

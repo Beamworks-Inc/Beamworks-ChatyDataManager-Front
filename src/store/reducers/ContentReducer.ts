@@ -4,11 +4,8 @@ import {
 	Content,
 	Reference,
 	RationaleDescription,
-	Rationale,
-	User,
-	Review,
-	ContentStatus,
 	Treeitem,
+	KeywordDto,
 } from "interfaces/Content.interface";
 
 export const initialContent = {
@@ -17,6 +14,7 @@ export const initialContent = {
 	question: "",
 	answer: "",
 	keyword: [],
+	reviewerKeyword: "",
 	reference: new Array(6).fill({
 		id: null,
 		title: "",
@@ -39,6 +37,8 @@ const INIT_CONTENT_STATE: ContentReducerState = {
 	currentContent: initialContent,
 	contentListState: [],
 	menuItems: null,
+	keywordCategories: [],
+	selectedCategoryList: [],
 };
 
 // action type
@@ -51,6 +51,9 @@ const TYPE = {
 	SET_CURRENT_CONTENT_RATIONALE_DESCRIPTIONS:
 		`${HEADER}/SET_CURRENT_CONTENT_RATIONALE_DESCRIPTIONS` as const,
 	SET_MENU_ITEMS: `${HEADER}/SET_MENU_ITEMS` as const,
+	SET_KEYWORD_CATEGORIES: `${HEADER}/SET_KEYWORD_CATEGORIES` as const,
+	SET_SELECTED_CATEGORY_LIST: `${HEADER}/SET_SELECTED_CATEGORY_LIST` as const,
+	SET_REVIEWER_KEYWORD: `${HEADER}/SET_REVIEWER_KEYWORD` as const,
 };
 
 // action creator
@@ -76,6 +79,18 @@ export const ContentAction = {
 	setMenuItems: (menuItems: Treeitem | null) => ({
 		type: TYPE.SET_MENU_ITEMS,
 		payload: menuItems,
+	}),
+	setKeywordCategories: (keywordCategories: KeywordDto[]) => ({
+		type: TYPE.SET_KEYWORD_CATEGORIES,
+		payload: keywordCategories,
+	}),
+	setSelectedCategoryList: (selectedCategoryList: KeywordDto[]) => ({
+		type: TYPE.SET_SELECTED_CATEGORY_LIST,
+		payload: selectedCategoryList,
+	}),
+	setReviewerKeyword: (reviewerKeyword: string) => ({
+		type: TYPE.SET_REVIEWER_KEYWORD,
+		payload: reviewerKeyword,
 	}),
 };
 
@@ -113,6 +128,18 @@ export default function ContentReducer(
 			};
 		case TYPE.SET_MENU_ITEMS:
 			return { ...state, menuItems: action.payload };
+		case TYPE.SET_KEYWORD_CATEGORIES:
+			return { ...state, keywordCategories: action.payload };
+		case TYPE.SET_SELECTED_CATEGORY_LIST:
+			return { ...state, selectedCategoryList: action.payload };
+		case TYPE.SET_REVIEWER_KEYWORD:
+			return {
+				...state,
+				currentContent: {
+					...state.currentContent,
+					reviewerKeyword: action.payload,
+				},
+			};
 		default:
 			return state;
 	}
