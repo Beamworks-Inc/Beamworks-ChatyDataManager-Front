@@ -56,7 +56,9 @@ const isURL = (url: string) => {
 
 const LinkField = ({ link }: { link: string }) => {
 	return isURL(link) ? (
-		<div>{link}</div>
+		<a href={link} target="_blank">
+			{link}
+		</a>
 	) : (
 		<div style={{ color: "red", fontWeight: "bolder" }}>{link}</div>
 	);

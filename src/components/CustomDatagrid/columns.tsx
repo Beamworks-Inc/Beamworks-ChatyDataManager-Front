@@ -49,47 +49,47 @@ export const columns = [
 	{
 		field: "question",
 		headerName: "Question",
-		width: 200,
+		width: 310,
 		sortable: false,
 		editable: false,
 	},
 	{
 		field: "answer",
 		headerName: "Answer",
-		width: 200,
+		width: 310,
 		sortable: false,
 		editable: false,
 	},
-	{
-		field: "reference",
-		headerName: "Reference",
-		width: 110,
-		editable: false,
-		description: "논문 서치 정보, 웹페이지 링크등을 사용합니다.",
-		// @ts-ignore
-		renderCell: (params) => <CellReferenceLinkComp params={params} />,
-	},
-	{
-		field: "referenceLink",
-		headerName: "reference link",
-		width: 200,
-		hide: true,
-	},
-	{
-		field: "rationale",
-		headerName: "Rationale",
-		width: 110,
-		editable: false,
-		description: "A에 대한 부가 자료 (Link, Image, Movie)",
-		// @ts-ignore
-		renderCell: (params) => <CellRationaleLinkComp params={params} />,
-	},
-	{
-		field: "rationaleLink",
-		headerName: "rationale link",
-		width: 200,
-		hide: true,
-	},
+	// {
+	// 	field: "reference",
+	// 	headerName: "Reference",
+	// 	width: 110,
+	// 	editable: false,
+	// 	description: "논문 서치 정보, 웹페이지 링크등을 사용합니다.",
+	// 	// @ts-ignore
+	// 	renderCell: (params) => <CellReferenceLinkComp params={params} />,
+	// },
+	// {
+	// 	field: "referenceLink",
+	// 	headerName: "reference link",
+	// 	width: 200,
+	// 	hide: true,
+	// },
+	// {
+	// 	field: "rationale",
+	// 	headerName: "Rationale",
+	// 	width: 110,
+	// 	editable: false,
+	// 	description: "A에 대한 부가 자료 (Link, Image, Movie)",
+	// 	// @ts-ignore
+	// 	renderCell: (params) => <CellRationaleLinkComp params={params} />,
+	// },
+	// {
+	// 	field: "rationaleLink",
+	// 	headerName: "rationale link",
+	// 	width: 200,
+	// 	hide: true,
+	// },
 	{
 		field: "writer",
 		headerName: "Writer",
