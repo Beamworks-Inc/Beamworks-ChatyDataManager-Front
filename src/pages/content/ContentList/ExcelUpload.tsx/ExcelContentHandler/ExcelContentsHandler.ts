@@ -91,18 +91,24 @@ class ValidExcelContentsHandler {
 
 
 class ExcelContentsHandler{
+    EXCEL_RULE_DESCRIPTION="엑셀 파일의 형식은 다음과 같습니다.\n" +
+        "검수여부 : O 또는 X\n" +
+        "검수일자 : 엑셀 날짜 형식\n" +
+        "카테고리 : 시작 3개의 카테고리는 트리 구조로 표현, 구분자는 $를 사용, ex) 카테고리1$카테고리2$카테고리3\n" +
+        "Reference : Reference 는 여러개가 있을 수 있음, 구분자는 \\$를 사용, ex) Reference1\\$Reference2\\$Reference3, 각 Reference 는 URL 형식또는 string 형식이어야 함\n"+
+        "**주의 : 검수여부에 X가 표시되어 있는 경우 검수일자와 검수자는 셀은 비워져 있어야 합니다.**\n"
 
     setExcelContents(contents : object[]): ValidExcelContentsHandler{
         const invalidContentIndexes = this.getInvalidContentIndexes(contents);
         if(invalidContentIndexes.length>0) {
-            alert('엑셀 파일의 형식이 잘못되었습니다. 다음 행의 내용을 확인해주세요 : ' + invalidContentIndexes.join(','));
+            alert(this.EXCEL_RULE_DESCRIPTION+'\n엑셀 파일의 형식이 잘못되었습니다. 다음 행의 내용을 확인해주세요 : ' + invalidContentIndexes.join(','));
             throw new Error(`엑셀 파일에 잘못된 데이터가 있습니다. 잘못된 데이터가 있는 행 번호 : ${invalidContentIndexes.join(',')}`);
         }
         return new ValidExcelContentsHandler(contents as ExcelContent[])
     }
 
     isValidDateFormat(date: string): boolean {
-        return (new Date(date)).toDateString()!=='Invalid Date'
+        return date=='None' || (new Date(date)).toDateString()!=='Invalid Date'
     }
 
 
@@ -117,10 +123,19 @@ class ExcelContentsHandler{
             && 'Reference' in object && typeof object['Reference'] === 'string'
     }
 
+    isExcelContentValid(content: ExcelContent): boolean {
+        if(content['검수여부']==='X'){
+            return content['검수일자']==='None' && content['검수자']==='None'
+        }
+        else{
+            return false
+        }
+    }
+
 
     getInvalidContentIndexes(contents : object[]): number[]{
         return contents.filter((content)=>{
-            return !this.isInstanceOfExcelContent(content);
+            return !this.isInstanceOfExcelContent(content) && this.isExcelContentValid(content as ExcelContent)
         }).map((content,index)=>(index+1))
     }
 
