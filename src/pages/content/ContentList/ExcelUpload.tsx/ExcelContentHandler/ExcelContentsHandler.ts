@@ -59,7 +59,12 @@ class ValidExcelContentsHandler {
             if(ref.startsWith('http')){
                 return {...sample,link:ref}
             }else{
-                return {...sample,description:ref}
+                if(ref==="None"){
+                    return sample
+                }
+                else{
+                    return {...sample,description:ref}
+                }
             }
         })
     }
