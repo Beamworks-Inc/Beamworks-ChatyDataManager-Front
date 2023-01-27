@@ -77,14 +77,19 @@ const ExcelUploadDialog = ({ open, handleClose }: any) => {
 		const ws = wb.Sheets[wb.SheetNames[0]];
 		const json: object[] = XLSX.utils.sheet_to_json(ws, {blankrows:true, defval:"None",raw:false});
 		setSnackBarOpen(true);
-		excelHandler.setExcelContents(json).buildUploader().upload(
-			(dataIndex: number,totalContentNumber : number)=>{
-				setProgressValue(((dataIndex+1)/totalContentNumber)*100);
-				if(dataIndex+1===totalContentNumber){
-					setSnackBarOpen(false);
+		try{
+			excelHandler.setExcelContents(json).buildUploader().upload(
+				(dataIndex: number,totalContentNumber : number)=>{
+					setProgressValue(((dataIndex+1)/totalContentNumber)*100);
+					if(dataIndex+1===totalContentNumber){
+						setSnackBarOpen(false);
+					}
 				}
-			}
-		)
+			)
+		}
+		catch (e){
+			setSnackBarOpen(false);
+		}
 	};
 
 	return (
@@ -111,7 +116,7 @@ const ExcelUploadDialog = ({ open, handleClose }: any) => {
 							type="file"
 							onChange={async (e: React.ChangeEvent) => {
 								/* get data as an ArrayBuffer */
-								const file = e.target.files[0];
+								const file = e.target.정files[0];
 								const data = await file.arrayBuffer();
 
 								/* parse and load first worksheet */

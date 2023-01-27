@@ -81,7 +81,7 @@ class ValidExcelContentsHandler {
                 writeDate: (new Date()).toISOString(),
                 writer: null,
                 keyword: content['카테고리'].split('$'),
-                reviewerKeyword: content['검수자'],
+                reviewerKeyword: content['검수자 카테고리'],
                 review: null,
                 status: content['검수여부'] === 'O' ? 'APPROVED' : 'DRAFT',
             }
