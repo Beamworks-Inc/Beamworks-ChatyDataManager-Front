@@ -116,7 +116,7 @@ const ExcelUploadDialog = ({ open, handleClose }: any) => {
 							type="file"
 							onChange={async (e: React.ChangeEvent) => {
 								/* get data as an ArrayBuffer */
-								const file = e.target.정files[0];
+								const file = e.target.files[0];
 								const data = await file.arrayBuffer();
 
 								/* parse and load first worksheet */
