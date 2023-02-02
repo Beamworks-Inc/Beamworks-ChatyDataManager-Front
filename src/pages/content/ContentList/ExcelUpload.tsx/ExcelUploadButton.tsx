@@ -114,6 +114,7 @@ const ExcelUploadDialog = ({ open, handleClose }: any) => {
 						<input
 							style={{ marginBottom: "1rem" }}
 							type="file"
+							accept=".xlsx"
 							onChange={async (e: React.ChangeEvent) => {
 								/* get data as an ArrayBuffer */
 								const file = e.target.files[0];
