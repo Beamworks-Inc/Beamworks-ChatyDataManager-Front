@@ -131,7 +131,7 @@ const ExcelUploadDialog = ({ open, handleClose }: any) => {
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={handleApply}>Apply</Button>
-					<Button onClick={handleClose}>Close</Button>
+					<Button onClick={()=>{handleClose(); setHTML("")}}>Close</Button>
 				</DialogActions>
 			</Dialog>
 			<ProgressSnackBar snackBarOpen={snackBarOpen} progressValue={progressValue}/>
