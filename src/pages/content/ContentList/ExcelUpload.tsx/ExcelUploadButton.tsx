@@ -72,6 +72,10 @@ const ExcelUploadDialog = ({ open, handleClose }: any) => {
 	const [progressValue, setProgressValue] = React.useState(0);
 
 	const handleApply = (e: BaseSyntheticEvent) => {
+		if(HTML=== ""){
+			alert("파일을 선택해주세요.")
+			return;
+		}
 		// parse Excel Rows to json
 		const wb = XLSX.read(HTML, { type: "string" });
 		const ws = wb.Sheets[wb.SheetNames[0]];
