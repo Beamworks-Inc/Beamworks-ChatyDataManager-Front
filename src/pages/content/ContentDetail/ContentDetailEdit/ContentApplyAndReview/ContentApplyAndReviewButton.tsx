@@ -12,6 +12,7 @@ import { User } from "interfaces/Content.interface";
 // import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 // import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import MenuIcon from "@mui/icons-material/Menu";
+import DictationActivateButton from "../../../../../components/Dictation/DictationActivateButton";
 
 export function ContentApplyAndReviewButton() {
 	const DEFAULT_FOLDERID = 390;
@@ -92,6 +93,7 @@ export function ContentApplyAndReviewButton() {
 			{/* <Fab size="small" color="secondary" aria-label="add">
 				<ArrowRightIcon />
 			</Fab> */}
+			<DictationActivateButton/>
 			<Button
 				variant="contained"
 				color="secondary"
