@@ -45,7 +45,7 @@ export const columns = [
 	// valueGetter: (params) => `${params.row.firstName || ''} ${params.row.lastName || ''}`
 	// 2. 마우스 오버시 툴팁을 표시할 수 있습니다.
 	// description: 'This column has a value getter and is not sortable.',
-	{ field: "id", headerName: "ID", width: 90, sortable: false },
+	{ field: "id", headerName: "ID", width: 90, sortable: true },
 	{
 		field: "question",
 		headerName: "Question",

@@ -90,6 +90,7 @@ const CustomDatagrid = () => {
 
 	return (
 		<DataGrid
+			disableColumnSelector={true}
 			onRowClick={handleRowClick}
 			initialState={{
 				filter: {

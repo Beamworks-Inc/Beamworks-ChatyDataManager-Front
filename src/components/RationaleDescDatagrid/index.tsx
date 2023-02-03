@@ -42,6 +42,7 @@ const columns = [
 		headerName: "link",
 		type: "string",
 		width: 400,
+		sortable: false,
 		editable: true,
 		renderCell: (params: any) => <LinkField link={params.row.link || "..."} />,
 	},
@@ -81,6 +82,7 @@ const ReationaleDescDatagrid = () => {
 
 	return (
 		<SimpleDatagrid
+			disableColumnSelector={true}
 			rows={rowConverter(description)}
 			columns={columnsWithModelGetterColumn}
 			onCellEditDone={handleCellEditDone}
