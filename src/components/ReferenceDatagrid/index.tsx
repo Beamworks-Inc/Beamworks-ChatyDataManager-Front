@@ -19,7 +19,7 @@ const columns = [
 		type: "string",
 		width: 200,
 		editable: true,
-		sortable: false,
+		sortable: true,
 		renderCell: (params: any) => {
 			return <div>{params.row.title || "..."}</div>;
 		},
@@ -40,6 +40,7 @@ const columns = [
 		headerName: "link",
 		type: "string",
 		width: 400,
+		sortable: false,
 		editable: true,
 		renderCell: (params: any) => <LinkField link={params.row.link || "..."} />,
 	},
