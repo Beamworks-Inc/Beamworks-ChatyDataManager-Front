@@ -13,6 +13,7 @@ export function AnswerEditText(props: {
 				Answer
 			</Typography>
 			<EditableText
+				limit={250}
 				text={props.content.answer}
 				handleTextChange={props.handleTextChange}
 				label="answer"
