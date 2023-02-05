@@ -21,27 +21,44 @@ const EditableText = ({
 	return (
 		<>
 			{isEditing ? (
-				<TextField
-					inputProps={{
-						style: {
-							margin: "-14px",
-						},
-					}}
-					fullWidth
-					id={id}
-					multiline
-					autoFocus
-					value={text}
-					onFocus={(e) =>
-						e.currentTarget.setSelectionRange(
-							e.currentTarget.value.length,
-							e.currentTarget.value.length
-						)
-					}
-					onBlur={handleBlur}
-					onChange={handleTextChange}
-					placeholder="Enter content.."
-				/>
+				<>
+					<div style={{ position: "relative" }}>
+						<TextField
+							inputProps={{
+								style: {
+									margin: "-14px",
+									paddingRight: "70px",
+								},
+							}}
+							fullWidth
+							id={id}
+							multiline
+							autoFocus
+							value={text}
+							onFocus={(e) =>
+								e.currentTarget.setSelectionRange(
+									e.currentTarget.value.length,
+									e.currentTarget.value.length
+								)
+							}
+							onBlur={handleBlur}
+							onChange={handleTextChange}
+							placeholder="Enter content.."
+						/>
+						{props.limit && (
+							<Typography
+								sx={{
+									position: "absolute",
+									right: 5,
+									bottom: 0,
+									color: "gray",
+								}}
+							>
+								{text.length + " / " + props.limit}
+							</Typography>
+						)}
+					</div>
+				</>
 			) : (
 				<div
 					style={{ whiteSpace: "pre-wrap" }}

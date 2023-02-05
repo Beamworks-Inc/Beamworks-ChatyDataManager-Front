@@ -11,16 +11,18 @@ import { RationalEditBox } from "./RationalEditBox";
 import { ContentAction } from "../../../../store/reducers/ContentReducer";
 import { useDispatch } from "react-redux";
 import { ReviewerKeywordEditBox } from "./ReviewerKeywordEditBox";
+import { calcLength } from "framer-motion";
 
 export function ContentDetailEdit(props: { content: Content }) {
 	const dispatch = useDispatch();
 
 	const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const inputLabel = e.currentTarget.id;
+		const inputValue = e.currentTarget.value as string;
 		dispatch(
 			ContentAction.setCurrentContent({
 				...props.content,
-				[inputLabel]: e.currentTarget.value,
+				[inputLabel]: inputValue.slice(0, 250),
 			})
 		);
 	};
