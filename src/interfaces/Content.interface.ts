@@ -55,6 +55,7 @@ export interface ContentReducerState {
 	menuItems: Treeitem | null;
 	keywordCategories: KeywordDto[];
 	selectedCategoryList: KeywordDto[];
+	searchKeyword: string;
 }
 export interface Treeitem {
 	id: number;

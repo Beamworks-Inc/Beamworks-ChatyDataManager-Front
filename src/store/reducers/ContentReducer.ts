@@ -39,11 +39,13 @@ const INIT_CONTENT_STATE: ContentReducerState = {
 	menuItems: null,
 	keywordCategories: [],
 	selectedCategoryList: [],
+	searchKeyword: "",
 };
 
 // action type
 const HEADER = "ContentReducer";
 const TYPE = {
+	SET_SEARCH_KEYWORD: `${HEADER}/SET_SEARCH_KEYWORD` as const,
 	SET_CONTENT_LIST_STATE: `${HEADER}/SET_CONTENT_LIST_STATE` as const,
 	SET_CURRENT_CONTENT: `${HEADER}/SET_CURRENT_CONTENT` as const,
 	SET_CURRENT_CONTENT_REFERENCES:
@@ -58,6 +60,10 @@ const TYPE = {
 
 // action creator
 export const ContentAction = {
+	setSearchKeyword: (keyword: string) => ({
+		type: TYPE.SET_SEARCH_KEYWORD,
+		payload: keyword,
+	}),
 	setCurrentContent: (content: Content) => ({
 		type: TYPE.SET_CURRENT_CONTENT,
 		payload: content,
@@ -100,6 +106,8 @@ export default function ContentReducer(
 	action: any
 ): any {
 	switch (action.type) {
+		case TYPE.SET_SEARCH_KEYWORD:
+			return { ...state, searchKeyword: action.payload };
 		case TYPE.SET_CONTENT_LIST_STATE:
 			return { ...state, contentListState: action.payload };
 		case TYPE.SET_CURRENT_CONTENT:
@@ -121,7 +129,7 @@ export default function ContentReducer(
 				currentContent: {
 					...state.currentContent,
 					rationale: {
-						...state.currentContent.rationale,
+						...state.currentContent?.rationale,
 						description: action.payload,
 					},
 				},

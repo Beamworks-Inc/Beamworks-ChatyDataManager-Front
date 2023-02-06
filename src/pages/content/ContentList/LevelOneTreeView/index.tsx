@@ -52,6 +52,9 @@ export default function LevelOneTreeView() {
 		(state: RootState) => state.ContentReducer.keywordCategories
 	);
 	const user = useSelector((state: RootState) => state.UserReducer);
+	const searchKeyword = useSelector(
+		(state: RootState) => state.ContentReducer.searchKeyword
+	);
 
 	useEffect(() => {
 		if (user.role === "USER") {
@@ -78,9 +81,11 @@ export default function LevelOneTreeView() {
 	return (
 		<Box>
 			<UnselectBox />
-			{keywordCategories.map((keyword: KeywordDto) => (
-				<KeywordSelectView keyword={keyword} />
-			))}
+			{keywordCategories
+				.filter((keyword: KeywordDto) => keyword.name.includes(searchKeyword))
+				.map((keyword: KeywordDto) => (
+					<KeywordSelectView keyword={keyword} />
+				))}
 		</Box>
 	);
 }
