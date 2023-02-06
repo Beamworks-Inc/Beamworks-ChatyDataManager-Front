@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ContentAction } from "store/reducers/ContentReducer";
 
 import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
 import { RootState } from "store";
 
 export function UnselectBox() {
@@ -16,6 +17,10 @@ export function UnselectBox() {
 	const keywordSearchValue = useSelector(
 		(state: RootState) => state.ContentReducer.searchKeyword
 	);
+
+	const handleClickClearBtn = () => {
+		dispatch(ContentAction.setSearchKeyword(""));
+	};
 
 	return (
 		<Box
@@ -39,6 +44,15 @@ export function UnselectBox() {
 				startAdornment={
 					<InputAdornment position="start">
 						<SearchIcon />
+					</InputAdornment>
+				}
+				endAdornment={
+					<InputAdornment
+						onClick={handleClickClearBtn}
+						sx={{ cursor: "pointer" }}
+						position="end"
+					>
+						<ClearIcon />
 					</InputAdornment>
 				}
 			/>
