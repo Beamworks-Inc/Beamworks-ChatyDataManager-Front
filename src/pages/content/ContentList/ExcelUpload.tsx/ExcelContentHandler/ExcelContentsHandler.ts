@@ -101,8 +101,7 @@ class ExcelContentsHandler{
     setExcelContents(contents : object[]): ValidExcelContentsHandler{
         const invalidContentIndexes = this.getInvalidContentIndexes(contents);
         if(invalidContentIndexes.length>0) {
-            alert(this.EXCEL_RULE_DESCRIPTION+'\n엑셀 파일의 형식이 잘못되었습니다. 다음 행의 내용을 확인해주세요 : ' + invalidContentIndexes.join(','));
-            throw new Error(`엑셀 파일에 잘못된 데이터가 있습니다. 잘못된 데이터가 있는 행 번호 : ${invalidContentIndexes.join(',')}`);
+            throw new Error(this.EXCEL_RULE_DESCRIPTION+'\n엑셀 파일의 형식이 잘못되었습니다. 다음 행의 내용을 확인해주세요 : ' + invalidContentIndexes.join(','));
         }
         return new ValidExcelContentsHandler(contents as ExcelContent[])
     }
@@ -127,15 +126,13 @@ class ExcelContentsHandler{
         if(content['검수여부']==='X'){
             return content['검수일자']==='None' && content['검수자']==='None'
         }
-        else{
-            return false
-        }
+        return true
     }
 
 
     getInvalidContentIndexes(contents : object[]): number[]{
         return contents.filter((content)=>{
-            return !this.isInstanceOfExcelContent(content) && this.isExcelContentValid(content as ExcelContent)
+            return !this.isInstanceOfExcelContent(content) || !this.isExcelContentValid(content as ExcelContent)
         }).map((content,index)=>(index+1))
     }
 

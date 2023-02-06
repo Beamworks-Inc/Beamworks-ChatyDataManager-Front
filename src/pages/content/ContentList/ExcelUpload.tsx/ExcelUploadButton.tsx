@@ -58,13 +58,13 @@ function CircularProgressWithLabel(
 const ProgressSnackBar = (props: {
 	snackBarOpen: Boolean;
 	progressValue: number;
+	message : string;
 }) => {
-	console.log("ProgressSnackBar props", props);
 	return (
 		<Snackbar
 			// @ts-ignore
 			open={props.snackBarOpen}
-			message="Uploading..."
+			message={props.message}
 			action={<CircularProgressWithLabel value={props.progressValue} />}
 		/>
 	);
@@ -76,6 +76,7 @@ const ExcelUploadDialog = ({ open, handleClose }: any) => {
 
 	const [HTML, setHTML] = React.useState("");
 	const [snackBarOpen, setSnackBarOpen] = React.useState(false);
+	const [snackBarMessage,setSnackBarMessage]=React.useState("");
 	const [progressValue, setProgressValue] = React.useState(0);
 
 	const handleApply = (e: BaseSyntheticEvent) => {
@@ -92,17 +93,20 @@ const ExcelUploadDialog = ({ open, handleClose }: any) => {
 			raw: false,
 		});
 		setSnackBarOpen(true);
+		setSnackBarMessage("Checking Excel Format...")
 		try {
 			excelHandler
 				.setExcelContents(json)
 				.buildUploader()
 				.upload((dataIndex: number, totalContentNumber: number) => {
+					setSnackBarMessage("Uploading...")
 					setProgressValue(((dataIndex + 1) / totalContentNumber) * 100);
 					if (dataIndex + 1 === totalContentNumber) {
 						setSnackBarOpen(false);
 					}
 				});
 		} catch (e) {
+			alert(e.message)
 			setSnackBarOpen(false);
 		}
 	};
