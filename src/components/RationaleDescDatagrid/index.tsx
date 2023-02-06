@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
 import { rowConverter, rowInverter } from "./util";
 import { ContentAction } from "store/reducers/ContentReducer";
+import { Box } from "@mui/material";
 
 const isURL = (url: string) => {
 	try {
@@ -24,6 +25,20 @@ const LinkField = ({ link }: { link: string }) => {
 	);
 };
 
+const scrollStyle = {
+	overflowX: "scroll",
+	scrollbarWidth: "none",
+	"&::-webkit-scrollbar": { height: "5px" },
+	"&::-webkit-scrollbar-thumb": {
+		backgroundColor: "#efefef",
+		borderRadius: "10px",
+	},
+	"&::-webkit-scrollbar-thumb:hover": {
+		backgroundColor: "#878787",
+		borderRadius: "10px",
+	},
+};
+
 const columns = [
 	{ field: "id", headerName: "id", hide: true },
 	{
@@ -34,7 +49,7 @@ const columns = [
 		editable: true,
 		sortable: false,
 		renderCell: (params: any) => {
-			return <div>{params.row.description || "..."}</div>;
+			return <Box sx={scrollStyle}>{params.row.description || "..."}</Box>;
 		},
 	},
 	{
