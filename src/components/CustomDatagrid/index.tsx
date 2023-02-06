@@ -1,5 +1,5 @@
 // modules
-import { Dispatch, useEffect } from "react";
+import { Dispatch, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { DataGrid, GridLinkOperator } from "@mui/x-data-grid";
@@ -34,7 +34,7 @@ const gridRowStyles = {
 	},
 };
 
-function fetchContent(
+async function fetchContent(
 	user: User,
 	selectedCategory: KeywordDto[],
 	dispatch: Dispatch<AnyAction>
@@ -43,7 +43,9 @@ function fetchContent(
 		(category) => category.name
 	);
 	if (user.role == "REVIEWER") {
-		ContentsAPI.findAllContentsContainReviewerKeyword(selectedCategoryNames)
+		await ContentsAPI.findAllContentsContainReviewerKeyword(
+			selectedCategoryNames
+		)
 			.then((res) => {
 				dispatch(ContentAction.setContentList(res.data));
 			})
@@ -51,7 +53,7 @@ function fetchContent(
 				alert("컨텐츠 데이터를 가져오는 중 에러가 발생했습니다.");
 			});
 	} else if (user.role == "USER") {
-		ContentsAPI.findAllContentsContainKeyword(selectedCategoryNames)
+		await ContentsAPI.findAllContentsContainKeyword(selectedCategoryNames)
 			.then((res) => {
 				dispatch(ContentAction.setContentList(res.data));
 			})
@@ -69,6 +71,7 @@ const CustomDatagrid = () => {
 	const navigate = useNavigate();
 
 	// states
+	const [isLoading, setIsLoading] = useState(false);
 	const selectedCategory: KeywordDto[] = useSelector(
 		(state: RootState) => state.ContentReducer.selectedCategoryList
 	);
@@ -79,7 +82,11 @@ const CustomDatagrid = () => {
 
 	// effects
 	useEffect(() => {
-		fetchContent(user, selectedCategory, dispatch);
+		(async () => {
+			setIsLoading(true);
+			await fetchContent(user, selectedCategory, dispatch);
+			setIsLoading(false);
+		})();
 	}, [selectedCategory]);
 
 	// handlers
@@ -90,6 +97,7 @@ const CustomDatagrid = () => {
 
 	return (
 		<DataGrid
+			loading={isLoading}
 			disableColumnSelector={true}
 			onRowClick={handleRowClick}
 			initialState={{
