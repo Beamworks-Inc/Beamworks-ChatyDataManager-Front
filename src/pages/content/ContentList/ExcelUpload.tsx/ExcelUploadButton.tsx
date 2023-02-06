@@ -5,7 +5,9 @@ import * as fs from "fs"; /* load 'fs' for readFile and writeFile support */
 
 import {
 	Box,
-	Button, CircularProgress, CircularProgressProps,
+	Button,
+	CircularProgress,
+	CircularProgressProps,
 	Dialog,
 	DialogActions,
 	DialogContent,
@@ -17,17 +19,19 @@ import {
 	InputLabel,
 	MenuItem,
 	Select,
-	SelectChangeEvent, Snackbar,
-	Switch, Typography,
+	SelectChangeEvent,
+	Snackbar,
+	Switch,
+	Typography,
 } from "@mui/material";
 import React, { BaseSyntheticEvent } from "react";
 import excelHandler from "./ExcelContentHandler/ExcelContentsHandler";
 
 function CircularProgressWithLabel(
-	props: CircularProgressProps & { value: number },
+	props: CircularProgressProps & { value: number }
 ) {
 	return (
-		<Box sx={{ position: 'relative', display: 'inline-flex' }}>
+		<Box sx={{ position: "relative", display: "inline-flex" }}>
 			<CircularProgress variant="determinate" {...props} />
 			<Box
 				sx={{
@@ -35,10 +39,10 @@ function CircularProgressWithLabel(
 					left: 0,
 					bottom: 0,
 					right: 0,
-					position: 'absolute',
-					display: 'flex',
-					alignItems: 'center',
-					justifyContent: 'center',
+					position: "absolute",
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "center",
 				}}
 			>
 				<Typography
@@ -51,17 +55,20 @@ function CircularProgressWithLabel(
 	);
 }
 
-const ProgressSnackBar=(props : {snackBarOpen: Boolean, progressValue :number})=>{
-	console.log("ProgressSnackBar props",props)
+const ProgressSnackBar = (props: {
+	snackBarOpen: Boolean;
+	progressValue: number;
+}) => {
+	console.log("ProgressSnackBar props", props);
 	return (
 		<Snackbar
 			// @ts-ignore
 			open={props.snackBarOpen}
 			message="Uploading..."
-			action={<CircularProgressWithLabel value={props.progressValue}/>}
+			action={<CircularProgressWithLabel value={props.progressValue} />}
 		/>
-	)
-}
+	);
+};
 const ExcelUploadDialog = ({ open, handleClose }: any) => {
 	XLSX.set_fs(fs);
 	// XLSX.stream.set_readable(Readable);
@@ -72,33 +79,45 @@ const ExcelUploadDialog = ({ open, handleClose }: any) => {
 	const [progressValue, setProgressValue] = React.useState(0);
 
 	const handleApply = (e: BaseSyntheticEvent) => {
-		if(HTML=== ""){
-			alert("파일을 선택해주세요.")
+		if (HTML === "") {
+			alert("파일을 선택해주세요.");
 			return;
 		}
 		// parse Excel Rows to json
 		const wb = XLSX.read(HTML, { type: "string" });
 		const ws = wb.Sheets[wb.SheetNames[0]];
-		const json: object[] = XLSX.utils.sheet_to_json(ws, {blankrows:true, defval:"None",raw:false});
+		const json: object[] = XLSX.utils.sheet_to_json(ws, {
+			blankrows: true,
+			defval: "None",
+			raw: false,
+		});
 		setSnackBarOpen(true);
-		try{
-			excelHandler.setExcelContents(json).buildUploader().upload(
-				(dataIndex: number,totalContentNumber : number)=>{
-					setProgressValue(((dataIndex+1)/totalContentNumber)*100);
-					if(dataIndex+1===totalContentNumber){
+		try {
+			excelHandler
+				.setExcelContents(json)
+				.buildUploader()
+				.upload((dataIndex: number, totalContentNumber: number) => {
+					setProgressValue(((dataIndex + 1) / totalContentNumber) * 100);
+					if (dataIndex + 1 === totalContentNumber) {
 						setSnackBarOpen(false);
 					}
-				}
-			)
-		}
-		catch (e){
+				});
+		} catch (e) {
 			setSnackBarOpen(false);
 		}
 	};
 
 	return (
 		<>
-			<Dialog fullWidth={true} maxWidth="lg" open={open} onClose={handleClose}>
+			<Dialog
+				fullWidth={true}
+				maxWidth="lg"
+				open={open}
+				onClose={() => {
+					handleClose();
+					setHTML("");
+				}}
+			>
 				<DialogTitle>Excel Upload</DialogTitle>
 				<DialogContent>
 					<DialogContentText>
@@ -135,10 +154,20 @@ const ExcelUploadDialog = ({ open, handleClose }: any) => {
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={handleApply}>Apply</Button>
-					<Button onClick={()=>{handleClose(); setHTML("")}}>Close</Button>
+					<Button
+						onClick={() => {
+							handleClose();
+							setHTML("");
+						}}
+					>
+						Close
+					</Button>
 				</DialogActions>
 			</Dialog>
-			<ProgressSnackBar snackBarOpen={snackBarOpen} progressValue={progressValue}/>
+			<ProgressSnackBar
+				snackBarOpen={snackBarOpen}
+				progressValue={progressValue}
+			/>
 		</>
 	);
 };
