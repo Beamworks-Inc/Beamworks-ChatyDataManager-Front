@@ -52,7 +52,18 @@ export function ContentApplyAndReviewButton() {
 		navigate(`/content`);
 	}
 
+	function validateContent(content: Content) {
+		if (content.question === "") return false;
+		if (content.answer === "") return false;
+		return true;
+	}
+
 	function handleApplyBtnClick() {
+		if (validateContent(content) === false) {
+			alert("컨텐츠 질문과 답변을 입력해주세요.");
+			return;
+		}
+
 		const newContent = JSON.parse(JSON.stringify(content));
 		newContent.writer = user;
 		newContent.writeDate = new Date().toISOString();
@@ -93,7 +104,7 @@ export function ContentApplyAndReviewButton() {
 			{/* <Fab size="small" color="secondary" aria-label="add">
 				<ArrowRightIcon />
 			</Fab> */}
-			<DictationActivateButton/>
+			<DictationActivateButton />
 			<Button
 				variant="contained"
 				color="secondary"
