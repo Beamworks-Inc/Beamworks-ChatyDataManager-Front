@@ -1,9 +1,16 @@
 import { Box, Typography } from "@mui/material";
-import EditableChip from "components/EditableChip";
 import { ContentAction } from "store/reducers/ContentReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
-import React from "react";
+import React, { useEffect } from "react";
+import AutoCompleteSelectBox from "components/AutoCompleteSelectBox";
+import ContentsAPI from "apis/content";
+import { AxiosError, AxiosResponse } from "axios";
+import { KeywordDto } from "interfaces/Content.interface";
+
+function extractName(data: KeywordDto[]) {
+	return data.map((keyword) => keyword.name);
+}
 
 export function ReviewerKeywordEditBox() {
 	const reviewerKeyword = useSelector(
@@ -12,9 +19,25 @@ export function ReviewerKeywordEditBox() {
 
 	const dispatch = useDispatch();
 
-	const handleTextChangeForChip = (e: React.ChangeEvent<HTMLInputElement>) => {
-		dispatch(ContentAction.setReviewerKeyword(e.currentTarget.value));
+	const handleTextChangeForChip = (
+		e: React.ChangeEvent<HTMLInputElement>,
+		value: string
+	) => {
+		dispatch(ContentAction.setReviewerKeyword(value));
 	};
+
+	const [reviewerKeywords, setReviewerKeywords] = React.useState<string[]>([]);
+
+	useEffect(() => {
+		ContentsAPI.findAllReviewerKeywordList()
+			.then((res: AxiosResponse) => {
+				const reviewerKeywordList = extractName(res.data);
+				setReviewerKeywords(reviewerKeywordList);
+			})
+			.catch((err: AxiosError) => {
+				alert(`findAllReviewerKeywordList error, code:(${err})`);
+			});
+	}, []);
 
 	return (
 		<Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
@@ -22,8 +45,9 @@ export function ReviewerKeywordEditBox() {
 				Reviewer Keyword
 			</Typography>
 			<Box sx={{ display: "flex", gap: 1 }}>
-				<EditableChip
+				<AutoCompleteSelectBox
 					text={reviewerKeyword}
+					options={reviewerKeywords}
 					handleTextChange={handleTextChangeForChip}
 				/>
 			</Box>
