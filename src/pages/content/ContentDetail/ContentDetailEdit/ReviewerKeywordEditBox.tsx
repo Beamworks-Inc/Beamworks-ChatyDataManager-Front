@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Tooltip, Typography } from "@mui/material";
 import { ContentAction } from "store/reducers/ContentReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
@@ -42,7 +42,13 @@ export function ReviewerKeywordEditBox() {
 	return (
 		<Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
 			<Typography variant="h4" sx={{}}>
-				Reviewer Keyword
+				<Tooltip
+					title="해당 컨텐츠가 어떤 전문의 분과(ex, 영상의학과, 외과..)에 속하는지를 의미합니다."
+					placement="top"
+					arrow
+				>
+					<span>Reviewer Keyword</span>
+				</Tooltip>
 			</Typography>
 			<Box sx={{ display: "flex", gap: 1 }}>
 				<AutoCompleteSelectBox

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
 import { rowConverter, rowInverter } from "./util";
 import { ContentAction } from "store/reducers/ContentReducer";
-import { Box } from "@mui/material";
+import { Box, Tooltip } from "@mui/material";
 
 const isURL = (url: string) => {
 	try {
@@ -21,7 +21,13 @@ const LinkField = ({ link }: { link: string }) => {
 			{link}
 		</a>
 	) : (
-		<div style={{ color: "red", fontWeight: "bolder" }}>{link}</div>
+		<Tooltip
+			arrow
+			placement="top"
+			title={link !== "..." && CONST.WARN_WRONG_LINK}
+		>
+			<div style={{ color: "red", fontWeight: "bolder" }}>{link}</div>
+		</Tooltip>
 	);
 };
 
@@ -39,6 +45,12 @@ const scrollStyle = {
 	},
 };
 
+const CONST = {
+	WARN_WRONG_LINK: "잘못된 링크 형식입니다.",
+	INFO_DESC_TOOLTIP: "image, video에 대한 설명을 의미합니다.",
+	INFO_LINK_TOOLTIP: "image, video에 대한 링크를 의미합니다.",
+};
+
 const columns = [
 	{ field: "id", headerName: "id", hide: true },
 	{
@@ -48,6 +60,13 @@ const columns = [
 		width: 600,
 		editable: true,
 		sortable: false,
+		renderHeader: (params: any) => {
+			return (
+				<Tooltip placement="top" arrow title={CONST.INFO_DESC_TOOLTIP}>
+					<span>{params.field}</span>
+				</Tooltip>
+			);
+		},
 		renderCell: (params: any) => {
 			return <Box sx={scrollStyle}>{params.row.description || "..."}</Box>;
 		},
@@ -59,11 +78,22 @@ const columns = [
 		width: 400,
 		sortable: false,
 		editable: true,
-		renderCell: (params: any) => <LinkField link={params.row.link || "..."} />,
+		renderHeader: (params: any) => {
+			return (
+				<Tooltip placement="top" arrow title={CONST.INFO_LINK_TOOLTIP}>
+					<span>{params.field}</span>
+				</Tooltip>
+			);
+		},
+		renderCell: (params: any) => (
+			<Tooltip placement="top" arrow title={CONST.INFO_LINK_TOOLTIP}>
+				<LinkField link={params.row.link || "..."} />
+			</Tooltip>
+		),
 	},
 ];
 
-const ReationaleDescDatagrid = () => {
+const RationaleDescDatagrid = () => {
 	const apiRef = useRef();
 	const columnsWithModelGetterColumn = [
 		...columns,
@@ -105,4 +135,4 @@ const ReationaleDescDatagrid = () => {
 	);
 };
 
-export default React.memo(ReationaleDescDatagrid);
+export default React.memo(RationaleDescDatagrid);

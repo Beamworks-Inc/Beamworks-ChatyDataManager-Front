@@ -1,6 +1,6 @@
 import React from "react";
 import { Content } from "../../../../interfaces/Content.interface";
-import { Box, Typography } from "@mui/material";
+import { Box, Tooltip, Typography } from "@mui/material";
 import EditableText from "../../../../components/EditableText";
 
 export function QuestionEditText(props: {
@@ -10,7 +10,9 @@ export function QuestionEditText(props: {
 	return (
 		<Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
 			<Typography variant="h4" sx={{}}>
-				Question
+				<Tooltip title="사용자의 발화를 의미합니다." placement="top" arrow>
+					<span>Question</span>
+				</Tooltip>
 			</Typography>
 			<EditableText
 				limit={250}

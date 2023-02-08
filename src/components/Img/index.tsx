@@ -16,6 +16,7 @@ export default function Img(props: { src: string }) {
 					width: "100%",
 					height: "100%",
 					display: "flex",
+					flexDirection: "column",
 					justifyContent: "center",
 					alignItems: "center",
 					boxSizing: "border-box",
@@ -23,7 +24,8 @@ export default function Img(props: { src: string }) {
 					fontWeight: "bolder",
 				}}
 			>
-				No Valid Image Link
+				<div>잘못된 링크 형식입니다</div>
+				<div>'이미지'링크를 그대로 붙여넣어 주세요</div>
 			</div>
 		);
 	}
@@ -32,7 +34,7 @@ export default function Img(props: { src: string }) {
 		<img
 			onError={() => setValid(false)}
 			src={src}
-			alt={"No Valid Image Link"}
+			alt={"No Valid Image Link\n"}
 			style={{
 				width: "100%",
 				height: "100%",
