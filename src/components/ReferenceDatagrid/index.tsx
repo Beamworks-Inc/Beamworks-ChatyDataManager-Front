@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
 import { rowConverter, rowInverter } from "./util";
 import { ContentAction } from "store/reducers/ContentReducer";
-import { Box, Button, Tooltip } from "@mui/material";
+import { Box, Tooltip } from "@mui/material";
 
 const scrollStyle = {
 	overflowX: "scroll",
@@ -26,6 +26,15 @@ const scrollStyle = {
 	},
 };
 
+const CONST = {
+	WARN_WRONG_LINK: "링크가 잘못되었습니다. 링크를 그대로 붙여넣기 해주세요.",
+	INFO_TITLE_TOOLTIP: "논문 제목 / 웹페이지를 대표하는 단어를 의미합니다.",
+	INFO_DESC_TOOLTIP:
+		"논문, 웹페이지에 대한 설명 / 찾게된 경위 / 근거들을 의미합니다.",
+	INFO_LINK_TOOLTIP:
+		"논문 / 웹페이지 온라인 링크를 의미합니다. (ex, dbpia, scienceon, 서울대병원 홈페이지..)",
+};
+
 const columns = [
 	{ field: "id", headerName: "id", hide: true },
 	{
@@ -35,6 +44,13 @@ const columns = [
 		width: 200,
 		editable: true,
 		sortable: true,
+		renderHeader: (params: any) => {
+			return (
+				<Tooltip placement="top" arrow title={CONST.INFO_TITLE_TOOLTIP}>
+					<span>{params.field}</span>
+				</Tooltip>
+			);
+		},
 		renderCell: (params: any) => {
 			return <Box sx={scrollStyle}>{params.row.title || "..."}</Box>;
 		},
@@ -46,6 +62,13 @@ const columns = [
 		width: 600,
 		editable: true,
 		sortable: false,
+		renderHeader: (params: any) => {
+			return (
+				<Tooltip placement="top" arrow title={CONST.INFO_DESC_TOOLTIP}>
+					<span>{params.field}</span>
+				</Tooltip>
+			);
+		},
 		renderCell: (params: any) => {
 			return <Box sx={scrollStyle}>{params.row.description || "..."}</Box>;
 		},
@@ -57,6 +80,13 @@ const columns = [
 		width: 400,
 		sortable: false,
 		editable: true,
+		renderHeader: (params: any) => {
+			return (
+				<Tooltip placement="top" arrow title={CONST.INFO_LINK_TOOLTIP}>
+					<span>{params.field}</span>
+				</Tooltip>
+			);
+		},
 		renderCell: (params: any) => <LinkField link={params.row.link || "..."} />,
 	},
 ];
@@ -76,7 +106,13 @@ const LinkField = ({ link }: { link: string }) => {
 			{link}
 		</a>
 	) : (
-		<div style={{ color: "red", fontWeight: "bolder" }}>{link}</div>
+		<Tooltip
+			arrow
+			placement="top"
+			title={link !== "..." && CONST.WARN_WRONG_LINK}
+		>
+			<div style={{ color: "red", fontWeight: "bolder" }}>{link}</div>
+		</Tooltip>
 	);
 };
 
