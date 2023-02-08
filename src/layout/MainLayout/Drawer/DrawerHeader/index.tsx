@@ -23,7 +23,7 @@ const DrawerHeader = ({ open }) => {
 						// translate to the left 1rem
 						transform: "translateX(-1rem) translateY(0.2rem)",
 					}}
-					label={import.meta.env.VITE_REACT_APP_VERSION}
+					label={0.1}
 					size="small"
 					sx={{
 						height: 16,
