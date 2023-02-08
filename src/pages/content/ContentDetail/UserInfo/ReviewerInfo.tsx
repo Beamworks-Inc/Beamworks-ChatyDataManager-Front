@@ -1,9 +1,10 @@
 import { Content } from "../../../../interfaces/Content.interface";
-import { Box, Typography } from "@mui/material";
+import { Box, Tooltip, Typography } from "@mui/material";
 
 interface ReviewInfo {
 	title: string;
 	description: string;
+	tooltip?: string;
 }
 
 const reviewInfo: (content: Content) => ReviewInfo[] = (content: Content) => [
@@ -28,6 +29,7 @@ const reviewInfo: (content: Content) => ReviewInfo[] = (content: Content) => [
 	{
 		title: "Review Status",
 		description: content?.status || "Not reviewed yet",
+		tooltip: "3가지 상태가 있습니다. DRAFT / APPROVED / REJECTED",
 	},
 ];
 
@@ -35,7 +37,9 @@ function ReviewInfoItem(props: { info: ReviewInfo }) {
 	return (
 		<Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
 			<Typography variant="h4" sx={{}}>
-				{props.info.title}
+				<Tooltip title={props.info.tooltip} placement="top" arrow>
+					<span>{props.info.title}</span>
+				</Tooltip>
 			</Typography>
 			<Typography variant="body1" sx={{}}>
 				{props.info.description}

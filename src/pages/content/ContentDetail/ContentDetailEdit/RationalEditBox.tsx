@@ -1,5 +1,5 @@
 import { Content } from "../../../../interfaces/Content.interface";
-import { Box, Typography } from "@mui/material";
+import { Box, Tooltip, Typography } from "@mui/material";
 import CustomImageList from "../../../../components/CustomImageList";
 import RationaleDescDatagrid from "../../../../components/RationaleDescDatagrid";
 import React from "react";
@@ -8,8 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store";
 
 export function RationalEditBox(props: { content: Content }) {
-
-	const {content} = props;
+	const { content } = props;
 	const dispatch = useDispatch();
 
 	const handleImageListChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +39,13 @@ export function RationalEditBox(props: { content: Content }) {
 			}}
 		>
 			<Typography variant="h4" sx={{}}>
-				Rationale
+				<Tooltip
+					title="컨텐츠의 부가자료(image, video 등)를 의미합니다."
+					placement="top"
+					arrow
+				>
+					<span>Rationale</span>
+				</Tooltip>
 			</Typography>
 			<CustomImageList
 				files={content.rationale.url}
