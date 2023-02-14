@@ -11,7 +11,6 @@ import { RationalEditBox } from "./RationalEditBox";
 import { ContentAction } from "../../../../store/reducers/ContentReducer";
 import { useDispatch } from "react-redux";
 import { ReviewerKeywordEditBox } from "./ReviewerKeywordEditBox";
-import { calcLength } from "framer-motion";
 
 export function ContentDetailEdit(props: { content: Content }) {
 	const dispatch = useDispatch();
@@ -55,7 +54,7 @@ export function ContentDetailEdit(props: { content: Content }) {
 						content={props.content}
 						handleTextChange={handleTextChange}
 					/>
-					<KeywordEditBox content={props.content} />
+					<KeywordEditBox />
 					<ReviewerKeywordEditBox />
 					<ReferenceEditBox />
 					<RationalEditBox content={props.content} />
