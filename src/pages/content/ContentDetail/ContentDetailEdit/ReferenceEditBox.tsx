@@ -8,7 +8,7 @@ export function ReferenceEditBox() {
 				display: "flex",
 				flexDirection: "column",
 				gap: 1,
-				height: "300px",
+				height: "auto",
 			}}
 		>
 			<Typography variant="h4" sx={{}}>

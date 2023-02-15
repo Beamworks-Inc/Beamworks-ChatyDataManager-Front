@@ -2,6 +2,8 @@ import React from "react";
 
 import { styled } from "@mui/material/styles";
 import { DataGrid, GridCellEditStopParams, MuiEvent } from "@mui/x-data-grid";
+import { Box, Button } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
 	"& .MuiDataGrid-columnHeaders": {
@@ -9,8 +11,24 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
 	},
 }));
 
+export function CustomFooterComp({ handleClickBtn }: any) {
+	return (
+		<Box sx={{ p: 1, display: "flex", justifyContent: "center" }}>
+			<Button
+				id="add-row-btn"
+				variant="text"
+				color="secondary"
+				onClick={handleClickBtn}
+			>
+				<AddIcon />
+				Add Row
+			</Button>
+		</Box>
+	);
+}
+
 // This component is used for Content-detail page
-const SimpleDatagrid = ({ rows, columns, onCellEditDone }: any) => {
+const SimpleDatagrid = ({ rows, columns, onCellEditDone, onRowAdd }: any) => {
 	return (
 		<>
 			<StyledDataGrid
@@ -18,13 +36,17 @@ const SimpleDatagrid = ({ rows, columns, onCellEditDone }: any) => {
 				autoHeight
 				rows={rows}
 				columns={columns}
-				pageSize={3}
-				rowsPerPageOptions={[3]}
 				disableSelectionOnClick
 				experimentalFeatures={{ newEditingApi: true }}
 				onCellEditStop={(params: GridCellEditStopParams, event: MuiEvent) => {
 					// if ( params.reason === GridCellEditStopReasons.cellFocusOut )
 					onCellEditDone();
+				}}
+				components={{
+					Footer: CustomFooterComp,
+				}}
+				componentsProps={{
+					footer: { handleClickBtn: onRowAdd },
 				}}
 			/>
 		</>

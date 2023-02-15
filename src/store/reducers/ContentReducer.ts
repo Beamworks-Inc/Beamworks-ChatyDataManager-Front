@@ -23,7 +23,7 @@ export const initialContent = {
 	}),
 	rationale: {
 		id: null,
-		description: new Array(6).fill({ description: "", link: "" }),
+		description: new Array(1).fill({ description: "", link: "" }),
 		url: new Array(6).fill(""),
 	},
 	writer: null,

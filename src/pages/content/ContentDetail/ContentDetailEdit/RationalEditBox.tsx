@@ -35,7 +35,7 @@ export function RationalEditBox(props: { content: Content }) {
 				display: "flex",
 				flexDirection: "column",
 				gap: 1,
-				height: "700px",
+				height: "auto",
 			}}
 		>
 			<Typography variant="h4" sx={{}}>

@@ -51,8 +51,8 @@ function ReviewInfoItem(props: { info: ReviewInfo }) {
 export function ReviewerInfo(props: { content: Content }) {
 	return (
 		<>
-			{reviewInfo(props.content).map((info: ReviewInfo) => (
-				<ReviewInfoItem info={info} />
+			{reviewInfo(props.content).map((info: ReviewInfo, idx: number) => (
+				<ReviewInfoItem key={idx} info={info} />
 			))}
 		</>
 	);
