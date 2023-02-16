@@ -24,6 +24,10 @@ const AutoCompleteSelectBox = ({ text, handleTextChange, options }: any) => {
 		backgroundColor: "#e0e0e0",
 	} as CSSProperties;
 
+	const CONST = {
+		FIELD_PLACEHOLDER: "키워드 선택 / 추가",
+	};
+
 	const Listbox = styled("ul")(({ theme }) => ({
 		backgroundColor: "#fff",
 		width: "10rem",
@@ -50,7 +54,7 @@ const AutoCompleteSelectBox = ({ text, handleTextChange, options }: any) => {
 		<div>
 			<div {...getRootProps()}>
 				<input
-					placeholder="select / add keyword.."
+					placeholder={CONST.FIELD_PLACEHOLDER}
 					style={inputStyle}
 					{...getInputProps()}
 				/>

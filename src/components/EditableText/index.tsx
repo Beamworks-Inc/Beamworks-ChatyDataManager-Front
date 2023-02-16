@@ -2,6 +2,12 @@ import { TextField, Typography } from "@mui/material";
 
 import React from "react";
 // TODO: 컴포넌트 유형에 따라 줄바꿈 문자 안되게 하기
+
+const CONST = {
+	FIELD_PLACEHOLDER: "내용을 입력해주세요.",
+	CLICK_TO_EDIT: "더블클릭하여 수정하세요.",
+};
+
 const EditableText = ({
 	text = "",
 	handleTextChange,
@@ -43,7 +49,7 @@ const EditableText = ({
 							}
 							onBlur={handleBlur}
 							onChange={handleTextChange}
-							placeholder="Enter content.."
+							placeholder={CONST.FIELD_PLACEHOLDER}
 						/>
 						{props.limit && (
 							<Typography
@@ -65,7 +71,7 @@ const EditableText = ({
 					onDoubleClick={handleDoubleClick}
 					{...props}
 				>
-					{text || "double click here.."}
+					{text || CONST.CLICK_TO_EDIT}
 				</div>
 			)}
 		</>

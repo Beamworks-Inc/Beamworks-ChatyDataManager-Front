@@ -11,7 +11,7 @@ export function ContentsUserInfo(props: { content: Content }) {
 			{/* @ts-ignore */}
 			<MainCard
 				sx={{ position: "relative" }}
-				title={"Reviewer Section"}
+				title={"생성자 / 검토자 정보 섹션"}
 				content={false}
 			>
 				<Box

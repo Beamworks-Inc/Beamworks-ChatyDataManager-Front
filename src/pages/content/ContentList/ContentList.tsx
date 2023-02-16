@@ -18,7 +18,7 @@ const ContentList = () => {
 		<Grid container rowSpacing={4.5} columnSpacing={2.75}>
 			<Grid item xs={12} sm={2}>
 				{/*@ts-ignore*/}
-				<MainCard title="Content Category" content={false}>
+				<MainCard title="키워드 목록" content={false}>
 					<Typography variant="body2" sx={{ color: "text.secondary" }}>
 						<Box
 							sx={{
@@ -39,7 +39,7 @@ const ContentList = () => {
 				{/*@ts-ignore*/}
 				<MainCard
 					sx={{ position: "relative" }}
-					title={"Content List"}
+					title={"컨텐츠 목록"}
 					content={false}
 				>
 					{/* position it at the top right */}

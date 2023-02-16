@@ -1,17 +1,19 @@
 import { Content } from "../../../../interfaces/Content.interface";
 import { Box, Typography } from "@mui/material";
-import { useParams } from "react-router-dom";
+
+const CONST = {
+	DEFAULT_CONTENT: "아직 생성되지 않았습니다.",
+};
 
 export function WriterInfo(props: { content: Content }) {
 	return (
 		<>
-			{/* Reviewer Section */}
 			<Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
 				<Typography variant="h4" sx={{}}>
 					Writer
 				</Typography>
 				<Typography variant="body1" sx={{}}>
-					{props.content?.writer?.name || "Not created yet"}
+					{props.content?.writer?.name || CONST.DEFAULT_CONTENT}
 				</Typography>
 			</Box>
 
@@ -23,7 +25,7 @@ export function WriterInfo(props: { content: Content }) {
 					{Number.isNaN(
 						Date.parse(props.content?.writeDate as unknown as string)
 					)
-						? "Not created yet"
+						? CONST.DEFAULT_CONTENT
 						: new Date(
 								props.content?.writeDate as unknown as string
 						  ).toLocaleString()}
