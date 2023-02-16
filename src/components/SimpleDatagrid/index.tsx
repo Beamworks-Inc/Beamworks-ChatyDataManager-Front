@@ -1,5 +1,5 @@
 import React from "react";
-
+import { GridCell, GridCellProps } from "@mui/x-data-grid";
 import { styled } from "@mui/material/styles";
 import { DataGrid, GridCellEditStopParams, MuiEvent } from "@mui/x-data-grid";
 import { Box, Button } from "@mui/material";
@@ -11,7 +11,7 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
 	},
 }));
 
-export function CustomFooterComp({ handleClickBtn }: any) {
+function CustomFooterComp({ handleClickBtn }: any) {
 	return (
 		<Box sx={{ p: 1, display: "flex", justifyContent: "center" }}>
 			<Button
@@ -27,6 +27,21 @@ export function CustomFooterComp({ handleClickBtn }: any) {
 	);
 }
 
+const CustomCell = (props: GridCellProps) => {
+	const { children, ...other } = props;
+
+	return (
+		<GridCell {...other}>
+			{other.cellMode === "edit" ||
+			(props.value != null && props.value !== "") ? (
+				<div style={{ color: "black" }}>{children}</div>
+			) : (
+				<div style={{ color: "gray" }}>{children}</div>
+			)}
+		</GridCell>
+	);
+};
+
 // This component is used for Content-detail page
 const SimpleDatagrid = ({ rows, columns, onCellEditDone, onRowAdd }: any) => {
 	return (
@@ -39,10 +54,10 @@ const SimpleDatagrid = ({ rows, columns, onCellEditDone, onRowAdd }: any) => {
 				disableSelectionOnClick
 				experimentalFeatures={{ newEditingApi: true }}
 				onCellEditStop={(params: GridCellEditStopParams, event: MuiEvent) => {
-					// if ( params.reason === GridCellEditStopReasons.cellFocusOut )
 					onCellEditDone();
 				}}
 				components={{
+					Cell: CustomCell,
 					Footer: CustomFooterComp,
 				}}
 				componentsProps={{

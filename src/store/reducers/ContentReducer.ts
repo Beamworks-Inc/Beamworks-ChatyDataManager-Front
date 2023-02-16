@@ -15,7 +15,7 @@ export const initialContent = {
 	answer: "",
 	keyword: [],
 	reviewerKeyword: "",
-	reference: new Array(6).fill({
+	reference: new Array(1).fill({
 		id: null,
 		title: "",
 		description: "",
