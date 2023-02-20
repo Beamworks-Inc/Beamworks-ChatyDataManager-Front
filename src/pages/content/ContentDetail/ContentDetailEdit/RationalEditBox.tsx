@@ -5,7 +5,6 @@ import RationaleDescDatagrid from "../../../../components/RationaleDescDatagrid"
 import React from "react";
 import { ContentAction } from "../../../../store/reducers/ContentReducer";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../../store";
 
 export function RationalEditBox(props: { content: Content }) {
 	const { content } = props;
@@ -35,7 +34,7 @@ export function RationalEditBox(props: { content: Content }) {
 				display: "flex",
 				flexDirection: "column",
 				gap: 1,
-				height: "700px",
+				height: "auto",
 			}}
 		>
 			<Typography variant="h4" sx={{}}>

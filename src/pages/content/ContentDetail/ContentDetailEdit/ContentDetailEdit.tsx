@@ -31,7 +31,7 @@ export function ContentDetailEdit(props: { content: Content }) {
 			{/*@ts-ignore*/}
 			<MainCard
 				sx={{ position: "relative" }}
-				title="Content Detail"
+				title="컨텐츠 상세 정보"
 				content={false}
 			>
 				<ContentApplyAndReviewButton />

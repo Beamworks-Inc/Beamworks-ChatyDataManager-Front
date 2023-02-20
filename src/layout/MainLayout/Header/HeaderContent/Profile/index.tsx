@@ -183,7 +183,8 @@ const Profile = () => {
 														</Stack>
 													</Stack>
 												</Grid>
-												<Grid item>
+												{/* logout button */}
+												{/* <Grid item>
 													<IconButton
 														size="large"
 														color="secondary"
@@ -191,7 +192,7 @@ const Profile = () => {
 													>
 														<LogoutOutlined />
 													</IconButton>
-												</Grid>
+												</Grid> */}
 											</Grid>
 										</CardContent>
 										{/* {open && (

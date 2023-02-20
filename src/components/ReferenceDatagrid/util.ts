@@ -25,3 +25,12 @@ export function rowInverter(rows: Map<any, any>): Reference[] {
 	});
 	return arr;
 }
+
+export const isURL = (url: string) => {
+	try {
+		new URL(url);
+		return true;
+	} catch {
+		return false;
+	}
+};

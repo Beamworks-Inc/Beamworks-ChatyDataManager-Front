@@ -7,28 +7,32 @@ interface ReviewInfo {
 	tooltip?: string;
 }
 
+const CONST = {
+	DEFAULT_CONTENT: "아직 검토되지 않았습니다.",
+};
+
 const reviewInfo: (content: Content) => ReviewInfo[] = (content: Content) => [
 	{
 		title: "Reviewer",
-		description: content?.review?.reviewer?.name || "Not reviewed yet",
+		description: content?.review?.reviewer?.name || CONST.DEFAULT_CONTENT,
 	},
 	{
 		title: "Review Date",
 		description: Number.isNaN(
 			Date.parse(content?.review?.reviewDate as unknown as string)
 		)
-			? "Not reviewed yet"
+			? CONST.DEFAULT_CONTENT
 			: new Date(
 					content?.review?.reviewDate as unknown as string
 			  ).toLocaleString(),
 	},
 	{
 		title: "Review Comment",
-		description: content?.review?.reviewComment || "Not reviewed yet",
+		description: content?.review?.reviewComment || CONST.DEFAULT_CONTENT,
 	},
 	{
 		title: "Review Status",
-		description: content?.status || "Not reviewed yet",
+		description: content?.status || CONST.DEFAULT_CONTENT,
 		tooltip: "3가지 상태가 있습니다. DRAFT / APPROVED / REJECTED",
 	},
 ];
@@ -51,8 +55,8 @@ function ReviewInfoItem(props: { info: ReviewInfo }) {
 export function ReviewerInfo(props: { content: Content }) {
 	return (
 		<>
-			{reviewInfo(props.content).map((info: ReviewInfo) => (
-				<ReviewInfoItem info={info} />
+			{reviewInfo(props.content).map((info: ReviewInfo, idx: number) => (
+				<ReviewInfoItem key={idx} info={info} />
 			))}
 		</>
 	);
