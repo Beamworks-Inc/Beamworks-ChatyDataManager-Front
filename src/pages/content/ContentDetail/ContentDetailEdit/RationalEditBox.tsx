@@ -5,7 +5,6 @@ import RationaleDescDatagrid from "../../../../components/RationaleDescDatagrid"
 import React from "react";
 import { ContentAction } from "../../../../store/reducers/ContentReducer";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../../store";
 
 export function RationalEditBox(props: { content: Content }) {
 	const { content } = props;

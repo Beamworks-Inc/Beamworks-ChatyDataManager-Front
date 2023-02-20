@@ -24,7 +24,7 @@ export const initialContent = {
 	rationale: {
 		id: null,
 		description: new Array(1).fill({ description: "", link: "" }),
-		url: new Array(6).fill(""),
+		url: new Array(1).fill(""),
 	},
 	writer: null,
 	writeDate: null,
@@ -58,6 +58,10 @@ const TYPE = {
 	SET_REVIEWER_KEYWORD: `${HEADER}/SET_REVIEWER_KEYWORD` as const,
 	SET_CURRENT_CONTENT_KEYWORDS:
 		`${HEADER}/SET_CURRENT_CONTENT_KEYWORDS` as const,
+	SET_CURRENT_CONTENT_RATIONALE_URL:
+		`${HEADER}/SET_CURRENT_CONTENT_RATIONALE_URL` as const,
+	ADD_RATIONAL_IMAGE: `${HEADER}/ADD_RATIONAL_IMAGE` as const,
+	DELETE_RATIONAL_IMAGE: `${HEADER}/DELETE_RATIONAL_IMAGE` as const,
 };
 
 // action creator
@@ -104,6 +108,18 @@ export const ContentAction = {
 		type: TYPE.SET_CURRENT_CONTENT_KEYWORDS,
 		payload: keywords,
 	}),
+	setCurrentContentRationaleUrl: (urls: string[]) => ({
+		type: TYPE.SET_CURRENT_CONTENT_RATIONALE_URL,
+		payload: urls,
+	}),
+	addRationaleImage: (index: number) => ({
+		type: TYPE.ADD_RATIONAL_IMAGE,
+		payload: index,
+	}),
+	deleteRationaleImage: (index: number) => ({
+		type: TYPE.DELETE_RATIONAL_IMAGE,
+		payload: index,
+	}),
 };
 
 // reducer
@@ -111,58 +127,93 @@ export default function ContentReducer(
 	state: ContentReducerState = INIT_CONTENT_STATE,
 	action: any
 ): any {
-	switch (action.type) {
-		case TYPE.SET_SEARCH_KEYWORD:
-			return { ...state, searchKeyword: action.payload };
-		case TYPE.SET_CONTENT_LIST_STATE:
-			return { ...state, contentListState: action.payload };
-		case TYPE.SET_CURRENT_CONTENT:
-			return { ...state, currentContent: action.payload };
-		case TYPE.SET_CURRENT_CONTENT_REFERENCES:
-			return {
-				// key here
-				...state,
-				currentContent: {
-					// key here
-					...state.currentContent,
-					reference: action.payload, // IMPORTANT: reference가 아닌 다른 key값들(key here)은 destructing 문법의 특징으로 인해 참조타입의 value를 가지더라도 그 참조가 변하지 않는다.
+	if (action.type === TYPE.SET_SEARCH_KEYWORD) {
+		return { ...state, searchKeyword: action.payload };
+	} else if (action.type === TYPE.SET_CONTENT_LIST_STATE) {
+		return { ...state, contentListState: action.payload };
+	} else if (action.type === TYPE.SET_CURRENT_CONTENT) {
+		return { ...state, currentContent: action.payload };
+	} else if (action.type === TYPE.SET_CURRENT_CONTENT_REFERENCES) {
+		return {
+			...state,
+			currentContent: {
+				...state.currentContent,
+				reference: action.payload,
+			},
+		};
+	} else if (action.type === TYPE.SET_CURRENT_CONTENT_RATIONALE_DESCRIPTIONS) {
+		return {
+			...state,
+			currentContent: {
+				...state.currentContent,
+				rationale: {
+					...state.currentContent?.rationale,
+					description: action.payload,
 				},
-			};
-		case TYPE.SET_CURRENT_CONTENT_RATIONALE_DESCRIPTIONS:
-			// QUESTION: 이렇게 복잡한데 이 방식이 맞는가 싶다.
-			return {
-				...state,
-				currentContent: {
-					...state.currentContent,
-					rationale: {
-						...state.currentContent?.rationale,
-						description: action.payload,
-					},
+			},
+		};
+	} else if (action.type === TYPE.SET_MENU_ITEMS) {
+		return { ...state, menuItems: action.payload };
+	} else if (action.type === TYPE.SET_KEYWORD_CATEGORIES) {
+		return { ...state, keywordCategories: action.payload };
+	} else if (action.type === TYPE.SET_SELECTED_CATEGORY_LIST) {
+		return { ...state, selectedCategoryList: action.payload };
+	} else if (action.type === TYPE.SET_REVIEWER_KEYWORD) {
+		return {
+			...state,
+			currentContent: {
+				...state.currentContent,
+				reviewerKeyword: action.payload,
+			},
+		};
+	} else if (action.type === TYPE.SET_CURRENT_CONTENT_KEYWORDS) {
+		return {
+			...state,
+			currentContent: {
+				...state.currentContent,
+				keyword: action.payload,
+			},
+		};
+	} else if (action.type === TYPE.SET_CURRENT_CONTENT_RATIONALE_URL) {
+		return {
+			...state,
+			currentContent: {
+				...state.currentContent,
+				rationale: {
+					...state.currentContent?.rationale,
+					url: action.payload,
 				},
-			};
-		case TYPE.SET_MENU_ITEMS:
-			return { ...state, menuItems: action.payload };
-		case TYPE.SET_KEYWORD_CATEGORIES:
-			return { ...state, keywordCategories: action.payload };
-		case TYPE.SET_SELECTED_CATEGORY_LIST:
-			return { ...state, selectedCategoryList: action.payload };
-		case TYPE.SET_REVIEWER_KEYWORD:
-			return {
-				...state,
-				currentContent: {
-					...state.currentContent,
-					reviewerKeyword: action.payload,
+			},
+		};
+	} else if (action.type === TYPE.ADD_RATIONAL_IMAGE) {
+		const index = action.payload;
+		const array = [...state.currentContent?.rationale?.url];
+		array.splice(index + 1, 0, "");
+		return {
+			...state,
+			currentContent: {
+				...state.currentContent,
+				rationale: {
+					...state.currentContent?.rationale,
+					url: array,
 				},
-			};
-		case TYPE.SET_CURRENT_CONTENT_KEYWORDS:
-			return {
-				...state,
-				currentContent: {
-					...state.currentContent,
-					keyword: action.payload,
+			},
+		};
+	} else if (action.type === TYPE.DELETE_RATIONAL_IMAGE) {
+		const index = action.payload;
+		const array = [...state.currentContent?.rationale?.url];
+		array.splice(index, 1);
+		return {
+			...state,
+			currentContent: {
+				...state.currentContent,
+				rationale: {
+					...state.currentContent?.rationale,
+					url: array,
 				},
-			};
-		default:
-			return state;
+			},
+		};
+	} else {
+		return state;
 	}
 }

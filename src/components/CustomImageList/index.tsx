@@ -27,7 +27,7 @@ const CustomImageList = ({ files, onImageListChange }: any) => {
 			{files.map((file: string, idx: number) => (
 				<>
 					<ImageListItem sx={imageItemStyle}>
-						<Img src={file.toString()} />
+						<Img src={file.toString()} idx={idx} />
 						<TextField
 							sx={textFieldStyle}
 							onChange={onImageListChange} // QUESTION: 배열 전체를 인덱스를 이용하여 state를 관리하는게 맞는가 싶다.
