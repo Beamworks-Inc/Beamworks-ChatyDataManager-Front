@@ -20,29 +20,31 @@ import { useDispatch, useSelector } from "react-redux";
 // ==============================|| Content Detail Page ||============================== //
 
 const defaultValueSetting = (content: Content) => {
-	const MAX_REFERENCE_COUNT = 6;
-	const MAX_RATIONALE_COUNT = 6;
-
 	const newContent = Object.assign({}, content);
-	if (newContent.reference.length <= MAX_REFERENCE_COUNT) {
-		newContent.reference = newContent.reference.concat(
-			new Array(MAX_REFERENCE_COUNT - newContent.reference.length).fill({
-				id: null,
+	if (
+		newContent?.reference?.length === undefined ||
+		newContent?.reference?.length === 0
+	) {
+		newContent.reference = [
+			{
 				title: "",
 				description: "",
 				link: "",
-			})
-		);
+			},
+		];
 	}
 	// pretend rationale has two options. if it is not null, description and url has full length
 	if (newContent.rationale === null) {
 		newContent.rationale = {
 			id: null,
-			description: new Array(MAX_RATIONALE_COUNT).fill({
-				description: "",
-				link: "",
-			}),
-			url: new Array(MAX_RATIONALE_COUNT).fill(""),
+			description: [
+				{
+					id: null,
+					description: "",
+					link: "",
+				},
+			],
+			url: [""],
 		};
 	}
 
@@ -62,6 +64,7 @@ const ContentDetail = () => {
 				dispatch(ContentAction.setCurrentContent(initialContent));
 				setLoadingState(true);
 			} else {
+				console.log("why here?", contentId);
 				const id = parseInt(contentId);
 				if (isNaN(id)) {
 					alert(`잘못된 contentId 입니다. content Id : ${contentId}`);
